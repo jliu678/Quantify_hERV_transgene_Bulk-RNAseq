@@ -1,0 +1,23 @@
+{
+	"op":"and",
+	"content":[
+		{
+			"op":"=",
+			"content":{
+					"field":"files.cases.project.project_id",
+					"value":[
+							"TCGA-OV"
+					]
+			}
+		},
+		{
+			"op":"=",
+			"content":{
+					"field":"files.data_category",
+					"value":[
+							"Sequencing Reads"
+					]
+			}
+		}
+	]
+}

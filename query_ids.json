@@ -1,0 +1,26 @@
+{
+  "WXS": [
+    {
+      "file_id": "5a5278e6-48c9-41fd-8444-25bc0da0bf8c",
+      "case_id": "3250e604-d12a-4922-aaca-6f0cae095842"
+    },
+    {
+      "file_id": "a993f5c8-38c1-4680-8318-d562477c9a83",
+      "case_id": "f0c353fd-947c-41e2-b643-3ecc0d69796c"
+    },
+    {
+      "file_id": "f9e135ec-b6c7-41cb-8fe2-2d2da4e778cb",
+      "case_id": "54cf3bfe-51c0-4cca-9054-bf76b05a9371"
+    }
+  ],
+  "RNA-Seq": [
+    {
+      "file_id": "a6bdb05c-4051-473f-9576-92f4621e0c61",
+      "case_id": "7248cd60-be22-44bc-bc58-f644db0940a2"
+    },
+    {
+      "file_id": "f4055a4b-273a-4ae6-85c3-05b33194958c",
+      "case_id": "f0c353fd-947c-41e2-b643-3ecc0d69796c"
+    }
+  ]
+}

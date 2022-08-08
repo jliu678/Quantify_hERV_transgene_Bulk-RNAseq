@@ -1,0 +1,3 @@
+#BSUB -L /bin/bash
+#BSUB -q normal
+#BSUB -n 1
