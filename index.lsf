@@ -1,3 +1,9 @@
 #BSUB -L /bin/bash
 #BSUB -q normal
 #BSUB -n 1
+#BSUB -e SY1022/Documents/%J/errors.err
+#BSUB -o SY1022/Documents/%J/outputs.out
+
+cd ~/Documents/hERV_project
+
+bash main.sh -PLATFORM "cluster-mgh" -

@@ -4,7 +4,7 @@ timed_print() {
 	echo "$(date +"%D %T"): ${@:3}"
 }
 
-timed_download() {
+timed_download() { #download w/ printed time 
 	local name=$(basename $1)
 
 	if [ -f "$name" ]; then

@@ -17,7 +17,6 @@ download_hERV() {
 	)
 
 	mkdir $hERV_DIR && cd $hERV_DIR
-
 	timed_print "downloading hERVd..."
 
 	for i in ${hERV_download_list[@]}; do
@@ -27,13 +26,11 @@ download_hERV() {
 	cd ..
 }
 
-combine_hERV() { 
+combine_hERV() { #combine into a sinlge file for ease of use 
   cat "$hERV_DIR"/*.gff3 > "$hERV_FILE".gff3
 }
 
-check_hERV(){
-
-
+check_hERV(){ 
 	if [ -d $hERV_DIR ]; then 
 	  echo "hERVd not downloaded"
 		download_hERV 

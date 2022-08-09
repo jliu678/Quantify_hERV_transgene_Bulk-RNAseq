@@ -39,7 +39,7 @@ setup_tools(){
 			fi 
 		fi
 
-		if [ ! command -v $i ] ; then 
+		if ! command -v $i ; then 
 			conda install -c bioconda $i
 		fi
 	done 

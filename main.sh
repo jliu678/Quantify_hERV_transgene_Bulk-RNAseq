@@ -11,6 +11,7 @@
 #      `--> transcriptome_data (dir)
 #        `-> file_id (.bam)
 # git remote set-url origin https://@github.com/<username>/<repositoryname>.gi
+#git config credential.helper cache
 
 
 REF_ANNOTATION_LOC=\
@@ -20,9 +21,11 @@ hERV_DIR="hERV_misc"
 hERV_FILE="hERVd.gff3"
 COMB_ANNOTATION="generv.gff3"
 ANALYSIS_STEP="all"
-PLATFORM="replit"
+PLATFORM="replit" #cluster-mgh 
+PAIR_FILE="fq_pairs.csv"
+SOURCE_LOC=""
 
-while [ -n "$1" ]; do
+while [ -n "$1" ]; do #setting variables for sub-processes
 	case "$1" in
 		-REF_ANNOTATION) REF_ANNOTATION_LOC="$2"; shift ;;
 		-REF_GENOME) REF_GENOME_LOC="$2"; shift ;;
@@ -30,8 +33,8 @@ while [ -n "$1" ]; do
 		-hERV_FILE) hERV_FILE="$2" shift ;;
 		-COMB_ANNOTATION) COMB_ANNOTATION="$2" shift ;;
 		-SOURCE) SOURCE="$2" shift ;;
-		-ANALYSIS_STEP) ANALYSIS_STEP="$2" ;; #steps: convert, qc, align, count
-		-PLATFORM) PLATFORM="$2"
+		-ANALYSIS_STEP) ANALYSIS_STEP="$2" ;; #steps: index, convert, qc, align, count
+		-PLATFORM) PLATFORM="$2" ;;
 		*) echo "$1 is not an option"; exit 1 ;;
 	esac
 	shift

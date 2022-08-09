@@ -3,37 +3,66 @@
 
 source main.sh
 
-split_fastq(){
-	local bam_flags=$(samtools view -c -f 1 ${SEQ_NAME}.bam)
+SOURCE=$(basename $SOURCE_LOC)
+REF_GENOME=${basename $REF_GENOME_LOC .gz}
+
+split_fastq(){ #splits pair ended fastq from bam into 2 files
+	local bam_flags=$(samtools view -c -f 1 "${SOURCE_LOC}/$1.bam")
 	local str_flags=$(samtools flags $bam_flags)
 	if  [[ $str_flags == *"PAIRED"* ]]; then 
-		cat "tmp/${CUR_SEQ}/${SEQ_NAME}.fastq" | grep '^@.*/1$' -A 3 --no-group-separator > \
-				"tmp/${CUR_SEQ}/${SEQ_NAME}_r1.fastq"
-		cat "tmp/${CUR_SEQ}/${SEQ_NAME}.fastq" | grep '^@.*/2$' -A 3 --no-group-separator > \
-				"tmp/${CUR_SEQ}/${SEQ_NAME}_r2.fastq"
-		SEQ_NAME=("${SEQ_NAME}_r1" "${SEQ_NAME}_r2")
+		cat "tmp/${SOURCE}/$1.fq" | grep '^@.*/1$' -A 3 --no-group-separator > \
+				"tmp/${SOURCE}/$1.r1.fq"
+		cat "tmp/${SOURCE}/$1.fq" | grep '^@.*/2$' -A 3 --no-group-separator > \
+				"tmp/${SOURCE}/$1.r2.fq"
+		cat "tmp/${SOURCE}/$1.r1.fq\ttmp/${SOURCE}/$1.r2.fq\n" >> $PAIR_FILE
 	fi
 }
 
-bam_to_fastq(){
-	samtools bam2fq "${SOURCE}/${CUR_SEQ}/${SEQ_NAME}.bam" > "tmp/${CUR_SEQ}/${SEQ_NAME}.fastq"
+bam_to_fastq(){ #wrapper function, as the name suggests
+	samtools bam2fq "${SOURCE_LOC}/$1.bam" > "tmp/${SOURCE}/$1.fq"
 	split_fastq
 }
 
-check_dir(){
-		for i in 
+group_fastq(){ #group fastq files into pairs
+	files=(tmp/${SOURCE}/*.fq)
+	for i in "${!files[@]}"; do #loop w/ index bcs easier
+		local file_name=${files[$i]%.*} #get file name w/o extention
+		if ! grep -Fxq "$file_name" $PAIR_FILE ; then #if the file does not have pair
+			if [[ ${file_name: -1} = "1" && -f "${file_name::-1}2.fq" ]]; then #if formatted correctly
+				cat "${files[$i]}\t${file_name::-1}2.fq\n" >> $PAIR_FILE
+			else #the choice is yours how to deal with single-ended files
+				echo "compliment to ${files[$i]} not found"
+				#cat "${files[$i]}\n" >> $PAIR_FILE
+			fi
+		fi
+	done 
+}
+
+get_pairs_all(){ #place all files into tmp, group them
+	touch $PAIR_FILE
+	for i in "${SOURCE_LOC}/*"; do
+		local name=$(basename $i)
+		case "${name#*.}" in #get extention
+			bam) bam_to_fastq ${name%*.} ;; #handles grouping
+			fq) mv "${SOURCE_LOC}/${name}" "tmp/${SOURCE}/${SEQ_NAME}.fq" #move because does not modify original data
+			fq.gz) gunzip -c "${SOURCE_LOC}/${name}" > "tmp/${SOURCE}/${SEQ_NAME}.fq" #unzip for uniformity
+		esac
+	done 
+	group_fastq #groups all other files
 }
 
 fastp_qc(){
-	if [ ${#SEQ_NAME[@]} = 2]; then 
-		fastp -i "tmp/${CUR_SEQ}/${SEQ_NAME[0]}.fastq" \
-					-o "tmp/${CUR_SEQ}/${SEQ_NAME[0]}.qc.fastq" \
-					-I "tmp/${CUR_SEQ}/${SEQ_NAME[1]}.fastq" \
-					-O "tmp/${CUR_SEQ}/${SEQ_NAME[1]}.qc.fastq"
-	else 
-		fastp -i "tmp/${CUR_SEQ}/${SEQ_NAME[0]}.fastq" \
-					-o "tmp/${CUR_SEQ}/${SEQ_NAME[0]}.qc.fastq" 
-	fi 
+	if [[ $# -eq 2 ]]; then 
+		n1=${1%.*}; n2=${2%.*}
+		fastp -i "${n1}.fq" -o "${n1}.qc.fq" \
+					-I "${n2}.fq" -O "${n2}.qc.fq"
+	fi
+}
+
+qc_all(){
+	while IFS="\t" read -r r1 r2; do
+		fastp_qc $r1 $r2
+	done < $PAIR_FILE
 }
 
 #STAR --runThreadN 10 --runMode genomeGenerate --genomeDir hg38_index --genomeFastaFiles GRCh38.p13.genome.fa --sjdbGTFfile gencode.v41.chr_patch_hapl_scaff.annotation.gtf
@@ -48,7 +77,13 @@ subread_build_index(){
 }
 
 subread_align(){
-	subread-align -i subread/${REF_GENOME%.*}_index -r "tmp/${CUR_SEQ}/${SEQ_NAME[0]}.qc.fastq" -R "tmp/${CUR_SEQ}/${SEQ_NAME[1]}.qc.fastq" -t 0 -o "tmp/${CUR_SEQ}/${SEQ_NAME[0]}.bam" -T 8 -M 16000
+	subread-align -i subread/${REF_GENOME%.*}_index -r "tmp/${SOURCE}/$1.qc.fq" -R "tmp/${SOURCE}/$2.qc.fq" -t 0 -o "tmp/${SOURCE}/$1.bam" -T 8 -M 16000
+}
+
+align_all(){
+	while IFS="\t" read -r r1 r2; do
+		subread_align $r1 $r2
+	done < $PAIR_FILE
 }
 
 get_gene_types(){
@@ -57,11 +92,27 @@ get_gene_types(){
 }
 
 subread_count(){
-	featureCounts -a ${COMB_ANNOTATION}.gff3 -o subread/results/feature_count_${SEQ_NAME}.tsv subread/results/${SEQ_NAME}.bam -T 6 -t $gene_types -g $id_types
+	featureCounts -a ${COMB_ANNOTATION}.gff3 -o subread/results/feature_count_$1.tsv subread/results/$1.bam -T 6 -t $gene_types -g $id_types
+}
+
+count_all{
+	get_gene_types 
+	for r1 in (cut -d, -f1 < in.csv); do 
+		subread_align $r1
+	done 
 }
 
 main(){
-	
+	ANALYSIS_STEP=(${ANALYSIS_STEP//,/})
+	for i in ${ANALYSIS_STEP[@]}; do 
+		case "$i" in 
+			index) subread_build_index ;;
+			convert) get_pairs_all ;;
+			qc) qc_all ;;
+			align) align_all ;;
+			count) count all ;;
+		esac 
+	done 
 }
 
 if [[ "${#BASH_SOURCE[@]}" -eq 1 ]]; then
@@ -77,10 +128,11 @@ fi
 
 #wget https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_41/gencode.v41.transcripts.fa.gz
 
-#grep "^>" GRCh38.p13.genome.fa | cut -d " " -f 1 > siyi_link/salmon/decoys.txt 
-#sed -i .bak -e 's/>//g' siyi_link/salmon/decoys.txt
-#cat gencode.v41.transcripts.fa GRCh38.p13.genome.fa > siyi_link/salmon/gentrome.fa
-#salmon index -t siyi_link/salmon/gentrome.fa -d siyi_link/salmon/decoys.txt -p 6 -i siyi_link/salmon/index --gencode
+#grep "^>" GRCh38.p13.genome.fa | cut -d " " -f 1 > decoys.txt 
+#grep "^>" GRCh38.p13.genome.fa | cut -d " " -f 1 > decoys.txt
+#sed -i.bak -e 's/>//g' decoys.txt
+#cat package-entities-erv.gff3 gencode.v41.transcripts.fa GRCh38.p13.genome.fa > gentrome.fa
+#salmon index -t gentrome.fa -d decoys.txt -p 6 -i index --gencode
 #salmon quant -i siyi_link/salmon/index -l A -1 siyi_link/HcxecP3_1_r1.fastq -2 siyi_link/HcxecP3_1_r2.fastq --validateMappings -o siyi_link/salmon/results
 
 #gffcompare -R -r gencode.v41.chr_patch_hapl_scaff.annotation.gtf -o siyi_link/combine_annotation/herv_annotation erv.gff3 >>warnings.txt 2>&1
