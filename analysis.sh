@@ -51,7 +51,7 @@ get_pairs_all(){ #place all files into tmp, group them
 	group_fastq #groups all other files
 }
 
-fastp_qc(){
+fastp_qc(){ #only works for pair ended as of now
 	if [[ $# -eq 2 ]]; then 
 		n1=${1%.*}; n2=${2%.*}
 		fastp -i "${n1}.fq" -o "${n1}.qc.fq" \
