@@ -1,7 +1,7 @@
 #!/bin/bash
 #download the databases needed
 
-. timed.sh
+. $main_loc/timed.sh
 
 check_gencode(){
 	timed_download "$REF_ANNOTATION_LOC" "REF_ANNOTATION"

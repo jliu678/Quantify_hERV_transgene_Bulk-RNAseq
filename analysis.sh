@@ -1,11 +1,11 @@
 #!/bin/bash
 #main programme run file, bam -(samtools)> fastq -(fastp)> fastq -(ANY)> bam -(ANY)> counts
 
-. timed.sh
+. $main_loc/timed.sh
 
 SOURCE=$(basename $SOURCE_LOC)
-REF_GENOME=${basename $REF_GENOME_LOC .gz}
-REF_ANNOTATION=${basename $REF_ANNOTATION_LOC .gz}
+REF_GENOME=$(basename $REF_GENOME_LOC .gz)
+REF_ANNOTATION=$(basename $REF_ANNOTATION_LOC .gz)
 id_types=( "ID" )
 
 split_fastq(){ #splits pair ended fastq from bam into 2 files
