@@ -51,6 +51,4 @@ main(){
 	setup_tools
 }
 
-if [[ "${#BASH_SOURCE[@]}" -eq 1 ]]; then
-  main "$@"
-fi
+main

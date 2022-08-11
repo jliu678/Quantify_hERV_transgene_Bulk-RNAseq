@@ -47,6 +47,4 @@ main(){
 	check_hERV
 }
 
-if [[ "${#BASH_SOURCE[@]}" -eq 1 ]]; then
-  main "$@"
-fi
+main

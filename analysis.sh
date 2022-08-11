@@ -186,9 +186,7 @@ main(){
 	done 
 }
 
-if [[ "${#BASH_SOURCE[@]}" -eq 1 ]]; then
-  main "$@"
-fi
+main
 
 
 #subread-align -i siyi_link/subread/hg38_index -r siyi_link/HcxecP3_1_r1.fastq -R siyi_link/HcxecP3_1_r2.fastq -t 0 -o siyi_link/subread/HcxecP3_1_aligned.bam -T 8 -M 16000
