@@ -47,7 +47,7 @@ while [ -n "$1" ]; do #setting variables for sub-processes
 	shift
 done
 
-if [ ! -d "../hERV_Work"]; then 
+if [ ! -d "../hERV_Work" ]; then 
 	mkdir ../hERV_Work 
 fi 
 
