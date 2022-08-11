@@ -47,11 +47,11 @@ while [ -n "$1" ]; do #setting variables for sub-processes
 	shift
 done
 
-if [ ! -d "../hERV_Work" ]; then 
-	mkdir ../hERV_Work 
+if [ ! -d "hERV_Work" ]; then 
+	mkdir hERV_Work 
 fi 
 
-cd ../hERV_Work
+cd hERV_Work
 
 read -p "starting, enter programme run type: " RUN_TYPE
 # RUN_TYPE="-d" #debug
