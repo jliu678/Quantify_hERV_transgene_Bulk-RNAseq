@@ -47,11 +47,13 @@ while [ -n "$1" ]; do #setting variables for sub-processes
 	shift
 done
 
-if [ ! -d "hERV_Work" ]; then 
-	mkdir hERV_Work 
+main_loc="$PWD"
+
+if [ ! -d "../hERV_Work" ]; then 
+	mkdir ../hERV_Work 
 fi 
 
-cd hERV_Work
+cd ../hERV_Work
 
 read -p "starting, enter programme run type: " RUN_TYPE
 # RUN_TYPE="-d" #debug
@@ -71,15 +73,15 @@ if [ "$RUN_TYPE" = "-d" ]; then #have to keep spaces between square brackets and
 	fi
 elif [ "$RUN_TYPE" = "-r" ]; then
 	SEQ_TYPE=("RNA-Seq" "WXS")
-	( . ./setup.sh )
-	( . ./downloads.sh )
+	( . ./$main_loc/setup.sh )
+	( . ./$main_loc/downloads.sh )
 	if [ $SOURCE_LOC = "tcga" ] && [ ! -d "tcga" ]; then 
-		(	. ./tcga.sh )
+		(	. ./$main_loc/tcga.sh )
 	fi
 	if [ ! $BATCH_NAME = "none" ]; then 
-		. ./test_batch
+		(. ./$main_loc/test_batch.sh)
 	else 
-		. ./ analysis.sh
+		(. ./$main_loc/analysis.sh)
 	fi 
 fi
 # jq --arg rty "$RUN_TYPE" \
