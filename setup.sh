@@ -1,7 +1,7 @@
 #!/bin/bash
 #download and setup all the programmes needed for analysis
 
-. timed.sh
+. $main_loc/timed.sh
 
 setup_conda() {
 	if ! command -v conda ; then

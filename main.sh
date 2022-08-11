@@ -73,15 +73,15 @@ if [ "$RUN_TYPE" = "-d" ]; then #have to keep spaces between square brackets and
 	fi
 elif [ "$RUN_TYPE" = "-r" ]; then
 	SEQ_TYPE=("RNA-Seq" "WXS")
-	( . .$main_loc/setup.sh )
-	( . .$main_loc/downloads.sh )
+	( . $main_loc/setup.sh )
+	( . $main_loc/downloads.sh )
 	if [ $SOURCE_LOC = "tcga" ] && [ ! -d "tcga" ]; then 
-		(	. .$main_loc/tcga.sh )
+		(	. $main_loc/tcga.sh )
 	fi
 	if [ ! $BATCH_NAME = "none" ]; then 
-		(. .$main_loc/test_batch.sh)
+		(. $main_loc/test_batch.sh)
 	else 
-		(. .$main_loc/analysis.sh)
+		(. $main_loc/analysis.sh)
 	fi 
 fi
 # jq --arg rty "$RUN_TYPE" \
