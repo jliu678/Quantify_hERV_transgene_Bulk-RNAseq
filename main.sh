@@ -48,6 +48,8 @@ while [ -n "$1" ]; do #setting variables for sub-processes
 done
 
 main_loc="$PWD"
+chmod -R +x ./
+
 
 if [ ! -d "../hERV_Work" ]; then 
 	mkdir ../hERV_Work 
@@ -68,20 +70,20 @@ if [ "$RUN_TYPE" = "-d" ]; then #have to keep spaces between square brackets and
 
 	if [ "$DEBUG_TYPE" = '-u' ]; then
 		read -p "enter file to debug: " FILE
-		./$FILE ${FILE[@]:1}
+		bash ${main_loc}/$FILE ${FILE[@]:1}
 		echo $?
 	fi
 elif [ "$RUN_TYPE" = "-r" ]; then
 	SEQ_TYPE=("RNA-Seq" "WXS")
-	. ./$main_loc/setup.sh 
-	. ./$main_loc/downloads.sh 
+	. $main_loc/setup.sh 
+	. $main_loc/downloads.sh 
 	if [ $SOURCE_LOC = "tcga" ] && [ ! -d "tcga" ]; then 
-		. ./$main_loc/tcga.sh
+		. $main_loc/tcga.sh
 	fi
 	if [ ! $BATCH_NAME = "none" ]; then 
-		. ./$main_loc/test_batch.sh
+		. $main_loc/test_batch.sh
 	else 
-		. ./$main_loc/analysis.sh
+		. $main_loc/analysis.sh
 	fi 
 fi
 # jq --arg rty "$RUN_TYPE" \

@@ -16,8 +16,8 @@ setup_conda() {
 			bash Miniconda3-py39_4.12.0-Linux-x86_64.sh
 		fi
 		exec bash
-		conda create -n $PLATFORM && conda activate $PLATFORM
 	fi 
+	conda create -n $PLATFORM && conda activate $PLATFORM
 }
 
 setup_tools(){
