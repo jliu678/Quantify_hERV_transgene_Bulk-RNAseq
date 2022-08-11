@@ -21,7 +21,7 @@ split_fastq(){ #splits pair ended fastq from bam into 2 files
 }
 
 bam_to_fastq(){ #wrapper, function as the name suggests
-	if [ "$OVER_WRITE" = "true" ] || [ ! -f "tmp/${SOURCE}/$1.r1.fq" ] || [ ! -f "tmp/${SOURCE}/$1.r2.fq" ]
+	if [ "$OVER_WRITE" = "true" ] || [ ! -f "tmp/${SOURCE}/$1.r1.fq" ] || [ ! -f "tmp/${SOURCE}/$1.r2.fq" ]; then
 		samtools bam2fq "${SOURCE_LOC}/$1.bam" > "tmp/${SOURCE}/$1.fq"
 		split_fastq
 	fi
@@ -48,8 +48,9 @@ group_fastq(){ #group fastq files into pairs
 mv_fq() {
 	if [ ! "$OVER_WRITE" = "true" ] || [ ! -f "$2" ]; then
 		case "${name#*.}" in 
-			fq) mv $1 $2
-			fq.gz) gunzip -c $1 > $2
+			fq) mv $1 $2 ;;
+			fq.gz) gunzip -c $1 > $2 ;;
+		esac
 	fi
 }
 
@@ -59,8 +60,8 @@ get_pairs_all() { #place all files into tmp, group them
 		local name=$(basename $i)
 		case "${name#*.}" in #get extention
 			bam) bam_to_fastq ${name%*.} ;; #handles grouping
-			fq) mv_fq "${SOURCE_LOC}/${name}" "tmp/${SOURCE}/${SEQ_NAME}.fq" #move because does not modify original data
-			fq.gz) mv_fq "${SOURCE_LOC}/${name}" "tmp/${SOURCE}/${SEQ_NAME}.fq" #unzip for uniformity
+			fq) mv_fq "${SOURCE_LOC}/${name}" "tmp/${SOURCE}/${SEQ_NAME}.fq" ;; #move because does not modify original data
+			fq.gz) mv_fq "${SOURCE_LOC}/${name}" "tmp/${SOURCE}/${SEQ_NAME}.fq" ;; #unzip for uniformity
 		esac
 	done 
 	group_fastq #groups all other files
@@ -140,15 +141,15 @@ subread_count_sep(){
 	fi
 }
 
-count_all{
+count_all(){
 	if [ $COUNT_METHOD = "combined" ]; then
 		get_gene_types 
-		for r1 in (cut -d, -f1 < in.csv); do 
+		for r1 in $(cut -d, -f1 < ${PAIR_FILE}); do 
 			subread_count $r1
 		done 
 	elif [ $COUNT_METHOD = "seperated" ]; then 
 		get_gene_types_sep
-		for r1 in (cut -d, -f1 < in.csv); do 
+		for r1 in $(cut -d, -f1 < ${PAIR_FILE}); do 
 			subread_count_sep $r1
 		done
 	fi
