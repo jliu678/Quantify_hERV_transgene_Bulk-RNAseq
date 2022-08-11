@@ -1,7 +1,7 @@
 #!/bin/bash
 #download and setup all the programmes needed for analysis
 
-source timed.sh
+. timed.sh
 
 setup_conda() {
 	if ! command -v conda ; then
@@ -14,8 +14,9 @@ setup_conda() {
 			fi
 			timed_download https://repo.anaconda.com/miniconda/Miniconda3-py39_4.12.0-Linux-x86_64.sh
 			bash Miniconda3-py39_4.12.0-Linux-x86_64.sh
-			exec bash
 		fi
+		exec bash
+		conda create -n $PLATFORM && conda activate $PLATFORM
 	fi 
 }
 
@@ -34,15 +35,15 @@ setup_tools(){
 	for i in ${conda_tools[@]}; do
 		if [ "$PLATFORM" = "cluster-mgh" ]; then
 			local mgh_name = $("$i" | tr = /)
-			if [[ $(module avail mgh_name) = *"mgh_name"* ]]; then
+			if [[ $(module avail $mgh_name) = *"$mgh_name"* ]]; then
 				module load $i
 			fi 
 		fi
 
 		if ! command -v $i ; then 
-			conda install -c bioconda $i
+			conda install -c conda-forge -c bioconda $i
 		fi
-	done 
+	done
 }
 
 main(){
