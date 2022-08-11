@@ -33,6 +33,7 @@ main(){
 		get_TCGA_post $i
 		download_TCGA $i
 	done 
+	cd ..
 }
 
 if [[ "${#BASH_SOURCE[@]}" -eq 1 ]]; then
