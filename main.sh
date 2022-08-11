@@ -22,7 +22,7 @@ COMB_ANNOTATION="generv.gff3"
 ANALYSIS_STEP="all"
 PLATFORM="replit" #cluster-mgh 
 PAIR_FILE="fq_pairs.csv"
-SOURCE_LOC="test_folder"
+SOURCE_LOC="../test_folder"
 CLEAR_TMP="false"
 OVER_WRITE="false"
 COUNT_METHOD="seperated"
@@ -47,6 +47,12 @@ while [ -n "$1" ]; do #setting variables for sub-processes
 	shift
 done
 
+if [ ! -d "../hERV_Work"]; then 
+	mkdir ../hERV_Work 
+fi 
+
+cd ../hERV_Work
+
 read -p "starting, enter programme run type: " RUN_TYPE
 # RUN_TYPE="-d" #debug
 if [ "$RUN_TYPE" = "-d" ]; then #have to keep spaces between square brackets and vars
@@ -63,7 +69,7 @@ if [ "$RUN_TYPE" = "-d" ]; then #have to keep spaces between square brackets and
 		./$FILE ${FILE[@]:1}
 		echo $?
 	fi
-elif [ "$RUN_TYPE" = "-r" ]
+elif [ "$RUN_TYPE" = "-r" ]; then
 	SEQ_TYPE=("RNA-Seq" "WXS")
 	( . ./setup.sh )
 	( . ./downloads.sh )

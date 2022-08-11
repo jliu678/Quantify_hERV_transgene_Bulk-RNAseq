@@ -11,7 +11,7 @@ timed_download() { #download w/ printed time
 		timed_print "${name} already exists"
 	else
 		timed_print "downloading ${name}..."
-		wget $1
+		wget --user-aget="Mozilla" $1
 	
 		if [[ "$name" == *.gz ]]; then
 			timed_unzip "$name"

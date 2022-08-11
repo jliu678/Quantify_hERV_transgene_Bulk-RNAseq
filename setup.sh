@@ -41,7 +41,7 @@ setup_tools(){
 		fi
 
 		if ! command -v $i ; then 
-			conda install -c conda-forge -c bioconda $i
+			conda install -c conda-forge -c bioconda -y $i
 		fi
 	done
 }
