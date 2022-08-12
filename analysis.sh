@@ -110,10 +110,13 @@ subread_build_index(){
 }
 
 salmon_build_index(){
-	grep "^>" "${REF_GENOME}" | cut -d " " -f 1 > "salmon/decoys.txt"
-	sed -i.bak -e 's/>//g' "salmon/decoys.txt"
-	cat ${hERV_FILE} ${REF_TRANSCRIPTS} ${REF_GENOME} > gentrome.fa
-	salmon index -t gentrome.fa -d decoys.txt -i "salmon/index" --gencode
+	if [ ! -d "salmon/index" ]; then 
+		timed_print "building subread index @: salmon/index"
+		grep "^>" "${REF_GENOME}" | cut -d " " -f 1 > "salmon/decoys.txt"
+		sed -i.bak -e 's/>//g' "salmon/decoys.txt"
+		cat ${hERV_FILE} ${REF_TRANSCRIPTS} ${REF_GENOME} > gentrome.fa
+		salmon index -t gentrome.fa -d decoys.txt -i "salmon/index" --gencode
+	fi
 }
 
 build_index() {
@@ -149,7 +152,7 @@ get_gene_types_comb(){
 }
 
 subread_count_comb(){
-	if [ ! "$OVER_WRITE" = "true" ] || [ ! -f "results/subread/fc_comb_$1.tsv" ]; then 
+	if [ "$OVER_WRITE" = "true" ] || [ ! -f "results/subread/fc_comb_$1.tsv" ]; then 
 		timed_print "counting $1.bam..."
 		featureCounts -a ${COMB_ANNOTATION}.gff3 -o "results/subread/fc_comb_$1.tsv" "tmp/${SOURCE}/subread_aligned/$1.bam" -T 6 -t ${gene_types[@]} -g ${id_types[@]}
 		timed_print "counted $1.bam"
@@ -164,12 +167,12 @@ get_gene_types_sep(){
 subread_count_sep(){
 	local IFS=,
 	echo "${ref_gene_types[*]}"
-	if [ ! "$OVER_WRITE" = "true" ] || [ ! -f "results/subread/fc_ref_$1.tsv" ]; then 
+	if [ "$OVER_WRITE" = "true" ] || [ ! -f "results/subread/fc_ref_$1.tsv" ]; then 
 		timed_print "counting $1.bam with ${REF_ANNOTATION}..."
 		featureCounts -a ${REF_ANNOTATION} -o results/subread/fc_ref_$1.tsv "tmp/${SOURCE}/subread_aligned/$1.bam" -T $THREAD_SIZE -t "${ref_gene_types[*]}" -g ID
 		timed_print "counted $1.bam"
 	fi 
-	if [ ! "$OVER_WRITE" = "true" ] || [ ! -f "results/subread/fc_erv_$1.tsv" ]; then 
+	if [ "$OVER_WRITE" = "true" ] || [ ! -f "results/subread/fc_erv_$1.tsv" ]; then 
 		timed_print "counting $1.bam with ${hERV_FILE}..."
 		featureCounts -a ${hERV_FILE} -o results/subread/fc_erv_$1.tsv "tmp/${SOURCE}/subread_aligned/$1.bam" -T $THREAD_SIZE -t "${erv_gene_types[*]}" -g ID
 		timed_print "counted $1.bam"
@@ -191,9 +194,16 @@ subread_count() {
 	esac
 }
 
+salmon_quant() {
+	if [ "$OVER_WRITE" = "true" ] || [ ! -d "results/salmon/$1" ]; then
+		mkdir results/salmon/$1
+		salmon quant -i "salmon/index" -l A -1 "tmp/${SOURCE}/qc/$1.qc.fq" -2 "tmp/${SOURCE}/qc/$2.qc.fq" --validateMappings -o "results/salmon/$1"
+	fi
+}
+
 salmon_count() {
 	while IFS=, read -r r1 r2; do
-		salmon quant -i "salmon/index" -l A -1 "tmp/${SOURCE}/qc/$r1.qc.fq" -2 "tmp/${SOURCE}/qc/$r2.qc.fq" --validateMappings -o "results/salmon"
+		salmon_quant $r1 $r2
 	done < $PAIR_FILE
 }
 

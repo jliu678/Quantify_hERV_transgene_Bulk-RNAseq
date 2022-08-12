@@ -6,7 +6,9 @@
 check_gencode(){
 	timed_download "$REF_ANNOTATION_LOC" "REF_ANNOTATION"
 	timed_download "$REF_GENOME_LOC" "REF_GENOME"
-	timed_download "$REF_TRANSCRIPT_LOC" "REF_TRANSCRIPT"
+	if [ "$ALIGN_METHOD" = "salmon" ]; then
+		timed_download "$REF_TRANSCRIPT_LOC" "REF_TRANSCRIPT"
+	fi 
 }
 
 download_hERV() {
