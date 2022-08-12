@@ -16,7 +16,7 @@ timed_download() { #download w/ printed time
 	
 		if [[ "$name" == *.gz ]]; then
 			timed_unzip "$name"
-			name=${name::-3}
+			name="$unzip_name"
 		fi
 	fi
 

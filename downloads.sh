@@ -10,10 +10,7 @@ check_gencode(){
 
 download_hERV() {
 	hERV_download_list=(
-		'https://herv.img.cas.cz/f/package-entities-dna.gff3.gz'
 		'https://herv.img.cas.cz/f/package-entities-erv.gff3.gz'
-		'https://herv.img.cas.cz/f/package-entities-line.gff3.gz'
-		'https://herv.img.cas.cz/f/package-entities-rc.gff3.gz'
 	)
 
 	mkdir $hERV_DIR && cd $hERV_DIR
@@ -27,12 +24,12 @@ download_hERV() {
 }
 
 combine_hERV() { #combine into a sinlge file for ease of use 
-  cat "$hERV_DIR"/*.gff3 > "$hERV_FILE".gff3
+  cat "$hERV_DIR"/*.gff3 > "$hERV_FILE"
 }
 
 check_hERV(){ 
-	if [ -d $hERV_DIR ]; then 
-	  echo "hERVd not downloaded"
+	if [ ! -d $hERV_DIR ]; then 
+	  timed_print "hERVd not downloaded"
 		download_hERV 
 		combine_hERV 
 	fi
