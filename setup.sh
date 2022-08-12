@@ -40,11 +40,10 @@ setup_tools(){
 			if [[ $(module avail $mgh_name) = *"$mgh_name"* ]]; then
 				module load $i
 			fi 
-		fi
-		
-		echo $i | cut -d'=' -f1 
+		fi 
 
-		if ! command -v $(echo $i | cut -d'=' -f1) ; then 
+		cmd_name=$(echo $i | cut -d'=' -f1)
+		if ! conda list "$cmd_name" | grep "$cmd_name" >/dev/null 2>&1 ; then 
 			conda install -c conda-forge -c bioconda -y $i
 		fi
 	done
