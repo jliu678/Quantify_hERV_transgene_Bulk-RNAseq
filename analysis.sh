@@ -76,11 +76,11 @@ get_pairs_all() { #place all files into tmp, group them
 }
 
 fastp_qc(){ #only works for pair ended as of now
-	if [ "$OVER_WRITE" = "true" ] || [ ! -f "$1.qc.fq" ]; then
-		if [[ $# -eq 2 ]]; then 
-			fastp -i "$1.fq" -o "$1.qc.fq" \
-						-I "$2.fq" -O "$2.qc.fq" \
-						-j "$1.json" -h "$1.html"
+	if [ "$OVER_WRITE" = "true" ] || [ ! -f "tmp/{$SOURCE}/$1.qc.fq" ]; then
+		if [ $# -eq 2 ]; then 
+			${main_loc}/fastp -i "tmp/{$SOURCE}/$1.fq" -o "tmp/{$SOURCE}/$1.qc.fq" \
+						-I "tmp/{$SOURCE}/$2.fq" -O "tmp/{$SOURCE}/$2.qc.fq" \
+						-j "tmp/{$SOURCE}/$1.json" -h "tmp/{$SOURCE}/$1.html"
 		fi
 	fi
 }
