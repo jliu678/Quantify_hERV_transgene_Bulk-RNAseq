@@ -36,7 +36,7 @@ setup_tools(){
 	
 	for i in ${conda_tools[@]}; do
 		if [ "$PLATFORM" = "cluster-mgh" ]; then
-			local mgh_name = $("$i" | tr = /)
+			local mgh_name=$("$i" | tr = /)
 			if [[ $(module avail $mgh_name) = *"$mgh_name"* ]]; then
 				module load $i
 			fi 
