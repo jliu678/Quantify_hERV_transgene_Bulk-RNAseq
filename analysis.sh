@@ -88,6 +88,10 @@ fastp_qc(){ #only works for pair ended as of now
 }
 
 qc_all(){
+	if [ ! -d "tmp/${SOURCE}/qc" ]; then 
+		mkdir "tmp/${SOURCE}/qc"
+	fi
+
 	while IFS=, read -r r1 r2; do
 		fastp_qc $r1 $r2
 	done < $PAIR_FILE
@@ -113,7 +117,7 @@ subread_align(){
 
 	if [ "$OVER_WRITE" = "true" ] || [ ! -f "tmp/${SOURCE}/subread_aligned/$1.bam" ]; then
 		timed_print "aligning $1.qc.fq and $2.qc.fq..."
-		subread-align -i subread/${REF_GENOME%.*}_index -r "tmp/${SOURCE}/qc/$1.qc.fq" -R "tmp/${SOURCE}/qc/$2.qc.fq" -t 0 -o "tmp/${SOURCE}/subread_aligned/$1.bam" -T 8 -M 16000
+		subread-align -i subread/${REF_GENOME%.*}_index -r "tmp/${SOURCE}/qc/$1.qc.fq" -R "tmp/${SOURCE}/qc/$2.qc.fq" -t 0 -o "tmp/${SOURCE}/subread_aligned/$1.bam" -T 6 
 		timed_print "aligned tmp/${SOURCE}/qc/$1.qc.fq and tmp/${SOURCE}/qc/$2.qc.fq"
 	fi
 }
@@ -156,6 +160,10 @@ subread_count_sep(){
 }
 
 count_all(){
+	if [ ! -d "results/subread" ]; then 
+		mkdir "results/subread"
+	fi
+
 	if [ $COUNT_METHOD = "combined" ]; then
 		get_gene_types 
 		for r1 in $(cut -d, -f1 < ${PAIR_FILE}); do 
@@ -180,6 +188,10 @@ main(){
 
 	if [[ ! -d "subread" ]]; then
 		mkdir subread 
+	fi
+
+	if [[ ! -d "results" ]]; then 
+		mkdir results
 	fi
 
 	if [ "$ANALYSIS_STEP" = "all" ]; then 
