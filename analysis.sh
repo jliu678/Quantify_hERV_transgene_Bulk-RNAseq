@@ -19,7 +19,7 @@ split_fastq(){ #splits pair ended fastq from bam into 2 files
 				"tmp/${SOURCE}/$1.r1.fq"
 		cat "tmp/${SOURCE}/$1.fq" | grep '^@.*/2$' -A 3 --no-group-separator > \
 				"tmp/${SOURCE}/$1.r2.fq"
-		echo "tmp/${SOURCE}/$1.r1\ttmp/${SOURCE}/$1.r2\n" >> $PAIR_FILE
+		echo -e "tmp/${SOURCE}/$1.r1\ttmp/${SOURCE}/$1.r2\n" >> $PAIR_FILE
 	fi
 }
 
@@ -35,7 +35,7 @@ group_fastq(){ #group fastq files into pairs
 	local total=0
 	for i in "${!files[@]}"; do #loop w/ index bcs easier
 		local file_name=${files[$i]%.*} #get file name w/o extention
-		if ! grep -Fxq "$file_name" $PAIR_FILE ; then #if the file does not have pair
+		if ! grep -q "$file_name" $PAIR_FILE ; then #if the file does not have pair
 			if [[ ${file_name: -1} = "1" && -f "${file_name::-1}2.fq" ]]; then #if formatted correctly
 				echo "${file_name}\t${file_name::-1}2\n" >> $PAIR_FILE
 			else #the choice is yours how to deal with single-ended files
