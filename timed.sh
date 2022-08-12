@@ -13,7 +13,7 @@ timed_download() { #download w/ printed time
 	else
 		timed_print "downloading ${name}..."
 		if [ $PLATFORM = "cluster-mgh" ]; then
-			curl -A "Mozilla" -O $1
+			curl --user-agent "Mozilla" --url $1 -O 
 		else
 			wget --user-agent="Mozilla" $1
 		fi
