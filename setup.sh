@@ -17,7 +17,9 @@ setup_conda() {
 		fi
 		exec bash
 	fi 
-	conda create -n $PLATFORM -y && conda activate $PLATFORM -y
+	if ! conda info --envs | grep "$PLATFORM" >/dev/null 2>&1; then
+		conda create -n $PLATFORM -y && conda activate $PLATFORM -y
+	fi
 }
 
 setup_tools(){

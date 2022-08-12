@@ -20,6 +20,7 @@ split_fastq(){ #splits pair ended fastq from bam into 2 files
 		cat "tmp/${SOURCE}/$1.fq" | grep '^@.*/2$' -A 3 --no-group-separator > \
 				"tmp/${SOURCE}/$1.r2.fq"
 		echo -e "tmp/${SOURCE}/$1.r1\ttmp/${SOURCE}/$1.r2\n" >> $PAIR_FILE
+		rm "tmp/${SOURCE}/$1.fq"
 	fi
 }
 
@@ -183,8 +184,8 @@ main(){
 		PAIR_FILE=$1
 	fi 
 
-	ANALYSIS_STEP=(${ANALYSIS_STEP//,/})
-	for i in $ANALYSIS_STEP; do
+	ANALYSIS_STEP=(${ANALYSIS_STEP//,/ })
+	for i in ${ANALYSIS_STEP[@]}; do
 	       	timed_print "$i-ing..."	
 		case "$i" in 
 			index) build_index ;;
