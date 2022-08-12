@@ -9,7 +9,7 @@ fi
 SOURCE=$(basename $SOURCE_LOC)
 REF_GENOME=$(basename $REF_GENOME_LOC .gz)
 REF_ANNOTATION=$(basename $REF_ANNOTATION_LOC .gz)
-id_types=( "ID" )
+id_types="ID"
 
 split_fastq(){ #splits pair ended fastq from bam into 2 files
 	local bam_flags=$(samtools view -c -f 1 "${SOURCE_LOC}/$1.bam")
@@ -147,20 +147,21 @@ subread_count_comb(){
 }
 
 get_gene_types_sep(){
-	ref_gene_types=$(cut -f3 ${REF_ANNOTATION}.gff3 | grep -v "^#" | sort | uniq)
-	erv_gene_types=$(cut -f3 ${hERV_FILE}.gff3 | grep -v "^#" | sort | uniq)
+	ref_gene_types=( $(cut -f3 ${REF_ANNOTATION} | grep -v "^#" | sort | uniq) )
+	erv_gene_types=( $(cut -f3 ${hERV_FILE} | grep -v "^#" | sort | uniq) )
 }
 
 subread_count_sep(){
+	local IFS=,
+	echo "${ref_gene_types[*]}"
 	if [ ! "$OVER_WRITE" = "true" ] || [ ! -f "results/subread/fc_ref_$1.tsv" ]; then 
-		timed_print "counting $1.bam with ${REF_ANNOTATION}.gff3..."
-		featureCounts -a ${REF_ANNOTATION}.gff3 -o results/subread/fc_ref_$1.tsv "tmp/${SOURCE}/subread_aligned/$1.bam" -T 16 -t ${ref_gene_types[@]} -g ${id_types[@]}
+		timed_print "counting $1.bam with ${REF_ANNOTATION}..."
+		featureCounts -a ${REF_ANNOTATION} -o results/subread/fc_ref_$1.tsv "tmp/${SOURCE}/subread_aligned/$1.bam" -T $THREAD_SIZE -t "${ref_gene_types[*]}" -g ID
 		timed_print "counted $1.bam"
 	fi 
-
 	if [ ! "$OVER_WRITE" = "true" ] || [ ! -f "results/subread/fc_erv_$1.tsv" ]; then 
-		timed_print "counting $1.bam with ${hERV_FILE}.gff3..."
-		featureCounts -a ${hERV_FILE}.gff3 -o results/subread/fc_erv_$1.tsv "tmp/${SOURCE}/subread_aligned/$1.bam" -T 16 -t ${erv_gene_types[@]} -g ${id_types[@]}
+		timed_print "counting $1.bam with ${hERV_FILE}..."
+		featureCounts -a ${hERV_FILE} -o results/subread/fc_erv_$1.tsv "tmp/${SOURCE}/subread_aligned/$1.bam" -T $THREAD_SIZE -t "${erv_gene_types[*]}" -g ID
 		timed_print "counted $1.bam"
 	fi
 }
