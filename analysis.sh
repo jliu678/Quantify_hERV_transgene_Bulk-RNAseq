@@ -19,7 +19,7 @@ split_fastq(){ #splits pair ended fastq from bam into 2 files
 				"tmp/${SOURCE}/$1.r1.fq"
 		cat "tmp/${SOURCE}/$1.fq" | grep '^@.*/2$' -A 3 --no-group-separator > \
 				"tmp/${SOURCE}/$1.r2.fq"
-		echo -e "tmp/${SOURCE}/$1.r1\ttmp/${SOURCE}/$1.r2\n" >> $PAIR_FILE
+		echo -e "tmp/${SOURCE}/$1.r1,tmp/${SOURCE}/$1.r2" >> $PAIR_FILE
 		rm "tmp/${SOURCE}/$1.fq"
 	fi
 }
@@ -38,7 +38,7 @@ group_fastq(){ #group fastq files into pairs
 		local file_name=${files[$i]%.*} #get file name w/o extention
 		if ! grep -q "$file_name" $PAIR_FILE ; then #if the file does not have pair
 			if [[ ${file_name: -1} = "1" && -f "${file_name::-1}2.fq" ]]; then #if formatted correctly
-				echo "${file_name}\t${file_name::-1}2\n" >> $PAIR_FILE
+				echo -e "${file_name},${file_name::-1}2" >> $PAIR_FILE
 			else #the choice is yours how to deal with single-ended files
 				timed_print "compliment to ${files[$i]} not found"
 				total+=1
@@ -76,17 +76,19 @@ get_pairs_all() { #place all files into tmp, group them
 }
 
 fastp_qc(){ #only works for pair ended as of now
-	if [ "$OVER_WRITE" = "true" ] || [ ! -f "tmp/{$SOURCE}/$1.qc.fq" ]; then
-		if [ $# -eq 2 ]; then 
-			${main_loc}/fastp -i "tmp/{$SOURCE}/$1.fq" -o "tmp/{$SOURCE}/$1.qc.fq" \
-						-I "tmp/{$SOURCE}/$2.fq" -O "tmp/{$SOURCE}/$2.qc.fq" \
-						-j "tmp/{$SOURCE}/$1.json" -h "tmp/{$SOURCE}/$1.html"
-		fi
+	if [ "$OVER_WRITE" = "true" ] || [ ! -f "$1.qc.fq" ]; then
+		if [[ $# -eq 2 ]]; then 
+			./fastp -i "$1.fq" -o "$1.qc.fq" \
+				-I "$2.fq" -O "$2.qc.fq" \
+				-j "$1.json" -h "$1.html"
+		else 
+			return 1
+		fi	
 	fi
 }
 
 qc_all(){
-	while IFS="\t" read -r r1 r2; do
+	while IFS=, read -r r1 r2; do
 		fastp_qc $r1 $r2
 	done < $PAIR_FILE
 }
@@ -113,7 +115,7 @@ subread_align(){
 }
 
 align_all(){
-	while IFS="\t" read -r r1 r2; do
+	while IFS=, read -r r1 r2; do
 		subread_align $r1 $r2
 	done < $PAIR_FILE
 }
