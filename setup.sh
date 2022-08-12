@@ -22,11 +22,11 @@ echo $? conda init bash
 	fi 
 	if ! conda info --envs | grep "$PLATFORM" >/dev/null 2>&1; then
 		#conda create -n $PLATFORM -y && conda activate $PLATFORM -y
-conda create -n $PLATFORM -y
+		conda create -n $PLATFORM -y
 echo $? conda create -n $PLATFORM -y
-conda activate $PLATFORM -y
 echo $? conda activate $PLATFORM -y
 	fi
+	conda activate $PLATFORM -y
 }
 
 setup_tools(){
