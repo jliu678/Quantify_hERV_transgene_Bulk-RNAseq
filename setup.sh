@@ -26,9 +26,6 @@ setup_conda() {
 		# echo $? conda create -n $PLATFORM -y
 		# echo $? conda activate $PLATFORM -y
 	fi
-	echo $PLATFORM iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
-	conda activate $PLATFORM -y
-
 }
 
 setup_tools(){
