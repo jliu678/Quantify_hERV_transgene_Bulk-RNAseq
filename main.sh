@@ -79,6 +79,7 @@ if [ "$RUN_TYPE" = "-d" ]; then #have to keep spaces between square brackets and
 		echo $?
 	fi
 elif [ "$RUN_TYPE" = "-r" ]; then
+echo $? "$RUN_TYPE" = "-r" 
 	SEQ_TYPE=("RNA-Seq" "WXS")
 	. $main_loc/setup.sh 
 	. $main_loc/downloads.sh 
