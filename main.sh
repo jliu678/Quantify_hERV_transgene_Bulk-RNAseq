@@ -82,7 +82,8 @@ elif [ "$RUN_TYPE" = "-r" ]; then
 echo $? "$RUN_TYPE" = "-r" 
 	SEQ_TYPE=("RNA-Seq" "WXS")
 	. $main_loc/setup.sh 
-	conda activate $PLATFORM -y
+	# conda activate $PLATFORM -y
+conda env list
 	. $main_loc/downloads.sh 
 	if [ $SOURCE_LOC = "tcga" ] && [ ! -d "tcga" ]; then 
 		. $main_loc/tcga.sh

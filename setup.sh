@@ -55,7 +55,7 @@ echo $? ! -f "fastp"
 
 echo $? ! conda list "$cmd_name"
 conda env list
-
+# conda active
 			conda install -c conda-forge -c bioconda -y $i
 
 echo wtf
@@ -66,6 +66,9 @@ echo wtf
 
 main(){
 	setup_conda
+	conda activate $PLATFORM -y
+echo lllllllllllllllllllllmainllllllllllllllll	
+conda env list
 	setup_tools
 }
 
