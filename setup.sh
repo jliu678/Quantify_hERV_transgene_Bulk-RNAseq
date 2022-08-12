@@ -5,9 +5,12 @@
 
 setup_conda() {
 	if ! command -v conda ; then
+	echo $? ! command -v conda
 		if [ "$PLATFORM" = "cluster-mgh" ]; then
 			module load anaconda
+echo $? module load anaconda
 			conda init bash
+echo $? conda init bash
 		else
 			if [[ ! $(python -V 2>&1) == *"Python 3.9"* ]]; then
 				apt-get install python3.9
@@ -18,7 +21,11 @@ setup_conda() {
 		exec bash
 	fi 
 	if ! conda info --envs | grep "$PLATFORM" >/dev/null 2>&1; then
-		conda create -n $PLATFORM -y && conda activate $PLATFORM -y
+		#conda create -n $PLATFORM -y && conda activate $PLATFORM -y
+conda create -n $PLATFORM -y
+echo $? conda create -n $PLATFORM -y
+conda activate $PLATFORM -y
+echo $? conda activate $PLATFORM -y
 	fi
 }
 
