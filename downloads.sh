@@ -6,6 +6,7 @@
 check_gencode(){
 	timed_download "$REF_ANNOTATION_LOC" "REF_ANNOTATION"
 	timed_download "$REF_GENOME_LOC" "REF_GENOME"
+	timed_download "$REF_TRANSCRIPT_LOC" "REF_TRANSCRIPT"
 }
 
 download_hERV() {

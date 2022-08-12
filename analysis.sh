@@ -9,6 +9,7 @@ fi
 SOURCE=$(basename $SOURCE_LOC)
 REF_GENOME=$(basename $REF_GENOME_LOC .gz)
 REF_ANNOTATION=$(basename $REF_ANNOTATION_LOC .gz)
+REF_TRANSCRIPT=$(basename $REF_TRANSCRIPT_LOC .gz)
 id_types="ID"
 
 split_fastq(){ #splits pair ended fastq from bam into 2 files
@@ -108,9 +109,17 @@ subread_build_index(){
 	fi
 }
 
+salmon_build_index(){
+	grep "^>" "${REF_GENOME}" | cut -d " " -f 1 > "salmon/decoys.txt"
+	sed -i.bak -e 's/>//g' "salmon/decoys.txt"
+	cat ${hERV_FILE} ${REF_TRANSCRIPTS} ${REF_GENOME} > gentrome.fa
+	salmon index -t gentrome.fa -d decoys.txt -i "salmon/index" --gencode
+}
+
 build_index() {
 	case $ALIGN_METHOD in
 		subread) subread_build_index ;;
+		salmon) salmon_build_index ;;
 	esac
 }
 
@@ -130,6 +139,7 @@ align_all(){
 	while IFS=, read -r r1 r2; do
 		case $ALIGN_METHOD in 
 			subread) subread_align $r1 $r2 ;;
+			salmon) return 0 ;;
 		esac
 	done < $PAIR_FILE
 }
@@ -181,6 +191,12 @@ subread_count() {
 	esac
 }
 
+salmon_count() {
+	while IFS=, read -r r1 r2; do
+		salmon quant -i "salmon/index" -l A -1 "tmp/${SOURCE}/qc/$r1.qc.fq" -2 "tmp/${SOURCE}/qc/$r2.qc.fq" --validateMappings -o "results/salmon"
+	done < $PAIR_FILE
+}
+
 count_all(){
 	if [ ! -d "results/${ALIGN_METHOD}" ]; then 
 		mkdir "results/${ALIGN_METHOD}"
@@ -188,6 +204,7 @@ count_all(){
 	
 	case $ALIGN_METHOD in 
 		subread) subread_count ;;
+		salmon) salmon_count
 	esac
 }
 
