@@ -23,7 +23,7 @@ timed_download() { #download w/ printed time
 		fi
 	fi
 
-	if [ ! -n "$2" ]; then 
+	if [[ $# = 2 ]]; then 
 		"$2"=$name
 	fi
 }

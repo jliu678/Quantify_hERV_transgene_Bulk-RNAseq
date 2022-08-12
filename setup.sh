@@ -35,12 +35,12 @@ setup_tools(){
 	)
 	
 	for i in ${conda_tools[@]}; do
-		if [ "$PLATFORM" = "cluster-mgh" ]; then
-			local mgh_name=$("$i" | tr = /)
-			if [[ $(module avail $mgh_name) = *"$mgh_name"* ]]; then
-				module load $i
-			fi 
-		fi 
+		# if [ "$PLATFORM" = "cluster-mgh" ]; then
+		# 	local mgh_name=$("$i" | tr = /)
+		# 	if [[ $(module avail $mgh_name) = *"$mgh_name"* ]]; then
+		# 		module load $i
+		# 	fi 
+		# fi 
 
 		cmd_name=$(echo $i | cut -d'=' -f1)
 		if ! conda list "$cmd_name" | grep "$cmd_name" >/dev/null 2>&1 ; then 
