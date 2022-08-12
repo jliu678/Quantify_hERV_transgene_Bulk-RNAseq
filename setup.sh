@@ -55,6 +55,7 @@ echo $? ! -f "fastp"
 		if ! conda list "$cmd_name" | grep "$cmd_name" >/dev/null 2>&1 ; then 
 
 echo $? ! conda list "$cmd_name"
+conda env list
 
 			conda install -c conda-forge -c bioconda -y $i
 
