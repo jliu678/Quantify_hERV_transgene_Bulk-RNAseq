@@ -31,6 +31,7 @@ echo $? conda activate $PLATFORM -y
 
 setup_tools(){
 	if [ ! -f "fastp" ] ; then 
+echo $? ! -f "fastp"
 		timed_download http://opengene.org/fastp/fastp
 		chmod a+x ./fastp
 	fi 
