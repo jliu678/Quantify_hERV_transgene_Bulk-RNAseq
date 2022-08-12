@@ -16,6 +16,7 @@
 REF_ANNOTATION_LOC=\
 'https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_41/gencode.v41.chr_patch_hapl_scaff.annotation.gff3.gz'
 REF_GENOME_LOC='https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_41/GRCh38.p13.genome.fa.gz'
+REF_TRANSCRIPT_LOC='https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_41/gencode.v41.transcripts.fa.gz'
 hERV_DIR="hERV_misc"
 hERV_FILE="hERVd.gff3"
 COMB_ANNOTATION="generv.gff3"
@@ -29,7 +30,7 @@ COUNT_METHOD="seperated"
 BATCH_NAME="none"
 MEM_SIZE="2000"
 THREAD_SIZE="4"
-ALIGN_METHOD="subread"
+ALIGN_METHOD="salmon"
 QC_METHOD="fastp"
 
 while [ -n "$1" ]; do #setting variables for sub-processes
