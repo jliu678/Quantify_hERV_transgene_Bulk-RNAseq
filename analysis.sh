@@ -3,6 +3,9 @@
 
 . $main_loc/timed.sh
 
+if [ ! ${SOURCE_LOC[0]} = "/" ]; then
+	SOURCE_LOC="../$SOURCE_LOC"
+fi
 SOURCE=$(basename $SOURCE_LOC)
 REF_GENOME=$(basename $REF_GENOME_LOC .gz)
 REF_ANNOTATION=$(basename $REF_ANNOTATION_LOC .gz)
@@ -16,14 +19,14 @@ split_fastq(){ #splits pair ended fastq from bam into 2 files
 				"tmp/${SOURCE}/$1.r1.fq"
 		cat "tmp/${SOURCE}/$1.fq" | grep '^@.*/2$' -A 3 --no-group-separator > \
 				"tmp/${SOURCE}/$1.r2.fq"
-		cat "tmp/${SOURCE}/$1.r1\ttmp/${SOURCE}/$1.r2\n" >> $PAIR_FILE
+		echo "tmp/${SOURCE}/$1.r1\ttmp/${SOURCE}/$1.r2\n" >> $PAIR_FILE
 	fi
 }
 
 bam_to_fastq(){ #wrapper, function as the name suggests
 	if [ "$OVER_WRITE" = "true" ] || [ ! -f "tmp/${SOURCE}/$1.r1.fq" ] || [ ! -f "tmp/${SOURCE}/$1.r2.fq" ]; then
 		samtools bam2fq "${SOURCE_LOC}/$1.bam" > "tmp/${SOURCE}/$1.fq"
-		split_fastq
+		split_fastq $1
 	fi
 }
 
@@ -34,7 +37,7 @@ group_fastq(){ #group fastq files into pairs
 		local file_name=${files[$i]%.*} #get file name w/o extention
 		if ! grep -Fxq "$file_name" $PAIR_FILE ; then #if the file does not have pair
 			if [[ ${file_name: -1} = "1" && -f "${file_name::-1}2.fq" ]]; then #if formatted correctly
-				cat "${file_name}\t${file_name::-1}2\n" >> $PAIR_FILE
+				echo "${file_name}\t${file_name::-1}2\n" >> $PAIR_FILE
 			else #the choice is yours how to deal with single-ended files
 				timed_print "compliment to ${files[$i]} not found"
 				total+=1
@@ -55,13 +58,17 @@ mv_fq() {
 }
 
 get_pairs_all() { #place all files into tmp, group them
+	if [ ! -d "tmp/${SOURCE}" ]; then 
+		mkdir "tmp/${SOURCE}"
+	fi 
+
 	touch $PAIR_FILE
 	for i in "${SOURCE_LOC}/*"; do
 		local name=$(basename $i)
 		case "${name#*.}" in #get extention
-			bam) bam_to_fastq ${name%*.} ;; #handles grouping
-			fq) mv_fq "${SOURCE_LOC}/${name}" "tmp/${SOURCE}/${SEQ_NAME}.fq" ;; #move because does not modify original data
-			fq.gz) mv_fq "${SOURCE_LOC}/${name}" "tmp/${SOURCE}/${SEQ_NAME}.fq" ;; #unzip for uniformity
+			bam) bam_to_fastq ${name%.*} ;; #removes last extention, ie bam
+			fq) mv_fq "${SOURCE_LOC}/${name}" "tmp/${SOURCE}/" ;; #move because does not modify original data
+			fq.gz) mv_fq "${SOURCE_LOC}/${name}" "tmp/${SOURCE}/" ;; #unzip for uniformity
 		esac
 	done 
 	group_fastq #groups all other files
@@ -111,7 +118,7 @@ align_all(){
 }
 
 get_gene_types_comb(){
-	gene_types=$(cut -f3 ${COMB_ANNOTATION}.gff3 | grep -v ^# | sort | uniq)
+	gene_types=$( cut -f3 ${COMB_ANNOTATION}.gff3 | grep -v "^#" | sort | uniq )
 }
 
 subread_count(){
@@ -123,8 +130,8 @@ subread_count(){
 }
 
 get_gene_types_sep(){
-	ref_gene_types=$(cut -f3 ${REF_ANNOTATION}.gff3 | grep -v ^# | sort | uniq)
-	erv_gene_types=$(cut -f3 ${hERV_FILE}.gff3 | grep -v ^# | sort | uniq)
+	ref_gene_types=$(cut -f3 ${REF_ANNOTATION}.gff3 | grep -v "^#" | sort | uniq)
+	erv_gene_types=$(cut -f3 ${hERV_FILE}.gff3 | grep -v "^#" | sort | uniq)
 }
 
 subread_count_sep(){
@@ -158,7 +165,9 @@ count_all(){
 
 
 main(){
-	if [[ -d "tmp" ]]; then 
+	timed_print "analysing..."
+
+	if [[ ! -d "tmp" ]]; then 
 		mkdir tmp
 	fi
 
@@ -166,7 +175,7 @@ main(){
 		mkdir subread 
 	fi
 
-	if [[ "$ANALYSIS_STEP" -eq "all" ]]; then 
+	if [ "$ANALYSIS_STEP" = "all" ]; then 
 			ANALYSIS_STEP="index,convert,qc,align,count"
 	fi 
 
@@ -175,7 +184,8 @@ main(){
 	fi 
 
 	ANALYSIS_STEP=(${ANALYSIS_STEP//,/})
-	for i in ${ANALYSIS_STEP[@]}; do 
+	for i in $ANALYSIS_STEP; do
+	       	timed_print "$i-ing..."	
 		case "$i" in 
 			index) build_index ;;
 			convert) get_pairs_all ;;
@@ -183,6 +193,7 @@ main(){
 			align) align_all ;;
 			count) count all ;;
 		esac 
+		timed_print "finished $i"
 	done 
 }
 

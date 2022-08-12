@@ -17,11 +17,11 @@ setup_conda() {
 		fi
 		exec bash
 	fi 
-	conda create -n $PLATFORM && conda activate $PLATFORM
+	conda create -n $PLATFORM -y && conda activate $PLATFORM -y
 }
 
 setup_tools(){
-	if [ ! -d "fastp" ] ; then 
+	if [ ! -f "fastp" ] ; then 
 		timed_download http://opengene.org/fastp/fastp
 		chmod a+x ./fastp
 	fi 
@@ -39,8 +39,10 @@ setup_tools(){
 				module load $i
 			fi 
 		fi
+		
+		echo $i | cut -d'=' -f1 
 
-		if ! command -v $i ; then 
+		if ! command -v $(echo $i | cut -d'=' -f1) ; then 
 			conda install -c conda-forge -c bioconda -y $i
 		fi
 	done

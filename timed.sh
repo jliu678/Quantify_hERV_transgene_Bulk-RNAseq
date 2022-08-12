@@ -1,13 +1,14 @@
 #!/bin/bash
 
 timed_print() {
-	echo "$(date +"%D %T"): ${@:3}"
+	echo "$(date +"%D %T"): $@"
 }
 
 timed_download() { #download w/ printed time 
 	local name=$(basename $1)
+	local unzip_name=$(basename $1 .gz)
 
-	if [ -f "$name" ]; then
+	if [ -f "$unzip_name" ]; then
 		timed_print "${name} already exists"
 	else
 		timed_print "downloading ${name}..."
