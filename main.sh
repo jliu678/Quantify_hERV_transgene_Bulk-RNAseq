@@ -27,6 +27,10 @@ CLEAR_TMP="false"
 OVER_WRITE="false"
 COUNT_METHOD="seperated"
 BATCH_NAME="none"
+MEM_SIZE="2000"
+THREAD_SIZE="4"
+ALIGN_METHOD="subread"
+QC_METHOD="fastp"
 
 while [ -n "$1" ]; do #setting variables for sub-processes
 	case "$1" in

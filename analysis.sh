@@ -93,7 +93,9 @@ qc_all(){
 	fi
 
 	while IFS=, read -r r1 r2; do
-		fastp_qc $r1 $r2
+		case $QC_METHOD in 
+			fastp) fastp_qc $r1 $r2 ;;
+		esac 
 	done < $PAIR_FILE
 }
 
@@ -107,24 +109,28 @@ subread_build_index(){
 }
 
 build_index() {
-	subread_build_index
+	case $ALIGN_METHOD in
+		subread) subread_build_index ;;
+	esac
 }
 
 subread_align(){
-	if [ ! -d "tmp/${SOURCE}/subread_aligned" ]; then 
-		mkdir "tmp/${SOURCE}/subread_aligned"
-	fi
-
 	if [ "$OVER_WRITE" = "true" ] || [ ! -f "tmp/${SOURCE}/subread_aligned/$1.bam" ]; then
 		timed_print "aligning $1.qc.fq and $2.qc.fq..."
-		subread-align -i subread/${REF_GENOME%.*}_index -r "tmp/${SOURCE}/qc/$1.qc.fq" -R "tmp/${SOURCE}/qc/$2.qc.fq" -t 0 -o "tmp/${SOURCE}/subread_aligned/$1.bam" -T 6 
+		subread-align -i subread/${REF_GENOME%.*}_index -r "tmp/${SOURCE}/qc/$1.qc.fq" -R "tmp/${SOURCE}/qc/$2.qc.fq" -t 0 -o "tmp/${SOURCE}/subread_aligned/$1.bam" -T $THREAD_SIZE -M MEM_SIZE 
 		timed_print "aligned tmp/${SOURCE}/qc/$1.qc.fq and tmp/${SOURCE}/qc/$2.qc.fq"
 	fi
 }
 
 align_all(){
+	if [ ! -d "tmp/${SOURCE}/${ALIGN_METHOD}_aligned" ]; then 
+		mkdir "tmp/${SOURCE}/${ALIGN_METHOD}_aligned"
+	fi
+
 	while IFS=, read -r r1 r2; do
-		subread_align $r1 $r2
+		case $ALIGN_METHOD in 
+			subread) subread_align $r1 $r2 ;;
+		esac
 	done < $PAIR_FILE
 }
 
@@ -132,7 +138,7 @@ get_gene_types_comb(){
 	gene_types=$( cut -f3 ${COMB_ANNOTATION}.gff3 | grep -v "^#" | sort | uniq )
 }
 
-subread_count(){
+subread_count_comb(){
 	if [ ! "$OVER_WRITE" = "true" ] || [ ! -f "results/subread/fc_comb_$1.tsv" ]; then 
 		timed_print "counting $1.bam..."
 		featureCounts -a ${COMB_ANNOTATION}.gff3 -o "results/subread/fc_comb_$1.tsv" "tmp/${SOURCE}/subread_aligned/$1.bam" -T 6 -t ${gene_types[@]} -g ${id_types[@]}
@@ -159,25 +165,30 @@ subread_count_sep(){
 	fi
 }
 
-count_all(){
-	if [ ! -d "results/subread" ]; then 
-		mkdir "results/subread"
-	fi
-
-	if [ $COUNT_METHOD = "combined" ]; then
-		get_gene_types 
-		for r1 in $(cut -d, -f1 < ${PAIR_FILE}); do 
-			subread_count $r1
-		done 
-	elif [ $COUNT_METHOD = "seperated" ]; then 
-		get_gene_types_sep
-		for r1 in $(cut -d, -f1 < ${PAIR_FILE}); do 
-			subread_count_sep $r1
-		done
-	fi
+subread_count() {
+	case $COUNT_METHOD in
+		combined) 
+			get_gene_types_comb
+			for r1 in $(cut -d, -f1 < ${PAIR_FILE}); do 
+				subread_count $r1
+			done ;;
+		seperated)
+			get_gene_types_sep
+			for r1 in $(cut -d, -f1 < ${PAIR_FILE}); do 
+				subread_count_sep $r1
+			done ;;
+	esac
 }
 
-
+count_all(){
+	if [ ! -d "results/${ALIGN_METHOD}" ]; then 
+		mkdir "results/${ALIGN_METHOD}"
+	fi
+	
+	case $ALIGN_METHOD in 
+		subread) subread_count ;;
+	esac
+}
 
 main(){
 	timed_print "analysing..."
@@ -210,7 +221,7 @@ main(){
 			convert) get_pairs_all ;;
 			qc) qc_all ;;
 			align) align_all ;;
-			count) count all ;;
+			count) count_all ;;
 		esac 
 		timed_print "finished $i"
 	done 
