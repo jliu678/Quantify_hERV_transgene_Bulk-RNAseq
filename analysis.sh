@@ -19,7 +19,7 @@ split_fastq(){ #splits pair ended fastq from bam into 2 files
 				"tmp/${SOURCE}/$1.r1.fq"
 		cat "tmp/${SOURCE}/$1.fq" | grep '^@.*/2$' -A 3 --no-group-separator > \
 				"tmp/${SOURCE}/$1.r2.fq"
-		echo -e "tmp/${SOURCE}/$1.r1,tmp/${SOURCE}/$1.r2" >> $PAIR_FILE
+		echo -e "$1.r1,$1.r2" >> $PAIR_FILE
 		rm "tmp/${SOURCE}/$1.fq"
 	fi
 }
@@ -38,7 +38,7 @@ group_fastq(){ #group fastq files into pairs
 		local file_name=${files[$i]%.*} #get file name w/o extention
 		if ! grep -q "$file_name" $PAIR_FILE ; then #if the file does not have pair
 			if [[ ${file_name: -1} = "1" && -f "${file_name::-1}2.fq" ]]; then #if formatted correctly
-				echo -e "${file_name},${file_name::-1}2" >> $PAIR_FILE
+				echo -e "$(basename file_name), $(basename ${file_name::-1})2" >> $PAIR_FILE
 			else #the choice is yours how to deal with single-ended files
 				timed_print "compliment to ${files[$i]} not found"
 				total+=1
@@ -76,11 +76,11 @@ get_pairs_all() { #place all files into tmp, group them
 }
 
 fastp_qc(){ #only works for pair ended as of now
-	if [ "$OVER_WRITE" = "true" ] || [ ! -f "$1.qc.fq" ]; then
+	if [ "$OVER_WRITE" = "true" ] || [ ! -f "tmp/${SOURCE}/qc/$1.qc.fq" ]; then
 		if [[ $# -eq 2 ]]; then 
-			./fastp -i "$1.fq" -o "$1.qc.fq" \
-				-I "$2.fq" -O "$2.qc.fq" \
-				-j "$1.json" -h "$1.html"
+			./fastp -i "tmp/${SOURCE}/$1.fq" -o "tmp/${SOURCE}/qc/$1.qc.fq" \
+				-I "tmp/${SOURCE}/$2.fq" -O "tmp/${SOURCE}/qc/$2.qc.fq" \
+				-j "tmp/${SOURCE}/qc_rep/$1.json" -h "tmp/${SOURCE}/qc_rep/$1.html"
 		else 
 			return 1
 		fi	
@@ -107,10 +107,14 @@ build_index() {
 }
 
 subread_align(){
-	if [ "$OVER_WRITE" = "true" ] || [ ! -f "tmp/${SOURCE}/$1.bam" ]; then
+	if [ ! -d "tmp/${SOURCE}/subread_aligned" ]; then 
+		mkdir "tmp/${SOURCE}/subread_aligned"
+	fi
+
+	if [ "$OVER_WRITE" = "true" ] || [ ! -f "tmp/${SOURCE}/subread_aligned/$1.bam" ]; then
 		timed_print "aligning $1.qc.fq and $2.qc.fq..."
-		subread-align -i subread/${REF_GENOME%.*}_index -r "tmp/${SOURCE}/$1.qc.fq" -R "tmp/${SOURCE}/$2.qc.fq" -t 0 -o "tmp/${SOURCE}/$1.bam" -T 8 -M 16000
-		timed_print "aligned $1.qc.fq and $2.qc.fq"
+		subread-align -i subread/${REF_GENOME%.*}_index -r "tmp/${SOURCE}/qc/$1.qc.fq" -R "tmp/${SOURCE}/qc/$2.qc.fq" -t 0 -o "tmp/${SOURCE}/subread_aligned/$1.bam" -T 8 -M 16000
+		timed_print "aligned tmp/${SOURCE}/qc/$1.qc.fq and tmp/${SOURCE}/qc/$2.qc.fq"
 	fi
 }
 
@@ -125,9 +129,9 @@ get_gene_types_comb(){
 }
 
 subread_count(){
-	if [ ! "$OVER_WRITE" = "true" ] || [ ! -f "subread/results/fc_comb_$1.tsv" ]; then 
+	if [ ! "$OVER_WRITE" = "true" ] || [ ! -f "results/subread/fc_comb_$1.tsv" ]; then 
 		timed_print "counting $1.bam..."
-		featureCounts -a ${COMB_ANNOTATION}.gff3 -o subread/results/fc_comb_$1.tsv subread/results/$1.bam -T 6 -t ${gene_types[@]} -g ${id_types[@]}
+		featureCounts -a ${COMB_ANNOTATION}.gff3 -o "results/subread/fc_comb_$1.tsv" "tmp/${SOURCE}/subread_aligned/$1.bam" -T 6 -t ${gene_types[@]} -g ${id_types[@]}
 		timed_print "counted $1.bam"
 	fi
 }
@@ -138,15 +142,15 @@ get_gene_types_sep(){
 }
 
 subread_count_sep(){
-	if [ ! "$OVER_WRITE" = "true" ] || [ ! -f "subread/results/fc_ref_$1.tsv" ]; then 
+	if [ ! "$OVER_WRITE" = "true" ] || [ ! -f "results/subread/fc_ref_$1.tsv" ]; then 
 		timed_print "counting $1.bam with ${REF_ANNOTATION}.gff3..."
-		featureCounts -a ${REF_ANNOTATION}.gff3 -o subread/results/fc_ref_$1.tsv subread/results/$1.bam -T 6 -t ${ref_gene_types[@]} -g ${id_types[@]}
+		featureCounts -a ${REF_ANNOTATION}.gff3 -o results/subread/fc_ref_$1.tsv "tmp/${SOURCE}/subread_aligned/$1.bam" -T 16 -t ${ref_gene_types[@]} -g ${id_types[@]}
 		timed_print "counted $1.bam"
 	fi 
 
-	if [ ! "$OVER_WRITE" = "true" ] || [ ! -f "subread/results/fc_erv_$1.tsv" ]; then 
+	if [ ! "$OVER_WRITE" = "true" ] || [ ! -f "results/subread/fc_erv_$1.tsv" ]; then 
 		timed_print "counting $1.bam with ${hERV_FILE}.gff3..."
-		featureCounts -a ${hERV_FILE}.gff3 -o subread/results/fc_erv_$1.tsv subread/results/$1.bam -T 6 -t ${erv_gene_types[@]} -g ${id_types[@]}
+		featureCounts -a ${hERV_FILE}.gff3 -o results/subread/fc_erv_$1.tsv "tmp/${SOURCE}/subread_aligned/$1.bam" -T 16 -t ${erv_gene_types[@]} -g ${id_types[@]}
 		timed_print "counted $1.bam"
 	fi
 }
