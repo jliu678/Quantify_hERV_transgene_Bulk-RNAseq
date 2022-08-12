@@ -12,8 +12,11 @@ timed_download() { #download w/ printed time
 		timed_print "${name} already exists"
 	else
 		timed_print "downloading ${name}..."
-		wget --user-agent="Mozilla" $1
-	
+		if [ $PLATFORM = "cluster-mgh" ]; then
+			curl -A "Mozilla" -O $1
+		else
+			wget --user-agent="Mozilla" $1
+		fi
 		if [[ "$name" == *.gz ]]; then
 			timed_unzip "$name"
 			name="$unzip_name"
