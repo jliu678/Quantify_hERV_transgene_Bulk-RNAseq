@@ -32,16 +32,16 @@ while [ -n "$1" ]; do #setting variables for sub-processes
 	case "$1" in
 		-REF_ANNOTATION) REF_ANNOTATION_LOC="$2"; shift ;;
 		-REF_GENOME) REF_GENOME_LOC="$2"; shift ;;
-		-hERV_DIR) hERV_DIR="$2" shift ;;
-		-hERV_FILE) hERV_FILE="$2" shift ;;
-		-COMB_ANNOTATION) COMB_ANNOTATION="$2" shift ;;
-		-SOURCE) SOURCE_LOC="$2" shift ;;
-		-ANALYSIS_STEP) ANALYSIS_STEP="$2" shift ;; #steps: index, convert, qc, align, count
-		-PLATFORM) PLATFORM="$2" shift ;;
-		-COUNT_METHOD) COUNT_METHOD="$2" shift ;;
-		-CLEAR_TMP) CLEAR_TMP="true" ;;
-		-OVER_WRITE) OVER_WRITE="true" ;;
-		-BATCH_NAME) BATCH_NAME="$2" ;;
+		-hERV_DIR) hERV_DIR="$2"; shift ;;
+		-hERV_FILE) hERV_FILE="$2"; shift ;;
+		-COMB_ANNOTATION) COMB_ANNOTATION="$2"; shift ;;
+		-SOURCE) SOURCE_LOC="$2"; shift ;;
+		-ANALYSIS_STEP) ANALYSIS_STEP="$2"; shift ;; #steps: index, convert, qc, align, count
+		-PLATFORM) PLATFORM="$2"; shift ;;
+		-COUNT_METHOD) COUNT_METHOD="$2"; shift ;;
+		-CLEAR_TMP) CLEAR_TMP="true"; ;;
+		-OVER_WRITE) OVER_WRITE="true"; ;;
+		-BATCH_NAME) BATCH_NAME="$2"; ;;
 		*) echo "$1 is not an option"; exit 1 ;;
 	esac
 	shift
