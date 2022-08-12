@@ -67,8 +67,7 @@ echo wtf
 main(){
 	setup_conda
 	conda activate $PLATFORM -y
-echo lllllllllllllllllllllmainllllllllllllllll	
-conda env list
+# echo lllllllllllllllllllllmainllllllllllllllll	
 	setup_tools
 }
 
