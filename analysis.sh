@@ -42,7 +42,7 @@ group_fastq(){ #group fastq files into pairs
 		if ! grep -q "$file_name" $PAIR_FILE ; then #if the file does not have pair
 			if [[ ${file_name: -1} = "1" && -f "${file_name::-1}2.fq" ]]; then #if formatted correctly
 				echo -e "$(basename $file_name), $(basename ${file_name::-1})2" >> $PAIR_FILE
-			elif [ ! ${file_name: -1} = "2" ]; then #the choice is yours how to deal with single-ended files
+			elif [[ ! ${file_name: -1} = "2" ]]; then #the choice is yours how to deal with single-ended files
 				timed_print "compliment to ${files[$i]} not found"
 				total+=1
 				#cat "${files[$i]}\n" >> $PAIR_FILE
@@ -67,8 +67,6 @@ get_pairs_all() { #place all files into tmp, group them
 	fi 
 	touch $PAIR_FILE
 
-	flock ${SOURCE_LOC}
-
 	for i in ${SOURCE_LOC}/*; do
 		timed_print "moving $i..."
 		local name=$(basename $i)
@@ -81,8 +79,10 @@ get_pairs_all() { #place all files into tmp, group them
 		timed_print "moved $i"
 	done 
 	group_fastq #groups all other files
+}
 
-	flock -u ${SOURCE_LOC}
+get_pairs_all_locked(){
+	flock ${SOURCE_LOC} get_pairs_all
 }
 
 fastp_qc(){ #only works for pair ended as of now
@@ -274,7 +274,7 @@ main(){
 	  timed_print "$i-ing..."	
 		case "$i" in 
 			index) build_index ;;
-			convert) get_pairs_all ;;
+			convert) get_pairs_all_locked ;;
 			qc) qc_all ;;
 			align) align_all ;;
 			count) count_all ;;
