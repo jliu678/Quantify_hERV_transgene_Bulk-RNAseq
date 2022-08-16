@@ -8,9 +8,8 @@
 ### -- send notification at completion -- 
 #BSUB -N
 
-mkdir logs/%J
-#BSUB -e logs/%J/errors.err
-#BSUB -o logs/%J/outputs.out
+#BSUB -e logs/%J-errors.err
+#BSUB -o logs/%J-outputs.out
 
 #BSUB -q normal
 #BSUB -n 12
