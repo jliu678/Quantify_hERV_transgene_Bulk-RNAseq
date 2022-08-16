@@ -13,7 +13,7 @@ timed_download() { #download w/ printed time
 	else
 		timed_print "downloading ${name}..."
 		if [ $PLATFORM = "cluster-mgh" ]; then
-			curl --user-agent "Mozilla" --url $1 -O 
+			curl -L --user-agent "Mozilla/5.0" --url $1 --remote-name
 		else
 			wget --user-agent="Mozilla" $1
 		fi
@@ -32,3 +32,5 @@ timed_unzip() {
 	timed_print "unzipping $1..."
 	gunzip $1
 }
+
+#curl --user-agent "Mozilla" --url http://opengene.org/fastp/fastp -O 
