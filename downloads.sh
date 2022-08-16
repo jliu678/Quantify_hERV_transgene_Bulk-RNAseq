@@ -20,7 +20,7 @@ combine_hERV() { #combine into a sinlge file for ease of use
 }
 
 download_hERV_subread() {
-	if [ ! -f $hERV_FILE ]
+	if [ ! -f $hERV_FILE ]; then
 		hERV_download_list=(
 			'https://herv.img.cas.cz/f/package-entities-erv.gff3.gz'
 		)
@@ -38,7 +38,7 @@ download_hERV_subread() {
 }
 
 download_hERV_salmon() {
-	if [ ! -f $hERV_TRANSCRIPT ]
+	if [ ! -f $hERV_TRANSCRIPT ]; then
 		timed_download "$hERV_TRANSCRIPT_LOC" 
 	fi
 }
