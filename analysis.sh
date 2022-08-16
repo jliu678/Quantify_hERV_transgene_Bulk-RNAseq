@@ -53,7 +53,7 @@ group_fastq(){ #group fastq files into pairs
 }
 
 mv_fq() {
-	if [ ! "$OVER_WRITE" = "true" ] || [ ! -f "$2" ]; then
+	if [ "$OVER_WRITE" = "true" ] || [ ! -f "$2" ]; then
 		case "${name#*.}" in 
 			fq) mv $1 $2 ;;
 			fq.gz) gunzip -c $1 > $2 ;;
