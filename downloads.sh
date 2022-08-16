@@ -5,7 +5,7 @@
 
 check_gencode(){
 	timed_download "$REF_GENOME_LOC" "REF_GENOME"
-	case "$ALIGN_METHOD"
+	case "$ALIGN_METHOD" in 
 		salmon)
 			timed_download "$REF_TRANSCRIPT_LOC" "REF_TRANSCRIPT" ;;
 		subread) 
