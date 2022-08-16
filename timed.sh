@@ -12,15 +12,22 @@ timed_download() { #download w/ printed time
 		timed_print "${name} already exists"
 	else
 		timed_print "downloading ${name}..."
+
 		if [ $PLATFORM = "cluster-mgh" ]; then
 			curl -L --user-agent "Mozilla/5.0" --url $1 --remote-name
 		else
 			wget --user-agent="Mozilla" $1
 		fi
+
 		if [[ "$name" == *.gz ]]; then
 			timed_unzip "$name"
 			name="$unzip_name"
 		fi
+
+		case "$name" in
+			*.gz) timed_gunzip $name ;;
+			*.bz2) timed_bunzip2 $name ;;
+		esac
 	fi
 
 	if [[ $# = 2 ]]; then 
@@ -28,9 +35,14 @@ timed_download() { #download w/ printed time
 	fi
 }
 
-timed_unzip() {
+timed_gunzip() {
 	timed_print "unzipping $1..."
 	gunzip $1
+}
+
+timed_bunzip2(){
+	timed_print "unzipping $1..."
+	bunzip2 $1
 }
 
 #curl --user-agent "Mozilla" --url http://opengene.org/fastp/fastp -O 
