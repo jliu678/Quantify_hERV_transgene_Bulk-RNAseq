@@ -46,11 +46,11 @@ while [ -n "$1" ]; do #setting variables for sub-processes
 		-ANALYSIS_STEP) ANALYSIS_STEP="$2"; shift ;; #steps: index, convert, qc, align, count
 		-PLATFORM) PLATFORM="$2"; shift ;;
 		-COUNT_METHOD) COUNT_METHOD="$2"; shift ;;
-		-CLEAR_TMP) CLEAR_TMP="true"; ;;
-		-OVER_WRITE) OVER_WRITE="true"; ;;
-		-BATCH_NAME) BATCH_NAME="$2"; ;;
-		-d) RUN_TYPE="-d"
-		-r) RUN_TYPE="-r"
+		-CLEAR_TMP) CLEAR_TMP="true" ;;
+		-OVER_WRITE) OVER_WRITE="true" ;;
+		-BATCH_NAME) BATCH_NAME="$2" ;;
+		-d) RUN_TYPE="-d" ;;
+		-r) RUN_TYPE="-r" ;;
 		*) echo "$1 is not an option"; exit 1 ;;
 	esac
 	shift
