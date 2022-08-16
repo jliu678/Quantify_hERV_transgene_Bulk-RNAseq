@@ -15,8 +15,12 @@ check_gencode(){
 	
 }
 
-download_hERV() {
-	if [ "$ALIGN_METHOD" = "subread" ]; then
+combine_hERV() { #combine into a sinlge file for ease of use 
+  cat "$hERV_DIR"/*.gff3 > "$hERV_FILE"
+}
+
+download_hERV_subread() {
+	if [ ! -f $hERV_FILE ]
 		hERV_download_list=(
 			'https://herv.img.cas.cz/f/package-entities-erv.gff3.gz'
 		)
@@ -27,25 +31,23 @@ download_hERV() {
 		for i in ${hERV_download_list[@]}; do
 			timed_download $i
 		done
+		cd ..
+	
+		combine_hERV
 	fi
-
-	if [ "$ALIGN_METHOD" = "salmon" ]; then
-		timed_download "$hERV_TRANSCRIPT_LOC" 
-	fi
-
-	cd ..
 }
 
-combine_hERV() { #combine into a sinlge file for ease of use 
-  cat "$hERV_DIR"/*.gff3 > "$hERV_FILE"
+download_hERV_salmon() {
+	if [ ! -f $hERV_TRANSCRIPT ]
+		timed_download "$hERV_TRANSCRIPT_LOC" 
+	fi
 }
 
 check_hERV(){ 
-	if [[ ! -f $hERV_FILE || ! -f $hERV_TRANSCRIPT ]]; then 
-	  timed_print "hERVd not downloaded"
-		download_hERV 
-		combine_hERV 
-	fi
+	case "$ALIGN_METHOD" in 
+		subread) download_hERV_subread ;;
+		salmon) download_hERV_salmon ;;
+	esac
 }
 
 combine_annotations(){
