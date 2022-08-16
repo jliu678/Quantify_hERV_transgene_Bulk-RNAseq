@@ -6,7 +6,10 @@ timed_print() {
 
 timed_download() { #download w/ printed time 
 	local name=$(basename $1)
-	local unzip_name=$(basename $1 .gz)
+	case $name in 
+		*.gz) local unzip_name=$(basename $1 .gz) ;;
+		*.bz2) local unzip_name=$(basename $1 .bz2) ;;
+	esac
 
 	if [ -f "$unzip_name" ]; then
 		timed_print "${name} already exists"
