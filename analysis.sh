@@ -67,6 +67,8 @@ get_pairs_all() { #place all files into tmp, group them
 	fi 
 	touch $PAIR_FILE
 
+	flock ${SOURCE_LOC}
+
 	for i in ${SOURCE_LOC}/*; do
 		timed_print "moving $i..."
 		local name=$(basename $i)
@@ -79,6 +81,8 @@ get_pairs_all() { #place all files into tmp, group them
 		timed_print "moved $i"
 	done 
 	group_fastq #groups all other files
+
+	flock -u ${SOURCE_LOC}
 }
 
 fastp_qc(){ #only works for pair ended as of now
