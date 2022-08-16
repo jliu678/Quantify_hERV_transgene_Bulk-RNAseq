@@ -14,6 +14,6 @@
 #BSUB -n 12
 #BSUB -R 'rusage[mem=32000]'
 
-cd ~/Documents/hERV_project
+cd ~/Documents/herv_project
 
 bash main.sh -PLATFORM "cluster-mgh" -ANALYSIS_STEP "all" -SOURCE "raw_data"
