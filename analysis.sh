@@ -120,15 +120,17 @@ salmon_build_index(){
 		timed_print "building salmon index @: salmon/${hERV_TRANSCRIPT%.*}_index"
 
 		if [ "$OVER_WRITE" = "true" ] || [ ! -f "salmon/decoys.txt" ]; then
+			timed_print "building decoys..."
 			grep "^>" "${REF_GENOME}" | cut -d " " -f 1 > "salmon/decoys.txt"
 			sed -i.bak -e 's/>//g' "salmon/decoys.txt"
 		fi 
 
 		if [ "$OVER_WRITE" = "true" ] || [ ! -f "salmon/gentrome.fa" ]; then
+			timed_print "building gentrome..."
 			cat ${hERV_TRANSCRIPT} ${REF_TRANSCRIPTS} ${REF_GENOME} > "salmon/gentrome.fa"
 		fi
 
-		salmon index -t gentrome.fa -d "salmon/decoys.txt" -i "salmon/${hERV_TRANSCRIPT%.*}_index" --gencode
+		salmon index -t salmon/gentrome.fa -d "salmon/decoys.txt" -i "salmon/${hERV_TRANSCRIPT%.*}_index" --gencode
 	fi
 }
 
