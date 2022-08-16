@@ -10,6 +10,7 @@ SOURCE=$(basename $SOURCE_LOC)
 REF_GENOME=$(basename $REF_GENOME_LOC .gz)
 REF_ANNOTATION=$(basename $REF_ANNOTATION_LOC .gz)
 REF_TRANSCRIPT=$(basename $REF_TRANSCRIPT_LOC .gz)
+hERV_TRANSCRIPTS=$(basename $hERV_TRANSCRIPT_LOC .gz)
 id_types="ID"
 
 split_fastq(){ #splits pair ended fastq from bam into 2 files
@@ -65,8 +66,7 @@ get_pairs_all() { #place all files into tmp, group them
 	fi 
 	touch $PAIR_FILE
 
-	for i in "${SOURCE_LOC}/*"; do
-echo "found $i"
+	for i in ${SOURCE_LOC}/*; do
 		local name=$(basename $i)
 		case "${name#*.}" in #get extention
 			bam) bam_to_fastq ${name%.*} ;; #removes last extention, ie bam
@@ -115,7 +115,7 @@ salmon_build_index(){
 		timed_print "building subread index @: salmon/index"
 		grep "^>" "${REF_GENOME}" | cut -d " " -f 1 > "salmon/decoys.txt"
 		sed -i.bak -e 's/>//g' "salmon/decoys.txt"
-		cat ${hERV_FILE} ${REF_TRANSCRIPTS} ${REF_GENOME} > gentrome.fa
+		cat ${hERV_TRANSCRIPTS} ${REF_TRANSCRIPTS} ${REF_GENOME} > gentrome.fa
 		salmon index -t gentrome.fa -d decoys.txt -i "salmon/index" --gencode
 	fi
 }
@@ -270,7 +270,7 @@ main
 #grep "^>" GRCh38.p13.genome.fa | cut -d " " -f 1 > decoys.txt 
 #grep "^>" GRCh38.p13.genome.fa | cut -d " " -f 1 > decoys.txt
 #sed -i.bak -e 's/>//g' decoys.txt
-#cat package-entities-erv.gff3 gencode.v41.transcripts.fa GRCh38.p13.genome.fa > gentrome.fa
+#cat package-entities-erv.fa gencode.v41.transcripts.fa GRCh38.p13.genome.fa > gentrome.fa
 #salmon index -t gentrome.fa -d decoys.txt -p 6 -i index --gencode
 #salmon quant -i index -l A -1 HcxecP3_1_r1.fastq -2 HcxecP3_1_r2.fastq --validateMappings -o results
 
