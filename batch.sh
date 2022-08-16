@@ -14,7 +14,7 @@ batch_op() {
 main() {
 	batch_op
 	. $main_loc/analysis.sh "convert"
-	for i in "batches/*"; do
+	for i in batches/*; do
 		local batch_name=$i
 		(. $main_loc/analysis.sh "$ANALYSIS_STEP" "$batch_name") &
 	done
