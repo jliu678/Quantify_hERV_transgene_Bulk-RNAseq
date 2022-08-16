@@ -4,7 +4,7 @@ batch_op() {
 	mkdir batches
 	lines=$(wc -l < "$PAIR_FILE")
 	begin=0; len=$BATCH_SIZE; no=0
-	until [[ $((lines-begin)) <= 0 ]]; do
+	until [[ $((lines-begin)) -le 0 ]]; do
 		tail -n +$begin "$PAIR_FILE" | head -$len > "batches/batch_file$no"
 		(($no++)); ((begin+=$len))
 	done 
