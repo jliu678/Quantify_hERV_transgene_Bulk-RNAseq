@@ -72,9 +72,9 @@ get_pairs_all() { #place all files into tmp, group them
 		local name=$(basename $i)
 		local only_name=${name%.*} #removes last extention, ie bam or gz
 		case "${name#*.}" in #get extention
-			*.bam) bam_to_fastq $only_name ;; 
-			*.fq) mv_fq "${SOURCE_LOC}/${name}" "tmp/${SOURCE}/$name" ;; #move because does not modify original data
-			*.fq.gz) mv_fq "${SOURCE_LOC}/${name}" "tmp/${SOURCE}/$only_name" ;; #unzip for uniformity
+			.bam) bam_to_fastq $only_name ;; 
+			.fq) mv_fq "${SOURCE_LOC}/${name}" "tmp/${SOURCE}/$name" ;; #move because does not modify original data
+			.fq.gz) mv_fq "${SOURCE_LOC}/${name}" "tmp/${SOURCE}/$only_name" ;; #unzip for uniformity
 		esac
 		timed_print "moved $i"
 	done 
