@@ -82,7 +82,10 @@ get_pairs_all() { #place all files into tmp, group them
 }
 
 get_pairs_all_locked(){
-	flock ${SOURCE_LOC} get_pairs_all
+	(
+	flock -s 200
+	get_pairs_all
+	) 200< ${SOURCE_LOC}
 }
 
 fastp_qc(){ #only works for pair ended as of now
