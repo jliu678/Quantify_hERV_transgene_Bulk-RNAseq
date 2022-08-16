@@ -7,4 +7,4 @@
 
 cd ~/Documents/hERV_project
 
-bash main.sh -PLATFORM "cluster-mgh" -ANALYSIS_STEP "all" -SOURCE_LOC "test_folder"
+bash main.sh -PLATFORM "cluster-mgh" -ANALYSIS_STEP "all" -SOURCE_LOC "raw_data"

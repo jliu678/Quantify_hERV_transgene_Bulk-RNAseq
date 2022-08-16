@@ -117,11 +117,11 @@ subread_build_index(){
 
 salmon_build_index(){
 	if [ ! -d "salmon/${hERV_TRANSCRIPT%.*}_index" ]; then 
-		timed_print "building subread index @: salmon/${hERV_TRANSCRIPT%.*}_index"
+		timed_print "building salmon index @: salmon/${hERV_TRANSCRIPT%.*}_index"
 		grep "^>" "${REF_GENOME}" | cut -d " " -f 1 > "salmon/decoys.txt"
 		sed -i.bak -e 's/>//g' "salmon/decoys.txt"
 		cat ${hERV_TRANSCRIPT} ${REF_TRANSCRIPTS} ${REF_GENOME} > gentrome.fa
-		salmon index -t gentrome.fa -d decoys.txt -i "salmon/${hERV_TRANSCRIPT%.*}_index" --gencode
+		salmon index -t gentrome.fa -d "salmon/decoys.txt" -i "salmon/${hERV_TRANSCRIPT%.*}_index" --gencode
 	fi
 }
 
