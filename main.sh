@@ -34,7 +34,6 @@ THREAD_SIZE="4"
 ALIGN_METHOD="salmon"
 QC_METHOD="fastp"
 RUN_TYPE="-r"
-# ANIMAL_TYPE="human"
 
 while [ -n "$1" ]; do #setting variables for sub-processes
 	case "$1" in
