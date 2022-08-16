@@ -8,6 +8,12 @@
 ### -- send notification at completion -- 
 #BSUB -N
 
+if [ ! -d "logs" ]; then
+
+mkdir logs
+
+fi 
+
 #BSUB -e logs/%J-errors.err
 #BSUB -o logs/%J-outputs.out
 
