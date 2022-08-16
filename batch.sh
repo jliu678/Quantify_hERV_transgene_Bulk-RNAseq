@@ -3,18 +3,19 @@
 batch_op() {
 	mkdir batches
 	lines=$(wc -l < "$PAIR_FILE")
-	begin=0; len=$BATCH_SIZE; no=0
-	until [[ $((lines-begin)) -le 0 ]]; do
-		tail -n +$begin "$PAIR_FILE" | head -$len > "batches/batch_file$no"
-		((no++)); ((begin+=$len))
-	done 
+	split -l $BATCH_SIZE "$PAIR_FILE" "batches/batch_file_"
+	# begin=0; len=$BATCH_SIZE; no=0
+	# until [[ $((lines-begin)) -le 0 ]]; do
+	# 	tail -n +$begin "$PAIR_FILE" | head -$len > "batches/batch_file$no"
+	# 	((no++)); ((begin+=$len))
+	# done 
 }
 
 main() {
 	batch_op
 	for i in "batches/*"; do
 		local batch_name=$i
-		. ./analysis.sh $batch_name
+		. $main_loc/analysis.sh $batch_name
 	done 
 }
 
