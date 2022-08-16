@@ -18,6 +18,6 @@ main() {
 	done 
 }
 
-if [[ "${#BASH_SOURCE[@]}" -eq 1 ]]; then
-  main "$@"
-fi
+# if [[ "${#BASH_SOURCE[@]}" -eq 1 ]]; then
+  main # "$@"
+# fi
