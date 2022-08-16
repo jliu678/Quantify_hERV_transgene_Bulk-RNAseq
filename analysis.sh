@@ -68,10 +68,11 @@ get_pairs_all() { #place all files into tmp, group them
 
 	for i in ${SOURCE_LOC}/*; do
 		local name=$(basename $i)
+		local only_name=${name%.*}
 		case "${name#*.}" in #get extention
-			bam) bam_to_fastq ${name%.*} ;; #removes last extention, ie bam
-			fq) mv_fq ${SOURCE_LOC}/${name} tmp/${SOURCE}/ ;; #move because does not modify original data
-			fq.gz) mv_fq ${SOURCE_LOC}/${name} tmp/${SOURCE}/ ;; #unzip for uniformity
+			bam) bam_to_fastq $only_name ;; #removes last extention, ie bam
+			fq) mv_fq "${SOURCE_LOC}/${name}" "tmp/${SOURCE}/$name" ;; #move because does not modify original data
+			fq.gz) mv_fq "${SOURCE_LOC}/${name}" "tmp/${SOURCE}/$only_name.fq" ;; #unzip for uniformity
 		esac
 	done 
 	group_fastq #groups all other files
