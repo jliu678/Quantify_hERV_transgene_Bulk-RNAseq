@@ -11,13 +11,16 @@ timed_download() { #download w/ printed time
 	if [ -f "$unzip_name" ]; then
 		timed_print "${name} already exists"
 	else
-		timed_print "downloading ${name}..."
-
-		if [ $PLATFORM = "cluster-mgh" ]; then
-			curl -L --user-agent "Mozilla/5.0" --url $1 --remote-name
-		else
-			wget --user-agent="Mozilla" $1
+		if [ ! -f "$name" ]; then 
+			timed_print "downloading ${name}..."
+	
+			if [ $PLATFORM = "cluster-mgh" ]; then
+				curl -L --user-agent "Mozilla/5.0" --url $1 --remote-name
+			else
+				wget --user-agent="Mozilla" $1
+			fi
 		fi
+
 		case "$name" in
 			*.gz) timed_gunzip $name ;;
 			*.bz2) timed_bunzip2 $name ;;
