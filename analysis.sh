@@ -63,9 +63,10 @@ get_pairs_all() { #place all files into tmp, group them
 	if [ ! -d "tmp/${SOURCE}" ]; then 
 		mkdir "tmp/${SOURCE}"
 	fi 
-
 	touch $PAIR_FILE
+
 	for i in "${SOURCE_LOC}/*"; do
+echo "found $i"
 		local name=$(basename $i)
 		case "${name#*.}" in #get extention
 			bam) bam_to_fastq ${name%.*} ;; #removes last extention, ie bam
@@ -225,8 +226,8 @@ main(){
 		mkdir tmp
 	fi
 
-	if [[ ! -d "subread" ]]; then
-		mkdir subread 
+	if [[ ! -d "$ALIGN_METHOD" ]]; then
+		mkdir $ALIGN_METHOD 
 	fi
 
 	if [[ ! -d "results" ]]; then 
