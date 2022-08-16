@@ -28,7 +28,7 @@ SOURCE_LOC="../test_folder"
 CLEAR_TMP="false"
 OVER_WRITE="false"
 COUNT_METHOD="seperated"
-BATCH_NAME="none"
+BATCH_SIZE="none"
 MEM_SIZE="2000"
 THREAD_SIZE="4"
 ALIGN_METHOD="salmon"
@@ -50,7 +50,7 @@ while [ -n "$1" ]; do #setting variables for sub-processes
 		-COUNT_METHOD) COUNT_METHOD="$2"; shift ;;
 		-CLEAR_TMP) CLEAR_TMP="true" ;;
 		-OVER_WRITE) OVER_WRITE="true" ;;
-		-BATCH_NAME) BATCH_NAME="$2" ;;
+		-BATCH_SIZE) BATCH_SIZE="$2" ;;
 		-d) RUN_TYPE="-d" ;;
 		-r) RUN_TYPE="-r" ;;
 		*) echo "$1 is not an option"; exit 1 ;;
@@ -93,8 +93,8 @@ conda env list
 	if [ $SOURCE_LOC = "tcga" ] && [ ! -d "tcga" ]; then 
 		. $main_loc/tcga.sh
 	fi
-	if [ ! $BATCH_NAME = "none" ]; then 
-		. $main_loc/test_batch.sh
+	if [ ! $BATCH_SIZE = "none" ]; then 
+		. $main_loc/batch.sh
 	else 
 		. $main_loc/analysis.sh
 	fi 
