@@ -18,12 +18,6 @@ timed_download() { #download w/ printed time
 		else
 			wget --user-agent="Mozilla" $1
 		fi
-
-		if [[ "$name" == *.gz ]]; then
-			timed_unzip "$name"
-			name="$unzip_name"
-		fi
-
 		case "$name" in
 			*.gz) timed_gunzip $name ;;
 			*.bz2) timed_bunzip2 $name ;;
