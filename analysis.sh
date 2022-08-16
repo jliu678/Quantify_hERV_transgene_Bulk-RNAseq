@@ -124,7 +124,7 @@ salmon_build_index(){
 			sed -i.bak -e 's/>//g' "salmon/decoys.txt"
 		fi 
 
-		if [ "$OVER_WRITE" = "true" ] || [ ! -f "salmon/gentrome.fa" ]
+		if [ "$OVER_WRITE" = "true" ] || [ ! -f "salmon/gentrome.fa" ]; then
 			cat ${hERV_TRANSCRIPT} ${REF_TRANSCRIPTS} ${REF_GENOME} > "salmon/gentrome.fa"
 		fi
 
