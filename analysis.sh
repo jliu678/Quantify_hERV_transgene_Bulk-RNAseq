@@ -97,8 +97,9 @@ qc_all(){
 	if [ ! -d "tmp/${SOURCE}/qc" ]; then 
 		mkdir "tmp/${SOURCE}/qc"
 	fi
-
+	timed_print "qc-ing with $QC_METHOD"
 	while IFS=, read -r r1 r2; do
+		timed_print "qc-ing ${r1} and ${r2}"
 		case $QC_METHOD in 
 			fastp) fastp_qc $r1 $r2 ;;
 		esac 
@@ -202,7 +203,7 @@ subread_count() {
 salmon_quant() {
 	if [ "$OVER_WRITE" = "true" ] || [ ! -d "results/salmon/$1" ]; then
 		mkdir results/salmon/$1
-		salmon quant -i "salmon/index" -l A -1 "tmp/${SOURCE}/qc/$1.qc.fq" -2 "tmp/${SOURCE}/qc/$2.qc.fq" --validateMappings -o "results/salmon/$1"
+		salmon quant -i "salmon/${hERV_TRANSCRIPT%.*}_index" -l A -1 "tmp/${SOURCE}/qc/$1.qc.fq" -2 "tmp/${SOURCE}/qc/$2.qc.fq" --validateMappings -o "results/salmon/$1"
 	fi
 }
 
