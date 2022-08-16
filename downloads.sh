@@ -51,17 +51,17 @@ download_mouse_ERV_salmon() {
 }
 
 check_hERV(){ 
-	case "$ANIMAL_TYPE" in 
-		human) 
+	# case "$ANIMAL_TYPE" in 
+	# 	human) 
 			case "$ALIGN_METHOD" in 
 				subread) download_hERV_subread ;;
 				salmon) download_hERV_salmon ;;
 			esac ;;
-		mouse)
-			case "$ALIGN_METHOD" in 
-				salmon) download_mouse_ERV_salmon ;;
-			esac ;;
-	esac
+	# 	mouse)
+	# 		case "$ALIGN_METHOD" in 
+	# 			salmon) download_mouse_ERV_salmon ;;
+	# 		esac ;;
+	# esac
 }
 
 combine_annotations(){
