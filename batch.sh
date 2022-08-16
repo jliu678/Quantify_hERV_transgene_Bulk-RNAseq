@@ -14,7 +14,7 @@ main() {
 	batch_op
 	for i in "batches/*"; do
 		local batch_name=$i
-		bsub < (envsubst <test_batch.lsf)
+		. ./analysis.sh $batch_name
 	done 
 }
 

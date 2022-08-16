@@ -261,9 +261,13 @@ main(){
 		PAIR_FILE=$1
 	fi 
 
+	if [ $# = 2 ]; then 
+		ANALYSIS_STEP=$2
+	fi 
+
 	ANALYSIS_STEP=(${ANALYSIS_STEP//,/ })
 	for i in ${ANALYSIS_STEP[@]}; do
-	       	timed_print "$i-ing..."	
+	  timed_print "$i-ing..."	
 		case "$i" in 
 			index) build_index ;;
 			convert) get_pairs_all ;;
@@ -273,6 +277,15 @@ main(){
 		esac 
 		timed_print "finished $i"
 	done 
+
+	if [ $CLEAR_TMP = 'true' ]; then
+		while IFS=, read -r r1 r2; do
+			rm "tmp/${SOURCE}/$r1.fq"
+			rm "tmp/${SOURCE}/$r2.fq"
+			rm "tmp/${SOURCE}/qc/$r1.qc.fq"
+			rm "tmp/${SOURCE}/qc/$r2.qc.fq"
+		done < $PAIR_FILE 
+	fi
 }
 
 main
