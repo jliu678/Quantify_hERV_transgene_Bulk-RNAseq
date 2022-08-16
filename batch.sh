@@ -15,8 +15,8 @@ main() {
 	batch_op
 	for i in "batches/*"; do
 		local batch_name=$i
-		. $main_loc/analysis.sh $batch_name
-	done 
+		. $main_loc/analysis.sh "" $batch_name
+	done
 }
 
 # if [[ "${#BASH_SOURCE[@]}" -eq 1 ]]; then
