@@ -33,6 +33,7 @@ MEM_SIZE="2000"
 THREAD_SIZE="4"
 ALIGN_METHOD="salmon"
 QC_METHOD="fastp"
+RUN_TYPE="-r"
 
 while [ -n "$1" ]; do #setting variables for sub-processes
 	case "$1" in
@@ -48,6 +49,8 @@ while [ -n "$1" ]; do #setting variables for sub-processes
 		-CLEAR_TMP) CLEAR_TMP="true"; ;;
 		-OVER_WRITE) OVER_WRITE="true"; ;;
 		-BATCH_NAME) BATCH_NAME="$2"; ;;
+		-d) RUN_TYPE="-d"
+		-r) RUN_TYPE="-r"
 		*) echo "$1 is not an option"; exit 1 ;;
 	esac
 	shift
@@ -63,9 +66,8 @@ fi
 
 cd ../hERV_Work
 
-read -p "starting, enter programme run type: " RUN_TYPE
-# RUN_TYPE="-d" #debug
-if [ "$RUN_TYPE" = "-d" ]; then #have to keep spaces between square brackets and vars
+# read -p "starting, enter programme run type: " RUN_TYPE
+if [ "$RUN_TYPE" = "-d" ]; then # have to keep spaces between square brackets and vars
 	read -p "enter debug type: " DEBUG_TYPE
 	# DEBUG_TYPE='-f' #function
 	if [ "$DEBUG_TYPE" = '-f' ]; then
@@ -80,7 +82,7 @@ if [ "$RUN_TYPE" = "-d" ]; then #have to keep spaces between square brackets and
 		echo $?
 	fi
 elif [ "$RUN_TYPE" = "-r" ]; then
-echo $? "$RUN_TYPE" = "-r" 
+# echo $? "$RUN_TYPE" = "-r" 
 	SEQ_TYPE=("RNA-Seq" "WXS")
 	. $main_loc/setup.sh 
 	# conda activate $PLATFORM -y
