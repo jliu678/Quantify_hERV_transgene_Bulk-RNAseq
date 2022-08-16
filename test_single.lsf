@@ -1,3 +1,4 @@
+#!/bin/bash
 #BSUB -L /bin/bash
 #BSUB -J test_single
 #BSUB -q normal
