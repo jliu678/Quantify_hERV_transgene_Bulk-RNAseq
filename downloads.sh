@@ -43,10 +43,24 @@ download_hERV_salmon() {
 	fi
 }
 
+download_mouse_ERV_salmon() {
+	if [ ! -f $hERV_TRANSCRIPT ]; then
+		timed_download "$hERV_TRANSCRIPT_LOC" 
+	fi
+	# gffread "$(basename $hERV_TRANSCRIPT_LOC .gz)" -g "$(basename $REF_GENOME_LOC .gz)" -w "$(basename $hERV_TRANSCRIPT_LOC .gtf .gff3 .gz).fa"
+}
+
 check_hERV(){ 
-	case "$ALIGN_METHOD" in 
-		subread) download_hERV_subread ;;
-		salmon) download_hERV_salmon ;;
+	case "$ANIMAL_TYPE" in 
+		human) 
+			case "$ALIGN_METHOD" in 
+				subread) download_hERV_subread ;;
+				salmon) download_hERV_salmon ;;
+			esac ;;
+		mouse)
+			case "$ALIGN_METHOD" in 
+				salmon) download_mouse_ERV_salmon ;;
+			esac ;;
 	esac
 }
 

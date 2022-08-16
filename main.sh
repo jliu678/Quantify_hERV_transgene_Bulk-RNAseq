@@ -34,11 +34,14 @@ THREAD_SIZE="4"
 ALIGN_METHOD="salmon"
 QC_METHOD="fastp"
 RUN_TYPE="-r"
+# ANIMAL_TYPE="human"
 
 while [ -n "$1" ]; do #setting variables for sub-processes
 	case "$1" in
 		-REF_ANNOTATION) REF_ANNOTATION_LOC="$2"; shift ;;
 		-REF_GENOME) REF_GENOME_LOC="$2"; shift ;;
+		-REF_TRANSCRIPT) REF_TRANSCRIPT_LOC="$2" ; shift ;;
+		-hERV_TRANSCRIPT) hERV_TRANSCRIPT_LOC="$2" ; shift ;;
 		-hERV_DIR) hERV_DIR="$2"; shift ;;
 		-hERV_FILE) hERV_FILE="$2"; shift ;;
 		-COMB_ANNOTATION) COMB_ANNOTATION="$2"; shift ;;
