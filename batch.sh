@@ -6,7 +6,7 @@ batch_op() {
 	begin=0; len=$BATCH_SIZE; no=0
 	until [[ $((lines-begin)) -le 0 ]]; do
 		tail -n +$begin "$PAIR_FILE" | head -$len > "batches/batch_file$no"
-		(($no++)); ((begin+=$len))
+		((no++)); ((begin+=$len))
 	done 
 }
 
