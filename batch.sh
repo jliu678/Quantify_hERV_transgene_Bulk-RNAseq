@@ -13,9 +13,10 @@ batch_op() {
 
 main() {
 	batch_op
+	. $main_loc/analysis.sh $PAIR_FILE "convert"
 	for i in "batches/*"; do
 		local batch_name=$i
-		. $main_loc/analysis.sh "" $batch_name
+		. $main_loc/analysis.sh $batch_name
 	done
 }
 

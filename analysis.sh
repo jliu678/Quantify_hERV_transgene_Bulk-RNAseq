@@ -81,10 +81,6 @@ get_pairs_all() { #place all files into tmp, group them
 	group_fastq #groups all other files
 }
 
-get_pairs_all_locked(){
-	flock -e ${SOURCE_LOC} 'get_pairs_all'
-}
-
 fastp_qc(){ #only works for pair ended as of now
 	if [ "$OVER_WRITE" = "true" ] || [ ! -f "tmp/${SOURCE}/qc/$1.qc.fq" ]; then
 		if [[ $# -eq 2 ]]; then 
@@ -260,9 +256,10 @@ main(){
 	if [ "$ANALYSIS_STEP" = "all" ]; then 
 			ANALYSIS_STEP="index,convert,qc,align,count"
 	fi 
-
+	CONVERT=true
 	if [ $# = 1 ]; then 
 		PAIR_FILE=$1
+		CONVERT=false
 	fi 
 
 	if [ $# = 2 ]; then 
@@ -274,7 +271,7 @@ main(){
 	  timed_print "$i-ing..."	
 		case "$i" in 
 			index) build_index ;;
-			convert) get_pairs_all_locked ;;
+			convert) if [ $CONVERT = true ]; then get_pairs_all; fi ;;
 			qc) qc_all ;;
 			align) align_all ;;
 			count) count_all ;;
