@@ -256,14 +256,15 @@ main(){
 	if [ "$ANALYSIS_STEP" = "all" ]; then 
 			ANALYSIS_STEP="index,convert,qc,align,count"
 	fi 
-	CONVERT=true
+
 	if [ $# = 1 ]; then 
-		PAIR_FILE=$1
-		CONVERT=false
+		ANALYSIS_STEP=$1
 	fi 
 
+	CONVERT=true
 	if [ $# = 2 ]; then 
-		ANALYSIS_STEP=$2
+		PAIR_FILE=$2
+		CONVERT=false
 	fi 
 
 	ANALYSIS_STEP=(${ANALYSIS_STEP//,/ })
