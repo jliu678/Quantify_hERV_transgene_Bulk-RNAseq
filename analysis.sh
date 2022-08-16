@@ -10,7 +10,7 @@ SOURCE=$(basename $SOURCE_LOC)
 REF_GENOME=$(basename $REF_GENOME_LOC .gz)
 REF_ANNOTATION=$(basename $REF_ANNOTATION_LOC .gz)
 REF_TRANSCRIPT=$(basename $REF_TRANSCRIPT_LOC .gz)
-hERV_TRANSCRIPT=$(basename $hERV_TRANSCRIPT_LOC .gtf .gff3 .gz).fa
+hERV_TRANSCRIPT=$(basename $hERV_TRANSCRIPT_LOC .gz)
 id_types="ID"
 
 split_fastq(){ #splits pair ended fastq from bam into 2 files
@@ -86,7 +86,7 @@ fastp_qc(){ #only works for pair ended as of now
 		if [[ $# -eq 2 ]]; then 
 			./fastp -i "tmp/${SOURCE}/$1.fq" -o "tmp/${SOURCE}/qc/$1.qc.fq" \
 				-I "tmp/${SOURCE}/$2.fq" -O "tmp/${SOURCE}/qc/$2.qc.fq" \
-				-j "tmp/${SOURCE}/qc_rep/$1.json" -h "tmp/${SOURCE}/qc_rep/$1.html"
+				-j "results/fastp/$1.json" -h "results/fastp/$1.html"
 		else 
 			return 1
 		fi	
@@ -97,6 +97,11 @@ qc_all(){
 	if [ ! -d "tmp/${SOURCE}/qc" ]; then 
 		mkdir "tmp/${SOURCE}/qc"
 	fi
+
+	if [ ! -d "results/${QC_METHOD}" ]; then 
+		mkdir "results/${QC_METHOD}"
+	fi
+
 	timed_print "qc-ing with $QC_METHOD"
 	while IFS=, read -r r1 r2; do
 		timed_print "qc-ing ${r1} and ${r2}"
@@ -153,7 +158,7 @@ align_all(){
 	if [ ! -d "tmp/${SOURCE}/${ALIGN_METHOD}_aligned" ]; then 
 		mkdir "tmp/${SOURCE}/${ALIGN_METHOD}_aligned"
 	fi
-
+	
 	while IFS=, read -r r1 r2; do
 		case $ALIGN_METHOD in 
 			subread) subread_align $r1 $r2 ;;

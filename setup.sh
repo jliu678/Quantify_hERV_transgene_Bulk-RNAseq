@@ -35,7 +35,7 @@ setup_tools(){
 		"samtools=1.15.1"
 		"subread=2.0.1"
 		"salmon=1.9.0"
-		"gffread=0.12.7"
+		# "gffread=0.12.7"
 	)
 	
 	for i in ${conda_tools[@]}; do
