@@ -4,24 +4,33 @@
 . $main_loc/timed.sh
 
 check_gencode(){
-	timed_download "$REF_ANNOTATION_LOC" "REF_ANNOTATION"
 	timed_download "$REF_GENOME_LOC" "REF_GENOME"
-	if [ "$ALIGN_METHOD" = "salmon" ]; then
-		timed_download "$REF_TRANSCRIPT_LOC" "REF_TRANSCRIPT"
-	fi 
+	case "$ALIGN_METHOD"
+		salmon)
+			timed_download "$REF_TRANSCRIPT_LOC" "REF_TRANSCRIPT" ;;
+		subread) 
+			timed_download "$REF_ANNOTATION_LOC" "REF_ANNOTATION" ;;
+	esac
+	
 }
 
 download_hERV() {
-	hERV_download_list=(
-		'https://herv.img.cas.cz/f/package-entities-erv.gff3.gz'
-	)
+	if [ "$ALIGN_METHOD" = "subread" ]; then
+		hERV_download_list=(
+			'https://herv.img.cas.cz/f/package-entities-erv.gff3.gz'
+		)
+	
+		mkdir $hERV_DIR && cd $hERV_DIR
+		timed_print "downloading hERVd..."
+	
+		for i in ${hERV_download_list[@]}; do
+			timed_download $i
+		done
+	fi
 
-	mkdir $hERV_DIR && cd $hERV_DIR
-	timed_print "downloading hERVd..."
-
-	for i in ${hERV_download_list[@]}; do
-		timed_download $i
-	done
+	if [ "$ALIGN_METHOD" = "salmon" ]; then
+		timed_download "$hERV_TRANSCRIPT_LOC" "hERV_TRANSCRIPT"
+	fi
 
 	cd ..
 }

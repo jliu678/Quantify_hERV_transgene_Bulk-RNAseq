@@ -17,6 +17,7 @@ REF_ANNOTATION_LOC=\
 'https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_41/gencode.v41.chr_patch_hapl_scaff.annotation.gff3.gz'
 REF_GENOME_LOC='https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_41/GRCh38.p13.genome.fa.gz'
 REF_TRANSCRIPT_LOC='https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_41/gencode.v41.transcripts.fa.gz'
+hERV_TRANSCRIPT_LOC='https://herv.img.cas.cz/f/package-entities-erv.fa.gz'
 hERV_DIR="hERV_misc"
 hERV_FILE="hERVd.gff3"
 COMB_ANNOTATION="generv.gff3"
