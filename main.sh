@@ -50,7 +50,7 @@ while [ -n "$1" ]; do #setting variables for sub-processes
 		-COUNT_METHOD) COUNT_METHOD="$2"; shift ;;
 		-CLEAR_TMP) CLEAR_TMP="true" ;;
 		-OVER_WRITE) OVER_WRITE="true" ;;
-		-BATCH_SIZE) BATCH_SIZE="$2" ;;
+		-BATCH_SIZE) BATCH_SIZE="$2"; shift ;;
 		-d) RUN_TYPE="-d" ;;
 		-r) RUN_TYPE="-r" ;;
 		*) echo "$1 is not an option"; exit 1 ;;
