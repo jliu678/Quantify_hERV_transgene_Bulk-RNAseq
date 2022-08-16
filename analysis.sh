@@ -10,7 +10,7 @@ SOURCE=$(basename $SOURCE_LOC)
 REF_GENOME=$(basename $REF_GENOME_LOC .gz)
 REF_ANNOTATION=$(basename $REF_ANNOTATION_LOC .gz)
 REF_TRANSCRIPT=$(basename $REF_TRANSCRIPT_LOC .gz)
-hERV_TRANSCRIPT=$(basename $hERV_TRANSCRIPT_LOC .gz)
+hERV_TRANSCRIPT=$(basename $(basename $hERV_TRANSCRIPT_LOC .gz) .bz2)
 id_types="ID"
 
 split_fastq(){ #splits pair ended fastq from bam into 2 files
