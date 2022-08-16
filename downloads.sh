@@ -2,14 +2,15 @@
 #download the databases needed
 
 . $main_loc/timed.sh
+hERV_TRANSCRIPT=$(basename $hERV_TRANSCRIPT_LOC .gz)
 
 check_gencode(){
-	timed_download "$REF_GENOME_LOC" "REF_GENOME"
+	timed_download "$REF_GENOME_LOC" 
 	case "$ALIGN_METHOD" in 
 		salmon)
-			timed_download "$REF_TRANSCRIPT_LOC" "REF_TRANSCRIPT" ;;
+			timed_download "$REF_TRANSCRIPT_LOC" ;;
 		subread) 
-			timed_download "$REF_ANNOTATION_LOC" "REF_ANNOTATION" ;;
+			timed_download "$REF_ANNOTATION_LOC" ;;
 	esac
 	
 }
@@ -29,7 +30,7 @@ download_hERV() {
 	fi
 
 	if [ "$ALIGN_METHOD" = "salmon" ]; then
-		timed_download "$hERV_TRANSCRIPT_LOC" "hERV_TRANSCRIPT"
+		timed_download "$hERV_TRANSCRIPT_LOC" 
 	fi
 
 	cd ..
@@ -40,7 +41,7 @@ combine_hERV() { #combine into a sinlge file for ease of use
 }
 
 check_hERV(){ 
-	if [ ! -d $hERV_DIR ]; then 
+	if [[ ! -f $hERV_FILE || ! -f $hERV_TRANSCRIPT ]]; then 
 	  timed_print "hERVd not downloaded"
 		download_hERV 
 		combine_hERV 
