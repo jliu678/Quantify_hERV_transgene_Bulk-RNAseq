@@ -1,11 +1,18 @@
 #!/bin/bash
 #BSUB -L /bin/bash
 #BSUB -J test_single
+
+#BSUB -u syang39@mgh.harvard.edu
+### -- send notification at start -- 
+#BSUB -B 
+### -- send notification at completion -- 
+#BSUB -N
+#BSUB -e logs/%J/errors.err
+#BSUB -o logs/%J/outputs.out
+
 #BSUB -q normal
 #BSUB -n 12
 #BSUB -R 'rusage[mem=32000]'
-#BSUB -e logs/%J/errors.err
-#BSUB -o logs/%J/outputs.out
 
 cd ~/Documents/hERV_project
 
