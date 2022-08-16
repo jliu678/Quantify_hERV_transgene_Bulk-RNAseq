@@ -10,7 +10,7 @@ SOURCE=$(basename $SOURCE_LOC)
 REF_GENOME=$(basename $REF_GENOME_LOC .gz)
 REF_ANNOTATION=$(basename $REF_ANNOTATION_LOC .gz)
 REF_TRANSCRIPT=$(basename $REF_TRANSCRIPT_LOC .gz)
-hERV_TRANSCRIPTS=$(basename $hERV_TRANSCRIPT_LOC .gz)
+hERV_TRANSCRIPT=$(basename $hERV_TRANSCRIPT_LOC .gz)
 id_types="ID"
 
 split_fastq(){ #splits pair ended fastq from bam into 2 files
@@ -41,8 +41,8 @@ group_fastq(){ #group fastq files into pairs
 		local file_name=${files[$i]%.*} #get file name w/o extention
 		if ! grep -q "$file_name" $PAIR_FILE ; then #if the file does not have pair
 			if [[ ${file_name: -1} = "1" && -f "${file_name::-1}2.fq" ]]; then #if formatted correctly
-				echo -e "$(basename file_name), $(basename ${file_name::-1})2" >> $PAIR_FILE
-			else #the choice is yours how to deal with single-ended files
+				echo -e "$(basename $file_name), $(basename ${file_name::-1})2" >> $PAIR_FILE
+			elif [ ! ${file_name: -1} = "2" ] #the choice is yours how to deal with single-ended files
 				timed_print "compliment to ${files[$i]} not found"
 				total+=1
 				#cat "${files[$i]}\n" >> $PAIR_FILE
@@ -115,12 +115,12 @@ subread_build_index(){
 }
 
 salmon_build_index(){
-	if [ ! -d "salmon/index" ]; then 
-		timed_print "building subread index @: salmon/index"
+	if [ ! -d "salmon/${hERV_TRANSCRIPT%.*}_index" ]; then 
+		timed_print "building subread index @: salmon/${hERV_TRANSCRIPT%.*}_index"
 		grep "^>" "${REF_GENOME}" | cut -d " " -f 1 > "salmon/decoys.txt"
 		sed -i.bak -e 's/>//g' "salmon/decoys.txt"
-		cat ${hERV_TRANSCRIPTS} ${REF_TRANSCRIPTS} ${REF_GENOME} > gentrome.fa
-		salmon index -t gentrome.fa -d decoys.txt -i "salmon/index" --gencode
+		cat ${hERV_TRANSCRIPT} ${REF_TRANSCRIPTS} ${REF_GENOME} > gentrome.fa
+		salmon index -t gentrome.fa -d decoys.txt -i "salmon/${hERV_TRANSCRIPT%.*}_index" --gencode
 	fi
 }
 
