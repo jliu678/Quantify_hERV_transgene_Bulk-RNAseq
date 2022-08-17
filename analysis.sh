@@ -274,7 +274,6 @@ main(){
 		esac 
 		timed_print "finished $i"
 	done 
-	timed_print $PAIR_FILE
 
 	if [ $CLEAR_TMP = 'true' ]; then
 		while IFS=, read -r r1 r2; do
@@ -283,10 +282,6 @@ main(){
 			rm "tmp/${SOURCE}/qc/$r1.qc.fq"
 			rm "tmp/${SOURCE}/qc/$r2.qc.fq"
 		done < $PAIR_FILE 
-	fi
-
-	if [[ $# -ge 1 ]]; then 
-		exit
 	fi
 }
 
