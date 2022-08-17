@@ -42,7 +42,7 @@ group_fastq(){ #group fastq files into pairs
 		local file_name=${files[$i]%.*}
 		if ! grep -q "$(basename file_name)" $PAIR_FILE ; then #if the file does not have pair
 			if [[ ${file_name: -1} = "1" && -f "${file_name::-1}2.fq" ]]; then #if formatted correctly
-				echo -e "$(basename $file_name), $(basename ${file_name::-1})2" >> $PAIR_FILE
+				echo -e "$(basename $file_name),$(basename ${file_name::-1})2" >> $PAIR_FILE
 			elif [[ ! ${file_name: -1} = "2" ]]; then #the choice is yours how to deal with single-ended files
 				timed_print "compliment to ${files[$i]} not found"
 				((total+=1))
