@@ -267,7 +267,7 @@ main(){
 	timed_print $PAIR_FILE
 	timed_print $ANALYSIS_STEP
 
-	ANALYSIS_STEP=(${ANALYSIS_STEP//,/ })
+	ANALYSIS_STEP=(${ANALYSIS_STEP//,/ }) #turn "index,c,q" into ( "index" "c" "q" )
 	for i in ${ANALYSIS_STEP[@]}; do
 	  timed_print "$i-ing..."	
 		case "$i" in 

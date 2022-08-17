@@ -4,7 +4,8 @@ batch_op() {
 	if [ ! -d batches ]; then
 		mkdir batches
 		lines=$(wc -l < "$PAIR_FILE"); 
-		split -l $BATCH_SIZE "$PAIR_FILE" "batches/batch_file_"
+		((lines=$lines/$BATCH_SIZE))
+		split -l $lines "$PAIR_FILE" "batches/batch_file_"
 	fi 
 
 	# begin=0; len=$BATCH_SIZE; no=0
