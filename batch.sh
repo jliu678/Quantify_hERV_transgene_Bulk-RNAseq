@@ -32,18 +32,18 @@ main() {
 	ANALYSIS_STEP="$tmp_ast"
 
 	batch_op
-	# my_jobs=()
+	my_jobs=()
 	local tmp_PAIR_FILE="$PAIR_FILE"
 	for i in batches/*; do
 		PAIR_FILE=$i; CHILD="true"
-		bsub -N -B -u syang39@mgh.harvard.edu -J "test_$i" -L "/bin/bash" -e logs/%J-errors.err -o logs/%J-outputs.out -q normal -n 1 -R 'rusage[mem=1000]' < (. $main_loc/analysis)
-		# (trap 'kill 0' SIGINT; . $main_loc/analysis.sh) 
-		# my_jobs+=($!)
-		# timed_print ${my_jobs[@]}
+		# bsub < (main_loc=$main_loc envsubst <test_batch.lsf)
+		(trap 'kill 0' SIGINT; . $main_loc/analysis.sh) 
+		my_jobs+=($!)
+		timed_print ${my_jobs[@]}
 	done
 	PAIR_FILE="$tmp_PAIR_FILE"
-	# wait ${my_jobs[@]}
-	# rm -r batches
+	wait ${my_jobs[@]}
+	rm -r batches
 }
 
 # if [[ "${#BASH_SOURCE[@]}" -eq 1 ]]; then
