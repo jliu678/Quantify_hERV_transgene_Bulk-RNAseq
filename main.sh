@@ -101,7 +101,7 @@ elif [ "$RUN_TYPE" = "-r" ]; then
 		else 
 			. $main_loc/analysis.sh
 		fi 
-	elif [ $CHILD = "true" ]; then
+	elif [ $CHILD = "true" ]; then # remenant from job parallisation attempt
 			. $main_loc/analysis.sh
 	fi
 fi
