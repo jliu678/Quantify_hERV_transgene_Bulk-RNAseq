@@ -9,6 +9,7 @@ batch_op() {
 			echo -e "\n" >> i
 		done
 	fi 
+
 	# begin=0; len=$BATCH_SIZE; no=0
 	# until [[ $((lines-begin)) -le 0 ]]; do
 	# 	tail -n +$begin "$PAIR_FILE" | head -$len > "batches/batch_file$no"
@@ -16,14 +17,9 @@ batch_op() {
 	# done 
 }
 
-
 if [ ! -d "logs" ]; then
 	mkdir logs
 fi 
-
-#BSUB -q normal
-#BSUB -n 12
-#BSUB -R 'rusage[mem=32000]'
 
 main() {
 	local tmp_ast=$ANALYSIS_STEP
@@ -37,7 +33,7 @@ main() {
 	for i in batches/*; do
 		PAIR_FILE=$i; CHILD="true"
 		# bsub < (main_loc=$main_loc envsubst <test_batch.lsf)
-		(trap 'kill 0' SIGINT; . $main_loc/analysis.sh) 
+		(trap 'kill 0' SIGINT; . $main_loc/analysis.sh) &
 		my_jobs+=($!)
 		timed_print ${my_jobs[@]}
 	done
