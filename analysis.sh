@@ -275,7 +275,7 @@ main(){
 		timed_print "finished $i"
 	done 
 
-	if [ $CLEAR_TMP = 'true' ]; then
+	if [[ $CHILD = true &&  $CLEAR_TMP = 'true' ]]; then
 		while IFS=, read -r r1 r2; do
 			rm "tmp/${SOURCE}/$r1.fq"
 			rm "tmp/${SOURCE}/$r2.fq"
