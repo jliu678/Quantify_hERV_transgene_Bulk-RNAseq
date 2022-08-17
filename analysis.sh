@@ -45,11 +45,16 @@ group_fastq(){ #group fastq files into pairs
 				echo -e "$(basename $file_name), $(basename ${file_name::-1})2" >> $PAIR_FILE
 			elif [[ ! ${file_name: -1} = "2" ]]; then #the choice is yours how to deal with single-ended files
 				timed_print "compliment to ${files[$i]} not found"
-				total+=1
+				((total+=1))
 				#cat "${files[$i]}\n" >> $PAIR_FILE
 			fi
 		fi
 	done
+
+	if [[ $total -ge 1 ]]; then 
+		exit 1
+	fi
+
 	timed_print "grouped fastq files, found total $total files without compliment"
 }
 

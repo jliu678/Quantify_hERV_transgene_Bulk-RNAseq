@@ -6,7 +6,7 @@ batch_op() {
 		lines=$(wc -l < "$PAIR_FILE"); 
 		split -l $BATCH_SIZE "$PAIR_FILE" "batches/batch_file_"
 		for i in batches/*; do 
-			echo -e "\n" >> i
+			echo -e "\n" >> $i
 		done
 	fi 
 
