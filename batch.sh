@@ -14,10 +14,14 @@ batch_op() {
 }
 
 main() {
-	. $main_loc/analysis.sh "convert"
+	local tmp_ast=$ANALYSIS_STEP
+	ANALYSIS_STEP="convert"
+	. $main_loc/analysis.sh 
+	ANALYSIS_STEP="$tmp_ast"
+
 	batch_op
 	my_jobs=()
-	tmp_PAIR_FILE="$PAIR_FILE"
+	local tmp_PAIR_FILE="$PAIR_FILE"
 	for i in batches/*; do
 		PAIR_FILE=$i; CHILD="true"
 		(trap 'kill 0' SIGINT; . $main_loc/analysis.sh) &
