@@ -258,7 +258,7 @@ main(){
 	if [ "$ANALYSIS_STEP" = "all" ]; then 
 		ANALYSIS_STEP="index,convert,qc,align,count"
 	fi 
-	
+
 	timed_print $PAIR_FILE
 	timed_print $ANALYSIS_STEP
 
@@ -274,6 +274,7 @@ main(){
 		esac 
 		timed_print "finished $i"
 	done 
+	timed_print $PAIR_FILE
 
 	if [ $CLEAR_TMP = 'true' ]; then
 		while IFS=, read -r r1 r2; do
