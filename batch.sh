@@ -24,7 +24,7 @@ main() {
 		timed_print ${my_jobs[@]}
 	done
 	wait ${my_jobs[@]}
-	rm -r batches
+	# rm -r batches
 }
 
 # if [[ "${#BASH_SOURCE[@]}" -eq 1 ]]; then
