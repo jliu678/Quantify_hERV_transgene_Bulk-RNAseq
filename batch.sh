@@ -1,9 +1,11 @@
 #!/bin/bash
 
 batch_op() {
-	mkdir batches
-	lines=$(wc -l < "$PAIR_FILE")
-	split -l $BATCH_SIZE "$PAIR_FILE" "batches/batch_file_"
+	if [ ! -d batches ]; then
+		mkdir batches
+		lines=$(wc -l < "$PAIR_FILE")
+		split -l $BATCH_SIZE "$PAIR_FILE" "batches/batch_file_"
+	fi 
 	# begin=0; len=$BATCH_SIZE; no=0
 	# until [[ $((lines-begin)) -le 0 ]]; do
 	# 	tail -n +$begin "$PAIR_FILE" | head -$len > "batches/batch_file$no"
@@ -22,6 +24,7 @@ main() {
 		timed_print ${my_jobs[@]}
 	done
 	wait ${my_jobs[@]}
+	rm -r batches
 }
 
 # if [[ "${#BASH_SOURCE[@]}" -eq 1 ]]; then
