@@ -17,12 +17,14 @@ main() {
 	. $main_loc/analysis.sh "convert"
 	batch_op
 	my_jobs=()
+	tmp_PAIR_FILE="$PAIR_FILE"
 	for i in batches/*; do
-		local batch_name=$i
-		(trap 'kill 0' SIGINT; source $main_loc/analysis.sh "$ANALYSIS_STEP" "$batch_name") &
+		PAIR_FILE=$i; CHILD="true"
+		(trap 'kill 0' SIGINT; . $main_loc/analysis.sh) &
 		my_jobs+=($!)
 		timed_print ${my_jobs[@]}
 	done
+	PAIR_FILE="$tmp_PAIR_FILE"
 	wait ${my_jobs[@]}
 	# rm -r batches
 }
