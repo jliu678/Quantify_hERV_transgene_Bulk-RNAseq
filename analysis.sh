@@ -258,6 +258,7 @@ main(){
 	if [[ $# -ge 1 ]]; then 
 		ANALYSIS_STEP=$1
 	fi 
+	ANALYSIS_STEP=$1
 
 	if [ "$ANALYSIS_STEP" = "all" ]; then 
 		ANALYSIS_STEP="index,convert,qc,align,count"
@@ -268,6 +269,7 @@ main(){
 		PAIR_FILE=$2
 		CONVERT=false
 	fi 
+	PAIR_FILE=$2
 	
 	timed_print $PAIR_FILE
 	timed_print $ANALYSIS_STEP
