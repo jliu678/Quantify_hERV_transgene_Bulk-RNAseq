@@ -37,6 +37,7 @@ main() {
 		my_jobs+=($!)
 		timed_print ${my_jobs[@]}
 	done
+	CHILD="false"
 	PAIR_FILE="$tmp_PAIR_FILE"
 	wait ${my_jobs[@]}
 	rm -r batches
