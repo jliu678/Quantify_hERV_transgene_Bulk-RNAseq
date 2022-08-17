@@ -288,6 +288,10 @@ main(){
 			rm "tmp/${SOURCE}/qc/$r2.qc.fq"
 		done < $PAIR_FILE 
 	fi
+
+	if [[ $# -ge 1 ]]; then 
+		exit
+	fi
 }
 
 main

@@ -12,12 +12,16 @@ batch_op() {
 }
 
 main() {
-	batch_op
 	. $main_loc/analysis.sh "convert"
+	batch_op
+	my_jobs=()
 	for i in batches/*; do
 		local batch_name=$i
-		(. $main_loc/analysis.sh "$ANALYSIS_STEP" "$batch_name") &
+		(trap 'kill 0' SIGINT; . $main_loc/analysis.sh "$ANALYSIS_STEP" "$batch_name") &
+		my_jobs+=($!)
+		timed_print ${my_jobs[@]}
 	done
+	wait ${my_jobs[@]}
 }
 
 # if [[ "${#BASH_SOURCE[@]}" -eq 1 ]]; then
