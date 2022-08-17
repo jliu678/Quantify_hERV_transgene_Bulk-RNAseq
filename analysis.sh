@@ -270,8 +270,7 @@ main(){
 
 	timed_print $PAIR_FILE
 	timed_print $ANALYSIS_STEP
-	exit 1
-
+	return 1
 
 	ANALYSIS_STEP=(${ANALYSIS_STEP//,/ })
 	for i in ${ANALYSIS_STEP[@]}; do
