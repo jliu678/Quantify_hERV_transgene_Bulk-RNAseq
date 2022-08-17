@@ -39,8 +39,8 @@ group_fastq(){ #group fastq files into pairs
 	local total=0
 	for i in "${!files[@]}"; do #loop w/ index bcs easier
 		# local file_name=$(echo "${files[$i]}" | cut -f 1 -d '.') #get file name w/o extention
-		local file_name=$(basename ${files[$i]%.*})
-		if ! grep -q "$file_name" $PAIR_FILE ; then #if the file does not have pair
+		local file_name=${files[$i]%.*}
+		if ! grep -q "$(basename file_name)" $PAIR_FILE ; then #if the file does not have pair
 			if [[ ${file_name: -1} = "1" && -f "${file_name::-1}2.fq" ]]; then #if formatted correctly
 				echo -e "$(basename $file_name), $(basename ${file_name::-1})2" >> $PAIR_FILE
 			elif [[ ! ${file_name: -1} = "2" ]]; then #the choice is yours how to deal with single-ended files
