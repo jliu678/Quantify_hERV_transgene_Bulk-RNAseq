@@ -255,18 +255,12 @@ main(){
 		mkdir results
 	fi
 
-	if [[ $# -ge 1 ]]; then 
-		ANALYSIS_STEP=$1
-	fi 
-	ANALYSIS_STEP=$1
-
 	if [ "$ANALYSIS_STEP" = "all" ]; then 
 		ANALYSIS_STEP="index,convert,qc,align,count"
 	fi 
 	
 	timed_print $PAIR_FILE
 	timed_print $ANALYSIS_STEP
-	return 1
 
 	ANALYSIS_STEP=(${ANALYSIS_STEP//,/ })
 	for i in ${ANALYSIS_STEP[@]}; do
