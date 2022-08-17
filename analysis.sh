@@ -255,7 +255,7 @@ main(){
 		mkdir results
 	fi
 
-	if [[ $# -eq 1 ]]; then 
+	if [[ $# -ge 1 ]]; then 
 		ANALYSIS_STEP=$1
 	fi 
 
@@ -264,11 +264,11 @@ main(){
 	fi 
 
 	CONVERT=true
-	if [[ $# -eq 2 ]]; then 
+	if [[ $# -ge 2 ]]; then 
 		PAIR_FILE=$2
 		CONVERT=false
 	fi 
-
+	
 	timed_print $PAIR_FILE
 	timed_print $ANALYSIS_STEP
 	return 1
