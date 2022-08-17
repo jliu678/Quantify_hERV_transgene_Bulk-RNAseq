@@ -60,6 +60,8 @@ while [ -n "$1" ]; do #setting variables for sub-processes
 	shift
 done
 
+printf -v "$CONFIG_OPTION" "%s" "$CONFIG_VALUE"
+
 main_loc="$PWD"
 chmod -R +x ./
 
