@@ -242,9 +242,6 @@ count_all(){
 main(){
 	timed_print "starting $$"
 	timed_print "analysing..."
-	timed_print "params: "$# $@
-
-	return 1
 
 	if [[ ! -d "tmp" ]]; then 
 		mkdir tmp
@@ -266,13 +263,6 @@ main(){
 	if [ "$ANALYSIS_STEP" = "all" ]; then 
 		ANALYSIS_STEP="index,convert,qc,align,count"
 	fi 
-
-	CONVERT=true
-	if [[ $# -ge 2 ]]; then 
-		PAIR_FILE=$2
-		CONVERT=false
-	fi 
-	PAIR_FILE=$2
 	
 	timed_print $PAIR_FILE
 	timed_print $ANALYSIS_STEP
@@ -283,7 +273,7 @@ main(){
 	  timed_print "$i-ing..."	
 		case "$i" in 
 			index) build_index ;;
-			convert) if [ $CONVERT = true ]; then get_pairs_all; fi ;;
+			convert) if [ $CHILD = false ]; then get_pairs_all; fi ;;
 			qc) qc_all ;;
 			align) align_all ;;
 			count) count_all ;;
