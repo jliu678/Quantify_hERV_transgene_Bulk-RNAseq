@@ -255,7 +255,7 @@ main(){
 		mkdir results
 	fi
 
-	if [ $# = 1 ]; then 
+	if [[ $# -eq 1 ]]; then 
 		ANALYSIS_STEP=$1
 	fi 
 
@@ -264,7 +264,7 @@ main(){
 	fi 
 
 	CONVERT=true
-	if [ $# = 2 ]; then 
+	if [[ $# -eq 2 ]]; then 
 		PAIR_FILE=$2
 		CONVERT=false
 	fi 
