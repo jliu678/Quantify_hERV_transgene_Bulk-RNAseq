@@ -242,6 +242,9 @@ count_all(){
 main(){
 	timed_print "starting $$"
 	timed_print "analysing..."
+	timed_print "params: "$# $@
+
+	return 1
 
 	if [[ ! -d "tmp" ]]; then 
 		mkdir tmp

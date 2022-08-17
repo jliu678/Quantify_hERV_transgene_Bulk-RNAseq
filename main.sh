@@ -34,6 +34,7 @@ THREAD_SIZE="4"
 ALIGN_METHOD="salmon"
 QC_METHOD="fastp"
 RUN_TYPE="-r"
+CHILD="false"
 
 while [ -n "$1" ]; do #setting variables for sub-processes
 	case "$1" in
@@ -48,9 +49,10 @@ while [ -n "$1" ]; do #setting variables for sub-processes
 		-ANALYSIS_STEP) ANALYSIS_STEP="$2"; shift ;; #steps: index, convert, qc, align, count
 		-PLATFORM) PLATFORM="$2"; shift ;;
 		-COUNT_METHOD) COUNT_METHOD="$2"; shift ;;
+		-BATCH_SIZE) BATCH_SIZE="$2"; shift ;;
 		-CLEAR_TMP) CLEAR_TMP="true" ;;
 		-OVER_WRITE) OVER_WRITE="true" ;;
-		-BATCH_SIZE) BATCH_SIZE="$2"; shift ;;
+		-CHILD) CHILD="true" ;;
 		-d) RUN_TYPE="-d" ;;
 		-r) RUN_TYPE="-r" ;;
 		*) echo "$1 is not an option"; exit 1 ;;
@@ -84,20 +86,22 @@ if [ "$RUN_TYPE" = "-d" ]; then # have to keep spaces between square brackets an
 		echo $?
 	fi
 elif [ "$RUN_TYPE" = "-r" ]; then
-# echo $? "$RUN_TYPE" = "-r" 
-	SEQ_TYPE=("RNA-Seq" "WXS")
-	. $main_loc/setup.sh 
-	# conda activate $PLATFORM -y
-conda env list
-	. $main_loc/downloads.sh 
-	if [ $SOURCE_LOC = "tcga" ] && [ ! -d "tcga" ]; then 
-		. $main_loc/tcga.sh
+	if [ $CHILD = "false" ]; then
+		SEQ_TYPE=("RNA-Seq" "WXS")
+		. $main_loc/setup.sh 
+	conda env list
+		. $main_loc/downloads.sh 
+		if [ $SOURCE_LOC = "tcga" ] && [ ! -d "tcga" ]; then 
+			. $main_loc/tcga.sh
+		fi
+		if [ ! $BATCH_SIZE = "none" ]; then 
+			. $main_loc/batch.sh
+		else 
+			. $main_loc/analysis.sh
+		fi 
+	elif [ $CHILD = "true" ]; then
+			. $main_loc/analysis.sh
 	fi
-	if [ ! $BATCH_SIZE = "none" ]; then 
-		. $main_loc/batch.sh
-	else 
-		. $main_loc/analysis.sh
-	fi 
 fi
 # jq --arg rty "$RUN_TYPE" \
 # 	 --arg dty "$DEBUG_TYPE" \

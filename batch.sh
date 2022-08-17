@@ -19,7 +19,7 @@ main() {
 	my_jobs=()
 	for i in batches/*; do
 		local batch_name=$i
-		(trap 'kill 0' SIGINT; $main_loc/analysis.sh "$ANALYSIS_STEP" "$batch_name") &
+		(trap 'kill 0' SIGINT; . $main_loc/analysis.sh "$ANALYSIS_STEP" "$batch_name") &
 		my_jobs+=($!)
 		timed_print ${my_jobs[@]}
 	done
