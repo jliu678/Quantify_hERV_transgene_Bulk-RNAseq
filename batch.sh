@@ -5,9 +5,6 @@ batch_op() {
 		mkdir batches
 		lines=$(wc -l < "$PAIR_FILE"); 
 		split -l $BATCH_SIZE "$PAIR_FILE" "batches/batch_file_"
-		for i in batches/*; do 
-			echo -e "\n" >> $i
-		done
 	fi 
 
 	# begin=0; len=$BATCH_SIZE; no=0
