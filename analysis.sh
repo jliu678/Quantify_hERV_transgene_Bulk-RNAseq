@@ -239,6 +239,7 @@ count_all(){
 }
 
 main(){
+	timed_print "starting $$"
 	timed_print "analysing..."
 
 	if [[ ! -d "tmp" ]]; then 
@@ -253,12 +254,12 @@ main(){
 		mkdir results
 	fi
 
-	if [ "$ANALYSIS_STEP" = "all" ]; then 
-			ANALYSIS_STEP="index,convert,qc,align,count"
-	fi 
-
 	if [ $# = 1 ]; then 
 		ANALYSIS_STEP=$1
+	fi 
+
+	if [ "$ANALYSIS_STEP" = "all" ]; then 
+		ANALYSIS_STEP="index,convert,qc,align,count"
 	fi 
 
 	CONVERT=true
@@ -266,6 +267,11 @@ main(){
 		PAIR_FILE=$2
 		CONVERT=false
 	fi 
+
+	timed_print $PAIR_FILE
+	timed_print $ANALYSIS_STEP
+	exit 1
+
 
 	ANALYSIS_STEP=(${ANALYSIS_STEP//,/ })
 	for i in ${ANALYSIS_STEP[@]}; do
