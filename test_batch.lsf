@@ -1,6 +1,6 @@
 #BSUB -L /bin/bash
 #BSUB -q normal
-#BSUB -n 8
+#BSUB -n 4
 #BSUB -R 'rusage[mem=16000]'
 #BSUB -e ~/Documents/%J/errors.err
 #BSUB -o ~/Documents/%J/outputs.out
