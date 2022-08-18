@@ -302,8 +302,9 @@ main(){
 			rm "tmp/${SOURCE}/qc/$r2.qc.fq.gz"
 		done < $PAIR_FILE 
 	fi
-	usage=$(awk '{u=$2+$4; t=$2+$4+$5; if (NR==1){u1=u; t1=t;} else print ($2+$4-u1) * 100 / (t-t1) "%"; }' <(grep 'cpu ' /proc/stat) <(sleep 0.5;grep 'cpu ' /proc/stat))
-	timed_print "exiting $$ with $usage"
+	# usage=$(awk '{u=$2+$4; t=$2+$4+$5; if (NR==1){u1=u; t1=t;} else print ($2+$4-u1) * 100 / (t-t1) "%"; }' <(grep 'cpu ' /proc/stat) <(sleep 0.5;grep 'cpu ' /proc/stat))
+	timed_print "exiting $$ with: "
+	top -b -n 1 -u sy1022 
 }
 
 main
