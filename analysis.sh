@@ -17,17 +17,20 @@ split_fastq(){ #splits pair ended fastq from bam into 2 files
 	local bam_flags=$(samtools view -c -f 1 "${SOURCE_LOC}/$1.bam")
 	local str_flags=$(samtools flags $bam_flags)
 	if  [[ $str_flags == *"PAIRED"* ]]; then 
-		cat "tmp/${SOURCE}/$1.fq" | grep '^@.*/1$' -A 3 --no-group-separator > \
-				"tmp/${SOURCE}/$1.r1.fq"
-		cat "tmp/${SOURCE}/$1.fq" | grep '^@.*/2$' -A 3 --no-group-separator > \
-				"tmp/${SOURCE}/$1.r2.fq"
-		echo -e "$1.r1,$1.r2" >> $PAIR_FILE
-		rm "tmp/${SOURCE}/$1.fq"
+		cat "tmp/${SOURCE}/$1.fq" | grep '^@.*/1$' -A 3 --no-group-separator | \
+				gzip > "tmp/${SOURCE}/$1.r1.fq.gz"
+		cat "tmp/${SOURCE}/$1.fq" | grep '^@.*/2$' -A 3 --no-group-separator | \
+				gzip > "tmp/${SOURCE}/$1.r2.fq.gz"
+		echo -e "$1.r1,$1.r2\n" >> $PAIR_FILE
+	elif [ EXIT_ON_SINGLE = false ]; then 
+		gzip -c tmp/${SOURCE}/$1.fq > tmp/${SOURCE}/$1.fq.gz
+		echo -e "$1,\n" >> $PAIR_FILE 
 	fi
+	rm "tmp/${SOURCE}/$1.fq"
 }
 
 bam_to_fastq(){ #wrapper, function as the name suggests
-	if [ "$OVER_WRITE" = "true" ] || [ ! -f "tmp/${SOURCE}/$1.r1.fq" ] || [ ! -f "tmp/${SOURCE}/$1.r2.fq" ]; then
+	if [ "$OVER_WRITE" = "true" ] || [ ! -f "tmp/${SOURCE}/$1.r1.fq.gz" ] || [ ! -f "tmp/${SOURCE}/$1.r2.fq.gz" ] || [ ! -f "tmp/${SOURCE}/$1.fq.gz" ]; then
 		samtools bam2fq "${SOURCE_LOC}/$1.bam" > "tmp/${SOURCE}/$1.fq"
 		split_fastq $1
 	fi
@@ -35,23 +38,25 @@ bam_to_fastq(){ #wrapper, function as the name suggests
 
 group_fastq(){ #group fastq files into pairs
 	timed_print "grouping fastq files in tmp/${SOURCE}/"
-	files=(tmp/${SOURCE}/*.fq)
+	files=(tmp/${SOURCE}/*.fq.gz)
 	local total=0
 	for i in "${!files[@]}"; do #loop w/ index bcs easier
 		# local file_name=$(echo "${files[$i]}" | cut -f 1 -d '.') #get file name w/o extention
-		local file_name=${files[$i]%.*}
+		local file_name=${files[$i]%%.*}
 		if ! grep -q "$(basename file_name)" $PAIR_FILE ; then #if the file does not have pair
-			if [[ ${file_name: -1} = "1" && -f "${file_name::-1}2.fq" ]]; then #if formatted correctly
+			if [[ ${file_name: -1} = "1" && -f "${file_name::-1}2.fq.gz" ]]; then #if formatted correctly
 				echo -e "$(basename $file_name),$(basename ${file_name::-1})2" >> $PAIR_FILE
 			elif [[ ! ${file_name: -1} = "2" ]]; then #the choice is yours how to deal with single-ended files
 				timed_print "compliment to ${files[$i]} not found"
 				((total+=1))
-				#cat "${files[$i]}\n" >> $PAIR_FILE
+				if [ EXIT_ON_SINGLE = false ]; then 
+					echo -e "${files[$i]},\n" >> $PAIR_FILE
+				fi
 			fi
 		fi
 	done
 
-	if [[ $total -ge 1 ]]; then 
+	if [[ $total -ge 1 && $EXIT_ON_SINGLE = true ]]; then 
 		exit 1
 	fi
 
@@ -61,8 +66,8 @@ group_fastq(){ #group fastq files into pairs
 mv_fq() {
 	if [ "$OVER_WRITE" = "true" ] || [ ! -f "$2" ]; then
 		case "${name#*.}" in 
-			fq) mv $1 $2 ;;
-			fq.gz) gunzip -c $1 > $2 ;;
+			fq) gzip -c $1 > $2 ;;
+			fq.gz) ln -s $1 $2 ;;
 		esac
 	fi
 }
@@ -79,8 +84,8 @@ get_pairs_all() { #place all files into tmp, group them
 		local only_name=${name%.*} #removes last extention, ie bam or gz
 		case "${name#*.}" in #get extention
 			bam) bam_to_fastq $only_name ;; 
-			fq) mv_fq "${SOURCE_LOC}/${name}" "tmp/${SOURCE}/$name" ;; #move because does not modify original data
-			fq.gz) mv_fq "${SOURCE_LOC}/${name}" "tmp/${SOURCE}/$only_name" ;; #unzip for uniformity
+			fq) mv_fq "${SOURCE_LOC}/${name}" "tmp/${SOURCE}/${name}.gz" ;; #move and zip for smaller size 
+			fq.gz) mv_fq "${SOURCE_LOC}/${name}" "tmp/${SOURCE}/${name}" ;; #move and does not change data
 		esac
 		timed_print "moved $i"
 	done 
@@ -88,13 +93,14 @@ get_pairs_all() { #place all files into tmp, group them
 }
 
 fastp_qc(){ #only works for pair ended as of now
-	if [ "$OVER_WRITE" = "true" ] || [ ! -f "tmp/${SOURCE}/qc/$1.qc.fq" ]; then
+	if [ "$OVER_WRITE" = "true" ] || [ ! -f "tmp/${SOURCE}/qc/$1.qc.fq.gz" ]; then
 		if [[ $# -eq 2 ]]; then 
-			./fastp -i "tmp/${SOURCE}/$1.fq" -o "tmp/${SOURCE}/qc/$1.qc.fq" \
-				-I "tmp/${SOURCE}/$2.fq" -O "tmp/${SOURCE}/qc/$2.qc.fq" \
+			./fastp -i "tmp/${SOURCE}/$1.fq.gz" -o "tmp/${SOURCE}/qc/$1.qc.fq.gz" \
+				-I "tmp/${SOURCE}/$2.fq.gz" -O "tmp/${SOURCE}/qc/$2.qc.fq.gz" \
 				-j "results/fastp/$1.json" -h "results/fastp/$1.html"
 		else 
-			return 1
+			./fastp -i "tmp/${SOURCE}/$1.fq.gz" -o "tmp/${SOURCE}/qc/$1.qc.fq.gz" \
+				-j "results/fastp/$1.json" -h "results/fastp/$1.html"
 		fi	
 	fi
 }
@@ -223,7 +229,11 @@ subread_count() {
 salmon_quant() {
 	if [ "$OVER_WRITE" = "true" ] || [ ! -d "results/salmon/$1" ]; then
 		mkdir results/salmon/$1
-		salmon quant -i "salmon/${hERV_TRANSCRIPT%.*}_index" -l A -1 "tmp/${SOURCE}/qc/$1.qc.fq" -2 "tmp/${SOURCE}/qc/$2.qc.fq" --validateMappings -o "results/salmon/$1"
+		if [[ $# -eq 2 ]]; then
+			salmon quant -i "salmon/${hERV_TRANSCRIPT%.*}_index" -l A -1 "tmp/${SOURCE}/qc/$1.qc.fq.gz" -2 "tmp/${SOURCE}/qc/$2.qc.fq.gz" --validateMappings -o "results/salmon/$1"
+		elif [[ $# -eq 1 ]]; then 
+			salmon quant -i "salmon/${hERV_TRANSCRIPT%.*}_index" -l A -r "tmp/${SOURCE}/qc/$1.qc.fq.gz" --validateMappings -o "results/salmon/$1"
+		fi 
 	fi
 }
 
@@ -282,10 +292,10 @@ main(){
 
 	if [[ $CHILD = true &&  $CLEAR_TMP = 'true' ]]; then
 		while IFS=, read -r r1 r2; do
-			rm "tmp/${SOURCE}/$r1.fq"
-			rm "tmp/${SOURCE}/$r2.fq"
-			rm "tmp/${SOURCE}/qc/$r1.qc.fq"
-			rm "tmp/${SOURCE}/qc/$r2.qc.fq"
+			rm "tmp/${SOURCE}/$r1.fq.gz"
+			rm "tmp/${SOURCE}/$r2.fq.gz"
+			rm "tmp/${SOURCE}/qc/$r1.qc.fq.gz"
+			rm "tmp/${SOURCE}/qc/$r2.qc.fq.gz"
 		done < $PAIR_FILE 
 	fi
 }
