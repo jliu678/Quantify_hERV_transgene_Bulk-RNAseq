@@ -31,7 +31,7 @@ main() {
 	for i in batches/*; do
 		if [[ ${#my_jobs[@]} -ge $MAX_PARALLEL ]]; then
 			timed_print ${my_jobs[@]}
-			# sleep 128
+			sleep 1
 			for i in ${!my_jobs[@]}; do 
 				if [ ! -d "/proc/${my_jobs[$i]}" ]; then 
 					unset my_jobs[$i]
@@ -41,7 +41,7 @@ main() {
 		else
 			PAIR_FILE=$i; CHILD="true"
 			# bsub < (main_loc=$main_loc envsubst <test_batch.lsf)
-			(trap 'kill 0' SIGINT; . $main_loc/analysis.sh) &
+			(trap "trap - SIGTERM && kill -- -$$" SIGINT SIGTERM EXIT; . $main_loc/analysis.sh) &
 			my_jobs+=( $! )
 		fi
 	done
