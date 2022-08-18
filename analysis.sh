@@ -64,10 +64,10 @@ group_fastq(){ #group fastq files into pairs
 }
 
 mv_fq() {
-	if [ "$OVER_WRITE" = "true" ] || [ ! -e "$2" ]; then
+	if [[ "$OVER_WRITE" = "true"  ||  ! -e "$2" ]]; then
 		case "${name#*.}" in 
 			fq) gzip -c $1 > $2 ;;
-			fq.gz) ln -s $1 $2 ;;
+			fq.gz) ln -rs $1 $2 ;;
 		esac
 	fi
 }
