@@ -41,8 +41,9 @@ main() {
 		else
 			PAIR_FILE=$i; CHILD="true"
 			# bsub < (main_loc=$main_loc envsubst <test_batch.lsf)
-			(trap "kill -SIGKILL $!" SIGINT SIGTERM EXIT; . $main_loc/analysis.sh) &
-			my_jobs+=( $! )
+			cur_job=$!
+			(trap "kill -SIGKILL $cur_job" SIGINT SIGTERM EXIT; . $main_loc/analysis.sh) &
+			my_jobs+=( $cur_job )
 		fi
 	done
 	CHILD="false"
