@@ -30,7 +30,7 @@ split_fastq(){ #splits pair ended fastq from bam into 2 files
 }
 
 bam_to_fastq(){ #wrapper, function as the name suggests
-	if [ "$OVER_WRITE" = "true" ] || [ ! -f "tmp/${SOURCE}/$1.r1.fq.gz" ] || [ ! -f "tmp/${SOURCE}/$1.r2.fq.gz" ] || [ ! -f "tmp/${SOURCE}/$1.fq.gz" ]; then
+	if [[ "$OVER_WRITE" = "true"  ||  ! -f "tmp/${SOURCE}/$1.r1.fq.gz"  ||  ! -f "tmp/${SOURCE}/$1.r2.fq.gz"  ||  ! -f "tmp/${SOURCE}/$1.fq.gz" ]]; then
 		samtools bam2fq "${SOURCE_LOC}/$1.bam" > "tmp/${SOURCE}/$1.fq"
 		split_fastq $1
 	fi
@@ -167,9 +167,13 @@ subread_align(){
 }
 
 align_all(){
-	if [ ! -d "tmp/${SOURCE}/${ALIGN_METHOD}_aligned" ]; then 
-		mkdir "tmp/${SOURCE}/${ALIGN_METHOD}_aligned"
-	fi
+	case $ALIGN_METHOD in
+		subread)
+			if [ ! -d "tmp/${SOURCE}/${ALIGN_METHOD}_aligned" ]; then 
+				mkdir "tmp/${SOURCE}/${ALIGN_METHOD}_aligned"
+			fi ;;
+		salmon) ;;
+	esac
 	
 	while IFS=, read -r r1 r2; do
 		case $ALIGN_METHOD in 
