@@ -28,13 +28,15 @@ SOURCE_LOC="../test_folder"
 CLEAR_TMP="false"
 OVER_WRITE="false"
 COUNT_METHOD="seperated"
-BATCH_SIZE="none"
+BATCH_SIZE="none" # number of total batches/forks/processes
+MAX_PARALLEL=4 # max number of parallel forks/processes
 MEM_SIZE="2000"
-THREAD_SIZE="4"
+THREAD_SIZE="4" # parameter for salmon and subread
 ALIGN_METHOD="salmon"
 QC_METHOD="fastp"
 RUN_TYPE="-r"
 CHILD="false"
+EXIT_ON_SINGLE="true"
 
 while [ -n "$1" ]; do #setting variables for sub-processes
 	case "$1" in
@@ -50,6 +52,7 @@ while [ -n "$1" ]; do #setting variables for sub-processes
 		-PLATFORM) PLATFORM="$2"; shift ;;
 		-COUNT_METHOD) COUNT_METHOD="$2"; shift ;;
 		-BATCH_SIZE) BATCH_SIZE="$2"; shift ;;
+		-MAX_PARALLEL) MAX_PARALLEL=$2 ; shift ;;
 		-CLEAR_TMP) CLEAR_TMP="true" ;;
 		-OVER_WRITE) OVER_WRITE="true" ;;
 		-CHILD) CHILD="true" ;;
