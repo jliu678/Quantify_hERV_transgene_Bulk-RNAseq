@@ -30,7 +30,7 @@ split_fastq(){ #splits pair ended fastq from bam into 2 files
 }
 
 bam_to_fastq(){ #wrapper, function as the name suggests
-	if [[ "$OVER_WRITE" = "true"  ||  ! -f "tmp/${SOURCE}/$1.r1.fq.gz"  ||  ! -f "tmp/${SOURCE}/$1.r2.fq.gz"  ||  ! -f "tmp/${SOURCE}/$1.fq.gz" ]]; then
+	if [[ "$OVER_WRITE" = "true"  ||  ! -e "tmp/${SOURCE}/$1.r1.fq.gz"  ||  ! -e "tmp/${SOURCE}/$1.r2.fq.gz"  ||  ! -e "tmp/${SOURCE}/$1.fq.gz" ]]; then
 		samtools bam2fq "${SOURCE_LOC}/$1.bam" > "tmp/${SOURCE}/$1.fq"
 		split_fastq $1
 	fi
