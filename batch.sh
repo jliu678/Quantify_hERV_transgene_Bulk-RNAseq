@@ -29,8 +29,9 @@ main() {
 	my_jobs=()
 	local tmp_PAIR_FILE="$PAIR_FILE"
 	for i in batches/*; do
-		if [ ${#my_jobs[@]} -gt $MAX_PARALLEL]; then
-			# sleep 128
+		if [[ ${#my_jobs[@]} -gt $MAX_PARALLEL]]; then
+			timed_print ${my_jobs[@]}
+			sleep 128
 			for i in ${!my_jobs[@]}; do 
 				if [ ! -d "/proc/${my_jobs[$i]}" ]; then 
 					unset my_jobs[$i]
@@ -43,7 +44,6 @@ main() {
 			(trap 'kill 0' SIGINT; . $main_loc/analysis.sh) &
 			my_jobs+=( $! )
 		fi
-		timed_print ${my_jobs[@]}
 	done
 	CHILD="false"
 	PAIR_FILE="$tmp_PAIR_FILE"
