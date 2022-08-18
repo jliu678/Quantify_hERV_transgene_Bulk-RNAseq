@@ -22,7 +22,7 @@ split_fastq(){ #splits pair ended fastq from bam into 2 files
 		cat "tmp/${SOURCE}/$1.fq" | grep '^@.*/2$' -A 3 --no-group-separator | \
 				gzip > "tmp/${SOURCE}/$1.r2.fq.gz"
 		echo -e "$1.r1,$1.r2\n" >> $PAIR_FILE
-	elif [ EXIT_ON_SINGLE = false ]; then 
+	elif [ $EXIT_ON_SINGLE = false ]; then 
 		gzip -c tmp/${SOURCE}/$1.fq > tmp/${SOURCE}/$1.fq.gz
 		echo -e "$1,\n" >> $PAIR_FILE 
 	fi
@@ -309,6 +309,7 @@ main(){
 	# usage=$(awk '{u=$2+$4; t=$2+$4+$5; if (NR==1){u1=u; t1=t;} else print ($2+$4-u1) * 100 / (t-t1) "%"; }' <(grep 'cpu ' /proc/stat) <(sleep 0.5;grep 'cpu ' /proc/stat))
 	timed_print "exiting $$ with: "
 	top -b -n 1 -u sy1022 
+	/usr/local/bin/pan_quota $HOME
 }
 
 main

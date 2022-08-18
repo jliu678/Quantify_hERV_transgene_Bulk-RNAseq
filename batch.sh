@@ -31,11 +31,12 @@ main() {
 	for i in batches/*; do
 		if [ ${#my_jobs[@]} -gt $MAX_PARALLEL]; then
 			# sleep 128
-			for i in ${my_jobs[@]}; do 
-				if [ ! -d "/proc/$i" ]; then 
-					my_jobs=( "${my_jobs[@]/$i}" )
+			for i in ${!my_jobs[@]}; do 
+				if [ ! -d "/proc/${my_jobs[$i]}" ]; then 
+					unset my_jobs[$i]
 				fi
 			done
+			my_jobs=("${my_jobs[@]}")
 		else
 			PAIR_FILE=$i; CHILD="true"
 			# bsub < (main_loc=$main_loc envsubst <test_batch.lsf)
