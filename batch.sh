@@ -29,7 +29,6 @@ main() {
 	my_jobs=()
 	local tmp_PAIR_FILE="$PAIR_FILE"
 	for i in batches/*; do
-		PAIR_FILE=$i; CHILD="true"
 		if [ ${#my_jobs[@]} -gt $MAX_PARALLEL]; then
 			sleep 128
 			for i in ${my_jobs[@]}; do 
@@ -38,9 +37,10 @@ main() {
 				fi
 			done
 		else
+			PAIR_FILE=$i; CHILD="true"
 			# bsub < (main_loc=$main_loc envsubst <test_batch.lsf)
 			(trap 'kill 0' SIGINT; . $main_loc/analysis.sh) &
-			my_jobs+=($!)
+			my_jobs+=( $! )
 		fi
 		timed_print ${my_jobs[@]}
 	done

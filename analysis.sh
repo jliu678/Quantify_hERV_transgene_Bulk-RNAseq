@@ -30,7 +30,7 @@ split_fastq(){ #splits pair ended fastq from bam into 2 files
 }
 
 bam_to_fastq(){ #wrapper, function as the name suggests
-	if [[ "$OVER_WRITE" = "true"  ||  ! -e "tmp/${SOURCE}/$1.r1.fq.gz"  ||  ! -e "tmp/${SOURCE}/$1.r2.fq.gz"  ||  ! -e "tmp/${SOURCE}/$1.fq.gz" ]]; then
+	if [[ "$OVER_WRITE" = "true" || ! -e "tmp/${SOURCE}/$1.r1.fq.gz" || ! -e "tmp/${SOURCE}/$1.r2.fq.gz" || ! -e "tmp/${SOURCE}/$1.fq.gz" ]]; then
 		samtools bam2fq "${SOURCE_LOC}/$1.bam" > "tmp/${SOURCE}/$1.fq"
 		split_fastq $1
 	fi
@@ -94,11 +94,12 @@ get_pairs_all() { #place all files into tmp, group them
 
 fastp_qc(){ #only works for pair ended as of now
 	if [ "$OVER_WRITE" = "true" ] || [ ! -f "tmp/${SOURCE}/qc/$1.qc.fq.gz" ]; then
+		echo "$PWD"
 		if [[ $# -eq 2 ]]; then 
 			./fastp -i "tmp/${SOURCE}/$1.fq.gz" -o "tmp/${SOURCE}/qc/$1.qc.fq.gz" \
 				-I "tmp/${SOURCE}/$2.fq.gz" -O "tmp/${SOURCE}/qc/$2.qc.fq.gz" \
 				-j "results/fastp/$1.json" -h "results/fastp/$1.html"
-		else 
+		elif [[ $# -eq 1 ]]; then
 			./fastp -i "tmp/${SOURCE}/$1.fq.gz" -o "tmp/${SOURCE}/qc/$1.qc.fq.gz" \
 				-j "results/fastp/$1.json" -h "results/fastp/$1.html"
 		fi	
