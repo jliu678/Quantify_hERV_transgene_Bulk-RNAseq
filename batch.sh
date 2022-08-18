@@ -29,7 +29,7 @@ main() {
 	my_jobs=()
 	local tmp_PAIR_FILE="$PAIR_FILE"
 	for i in batches/*; do
-		if [[ ${#my_jobs[@]} -gt $MAX_PARALLEL]]; then
+		if [[ ${#my_jobs[@]} -gt $MAX_PARALLEL ]]; then
 			timed_print ${my_jobs[@]}
 			sleep 128
 			for i in ${!my_jobs[@]}; do 
