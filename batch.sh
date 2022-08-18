@@ -30,7 +30,7 @@ main() {
 	local tmp_PAIR_FILE="$PAIR_FILE"
 	for i in batches/*; do
 		if [ ${#my_jobs[@]} -gt $MAX_PARALLEL]; then
-			sleep 128
+			# sleep 128
 			for i in ${my_jobs[@]}; do 
 				if [ ! -d "/proc/$i" ]; then 
 					my_jobs=( "${my_jobs[@]/$i}" )
