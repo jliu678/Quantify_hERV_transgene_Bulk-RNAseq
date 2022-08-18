@@ -31,7 +31,7 @@ main() {
 	for i in batches/*; do
 		PAIR_FILE=$i; CHILD="true"
 		if [ ${#my_jobs[@]} -gt $MAX_PARALLEL]; then
-			wait 100
+			sleep 128
 			for i in ${my_jobs[@]}; do 
 				if [ ! -d "/proc/$i" ]; then 
 					my_jobs=( "${my_jobs[@]/$i}" )
