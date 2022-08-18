@@ -43,9 +43,8 @@ group_fastq(){ #group fastq files into pairs
 	for i in "${!files[@]}"; do #loop w/ index bcs easier
 		# local file_name=$(echo "${files[$i]}" | cut -f 1 -d '.') #get file name w/o extention
 		local file_name=${files[$i]%%.*}
-		timed_print $file_name
 		if ! grep -q "$(basename file_name)" $PAIR_FILE ; then #if the file does not have pair
-			if [[ ${file_name: -1} = "1" && -f "${file_name::-1}2.fq.gz" ]]; then #if formatted correctly
+			if [[ ${file_name: -1} = "1" && -e "${file_name::-1}2.fq.gz" ]]; then #if formatted correctly
 				echo -e "$(basename $file_name),$(basename ${file_name::-1})2" >> $PAIR_FILE
 			elif [[ ! ${file_name: -1} = "2" ]]; then #the choice is yours how to deal with single-ended files
 				timed_print "compliment to ${files[$i]} not found"
@@ -65,7 +64,7 @@ group_fastq(){ #group fastq files into pairs
 }
 
 mv_fq() {
-	if [ "$OVER_WRITE" = "true" ] || [ ! -f "$2" ]; then
+	if [ "$OVER_WRITE" = "true" ] || [ ! -e "$2" ]; then
 		case "${name#*.}" in 
 			fq) gzip -c $1 > $2 ;;
 			fq.gz) ln -s $1 $2 ;;
