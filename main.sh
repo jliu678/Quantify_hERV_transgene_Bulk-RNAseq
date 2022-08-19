@@ -36,7 +36,7 @@ ALIGN_METHOD="salmon"
 QC_METHOD="fastp"
 RUN_TYPE="-r"
 CHILD="false"
-EXIT_ON_SINGLE=true
+EXIT_ON_SINGLE=false
 
 while [ -n "$1" ]; do #setting variables for sub-processes
 	case "$1" in
