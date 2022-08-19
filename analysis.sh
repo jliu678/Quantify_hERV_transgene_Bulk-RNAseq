@@ -282,9 +282,6 @@ main(){
 		ANALYSIS_STEP="index,convert,qc,align,count"
 	fi 
 
-	timed_print $PAIR_FILE
-	timed_print $ANALYSIS_STEP
-
 	ANALYSIS_STEP=(${ANALYSIS_STEP//,/ }) #turn "index,c,q" into ( "index" "c" "q" )
 	for i in ${ANALYSIS_STEP[@]}; do
 	  timed_print "$i-ing..."	
@@ -301,9 +298,12 @@ main(){
 	if [[ $CHILD = true &&  $CLEAR_TMP = 'true' ]]; then
 		while IFS=, read -r r1 r2; do
 			rm "tmp/${SOURCE}/$r1.fq.gz"
-			rm "tmp/${SOURCE}/$r2.fq.gz"
 			rm "tmp/${SOURCE}/qc/$r1.qc.fq.gz"
-			rm "tmp/${SOURCE}/qc/$r2.qc.fq.gz"
+
+			if [ -n $r2 ]; then 
+				rm "tmp/${SOURCE}/$r2.fq.gz"
+				rm "tmp/${SOURCE}/qc/$r2.qc.fq.gz"
+			fi
 		done < $PAIR_FILE 
 	fi
 	# usage=$(awk '{u=$2+$4; t=$2+$4+$5; if (NR==1){u1=u; t1=t;} else print ($2+$4-u1) * 100 / (t-t1) "%"; }' <(grep 'cpu ' /proc/stat) <(sleep 0.5;grep 'cpu ' /proc/stat))
