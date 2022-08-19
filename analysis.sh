@@ -81,9 +81,6 @@ get_pairs_all() { #place all files into tmp, group them
 	fi 
 	touch $PAIR_FILE
 
-	if [ $WAIT_FOR_DATA = true ]; then 
-		while 
-
 	for i in ${SOURCE_LOC}/*; do
 		timed_print "moving $i..."
 		local name=$(basename $i)
