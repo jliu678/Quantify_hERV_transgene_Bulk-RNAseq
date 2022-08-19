@@ -286,7 +286,7 @@ main(){
 	for i in ${ANALYSIS_STEP[@]}; do
 	  timed_print "$i-ing..."	
 		case "$i" in 
-			index) build_index ;;
+			index) if [ $CHILD = false ]; then build_index; fi ;;
 			convert) if [ $CHILD = false ]; then get_pairs_all; fi ;;
 			qc) qc_all ;;
 			align) align_all ;;
