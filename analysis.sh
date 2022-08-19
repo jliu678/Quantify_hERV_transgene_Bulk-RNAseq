@@ -22,7 +22,7 @@ split_fastq(){ #splits pair ended fastq from bam into 2 files
 		cat "tmp/${SOURCE}/$1.fq" | grep '^@.*/2$' -A 3 --no-group-separator | \
 				gzip > "tmp/${SOURCE}/$1.r2.fq.gz"
 		echo -e "$1.r1,$1.r2\n" >> $PAIR_FILE
-	elif [ $EXIT_ON_SINGLE = false ]; then 
+	elif [ $EXIT_ON_SINGLE = "false" ]; then 
 		gzip -c tmp/${SOURCE}/$1.fq > tmp/${SOURCE}/$1.fq.gz
 		echo -e "$1,\n" >> $PAIR_FILE 
 	fi
@@ -52,14 +52,14 @@ group_fastq(){ #group fastq files into pairs
 			elif [[ ! ${file_name: -1} = "2" ]]; then #the choice is yours how to deal with single-ended files
 				timed_print "compliment to ${files[$i]} not found"
 				((total+=1))
-				if [ EXIT_ON_SINGLE = false ]; then 
+				if [ EXIT_ON_SINGLE = "false" ]; then 
 					echo -e "$(basename $file_name),\n" >> $PAIR_FILE
 				fi
 			fi
 		fi
 	done
 
-	if [[ $total -ge 1 && $EXIT_ON_SINGLE = true ]]; then 
+	if [[ $total -ge 1 && $EXIT_ON_SINGLE = "true" ]]; then 
 		exit 1
 	fi
 
