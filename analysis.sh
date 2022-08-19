@@ -52,7 +52,7 @@ group_fastq(){ #group fastq files into pairs
 			elif [[ ! ${file_name: -1} = "2" ]]; then #the choice is yours how to deal with single-ended files
 				timed_print "compliment to ${files[$i]} not found"
 				((total+=1))
-				if [ EXIT_ON_SINGLE = "false" ]; then 
+				if [ $EXIT_ON_SINGLE = "false" ]; then 
 					echo -e "$(basename $file_name),\n" >> $PAIR_FILE
 				fi
 			fi
