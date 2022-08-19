@@ -21,7 +21,7 @@ fi
 
 main() {
 	local tmp_ast=$ANALYSIS_STEP
-	ANALYSIS_STEP="convert"
+	ANALYSIS_STEP="index,convert"
 	. $main_loc/analysis.sh 
 	ANALYSIS_STEP="$tmp_ast"
 
