@@ -31,7 +31,7 @@ main() {
 	for i in batches/*; do
 		while [[ ${#my_jobs[@]} -ge $MAX_PARALLEL ]]; do
 			timed_print ${my_jobs[@]}
-			sleep 5
+			sleep 10
 			for j in ${!my_jobs[@]}; do 
 				output=$(ps -p "${my_jobs[$j]}")
 				if [ ! $? -eq 0 ] ; then
@@ -44,7 +44,8 @@ main() {
 
 		PAIR_FILE=$i; CHILD="true"
 		# bsub < (main_loc=$main_loc envsubst <test_batch.lsf)
-		(trap "kill 0" SIGINT; . $main_loc/analysis.sh) &
+		# (trap "kill 0" SIGINT SIGABRT SIGKILL; . $main_loc/analysis.sh) &
+		(. $main_loc/analysis.sh) &
 		my_jobs+=( $! )
 	done
 	CHILD="false"
@@ -57,26 +58,26 @@ main() {
   main # "$@"
 # fi
 
-my_jobs=( ) # empty arry
-	for ((i=0; i <= 10; )) ; do
-		echo ${my_jobs[@]} still running
-		if [[ ${#my_jobs[@]} -ge 4 ]]; then
-			sleep 1
-			for j in ${!my_jobs[@]}; do 
-				output=$(ps -p "${my_jobs[$j]}")
-				if [ ! $? -eq 0 ] ; then
-					echo ${my_jobs[$j]} is not running
-#          echo ${my_jobs[$j]}
-					unset my_jobs[$j] # remove it
-				fi
-			done
-			my_jobs=("${my_jobs[@]}")
-		else
-			# PAIR_FILE=$i; CHILD="true"
-			# bsub < (main_loc=$main_loc envsubst <test_batch.lsf)
-			(trap "kill 0" SIGINT ; sleep 10; echo $! exiting) &
-			my_jobs+=( $! )
-      ((i++))
-		fi
-	done
-wait ${my_jobs[@]}
+# my_jobs=( ) # empty arry
+# 	for ((i=0; i <= 10; )) ; do
+# 		echo ${my_jobs[@]} still running
+# 		if [[ ${#my_jobs[@]} -ge 4 ]]; then
+# 			sleep 1
+# 			for j in ${!my_jobs[@]}; do 
+# 				output=$(ps -p "${my_jobs[$j]}")
+# 				if [ ! $? -eq 0 ] ; then
+# 					echo ${my_jobs[$j]} is not running
+# #          echo ${my_jobs[$j]}
+# 					unset my_jobs[$j] # remove it
+# 				fi
+# 			done
+# 			my_jobs=("${my_jobs[@]}")
+# 		else
+# 			# PAIR_FILE=$i; CHILD="true"
+# 			# bsub < (main_loc=$main_loc envsubst <test_batch.lsf)
+# 			(trap "kill 0" SIGINT ; sleep 10; echo $! exiting) &
+# 			my_jobs+=( $! )
+#       ((i++))
+# 		fi
+# 	done
+# wait ${my_jobs[@]}
