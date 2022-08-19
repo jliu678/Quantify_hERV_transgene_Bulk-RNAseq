@@ -53,7 +53,7 @@ group_fastq(){ #group fastq files into pairs
 				timed_print "compliment to ${files[$i]} not found"
 				((total+=1))
 				if [ $EXIT_ON_SINGLE = "false" ]; then 
-					echo -e "$(basename $file_name),\n" >> $PAIR_FILE
+					echo -e "$(basename $file_name)," >> $PAIR_FILE
 				fi
 			fi
 		fi
