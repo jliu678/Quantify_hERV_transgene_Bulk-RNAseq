@@ -53,7 +53,7 @@ group_fastq(){ #group fastq files into pairs
 				timed_print "compliment to ${files[$i]} not found"
 				((total+=1))
 				if [ EXIT_ON_SINGLE = false ]; then 
-					echo -e "${files[$i]},\n" >> $PAIR_FILE
+					echo -e "$(basename $file_name),\n" >> $PAIR_FILE
 				fi
 			fi
 		fi
@@ -80,6 +80,9 @@ get_pairs_all() { #place all files into tmp, group them
 		mkdir "tmp/${SOURCE}"
 	fi 
 	touch $PAIR_FILE
+
+	if [ $WAIT_FOR_DATA = true ]; then 
+		while 
 
 	for i in ${SOURCE_LOC}/*; do
 		timed_print "moving $i..."
