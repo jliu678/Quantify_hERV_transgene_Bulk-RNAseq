@@ -29,7 +29,7 @@ main() {
 	my_jobs=()
 	local tmp_PAIR_FILE="$PAIR_FILE"
 	id=$(ps ax -O pgid | grep main.sh)
-	trap "kill -SIGINT -- -$group_id" SIGINT
+	# trap "kill -SIGINT -- -$group_id" SIGINT
 	for i in batches/*; do
 		while [[ ${#my_jobs[@]} -ge $MAX_PARALLEL ]]; do
 			timed_print ${my_jobs[@]}
@@ -46,8 +46,8 @@ main() {
 
 		PAIR_FILE=$i; CHILD="true"
 		# bsub < (main_loc=$main_loc envsubst <test_batch.lsf)
-		# (trap "kill 0" SIGINT SIGTERM ; . $main_loc/analysis.sh) &
-		(. $main_loc/analysis.sh) &
+		(trap "kill 0" SIGINT SIGTERM ; . $main_loc/analysis.sh) &
+		# (. $main_loc/analysis.sh) &
 		my_jobs+=( $! )
 	done
 	CHILD="false"
