@@ -24,7 +24,7 @@ main() {
 	ANALYSIS_STEP="index,convert"
 	. $main_loc/analysis.sh 
 	ANALYSIS_STEP="$tmp_ast"
-
+	
 	batch_op
 	my_jobs=()
 	local tmp_PAIR_FILE="$PAIR_FILE"

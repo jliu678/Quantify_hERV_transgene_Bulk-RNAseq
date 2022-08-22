@@ -16,8 +16,8 @@ fi
 #BSUB -o logs/%J-outputs.out
 
 #BSUB -q normal
-#BSUB -n 12
-#BSUB -R 'rusage[mem=28000]'
+#BSUB -n 16
+#BSUB -R 'rusage[mem=32000]'
 
 cd ~/Documents/herv_project
 
