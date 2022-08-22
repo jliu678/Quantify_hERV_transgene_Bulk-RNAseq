@@ -148,7 +148,7 @@ salmon_build_index(){
 
 		if [ "$OVER_WRITE" = "true" ] || [ ! -f "salmon/gentrome.fa" ]; then
 			timed_print "building gentrome..."
-			cat ${hERV_TRANSCRIPT} ${REF_TRANSCRIPTS} ${REF_GENOME} > "salmon/gentrome.fa"
+			cat ${hERV_TRANSCRIPT} ${REF_TRANSCRIPT} ${REF_GENOME} > "salmon/gentrome.fa"
 		fi
 
 		salmon index -t salmon/gentrome.fa -d "salmon/decoys.txt" -i "salmon/${hERV_TRANSCRIPT%.*}_index" --gencode
