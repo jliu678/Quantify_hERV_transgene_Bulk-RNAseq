@@ -21,6 +21,6 @@ fi
 
 cd ~/Documents/herv_project
 
-bash main.sh -PLATFORM "cluster-mgh" -ANALYSIS_STEP "all" -SOURCE "raw_data" -BATCH_SIZE 2 -CLEAR_TMP -MAX_PARALLEL 3
+bash main.sh -PLATFORM "cluster-mgh" -ANALYSIS_STEP "all" -SOURCE "raw_data" -BATCH_SIZE 1 -CLEAR_TMP -MAX_PARALLEL 4
 
 ### -MAX_PARALLEL 2
