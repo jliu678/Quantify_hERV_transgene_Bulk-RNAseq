@@ -76,7 +76,7 @@ mv_fq() {
 }
 
 get_pairs_all() { #place all files into tmp, group them
-	if [ ! -d "tmp/${SOURCE}" ]; then 
+	if [[ ! -d "tmp/${SOURCE}" ]]; then 
 		mkdir "tmp/${SOURCE}"
 	fi 
 	touch $PAIR_FILE
@@ -110,11 +110,11 @@ fastp_qc(){ #only works for pair ended as of now
 }
 
 qc_all(){
-	if [ ! -d "tmp/${SOURCE}/qc" ]; then 
+	if [[ ! -d "tmp/${SOURCE}/qc" ]]; then 
 		mkdir "tmp/${SOURCE}/qc"
 	fi
 
-	if [ ! -d "results/${QC_METHOD}" ]; then 
+	if [[ ! -d "results/${QC_METHOD}" ]]; then 
 		mkdir "results/${QC_METHOD}"
 	fi
 
