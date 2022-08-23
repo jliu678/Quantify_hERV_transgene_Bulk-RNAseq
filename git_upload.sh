@@ -1,5 +1,5 @@
 #!/bin/bash
 
-git add .
+git add --all
 git commit -m "fix"
 git push origin main
