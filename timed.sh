@@ -7,7 +7,7 @@ timed_print() {
 timed_download() { #download w/ printed time 
 	local name=$(basename $1)
 	case $name in 
-		*.gz) local unzip_name=$(basename $1 .gz) ;;
+		*.gz) local unzip_name=$(basename $1 .gz) ;; #basename $1 .gz will remove postFix of '.gz'
 		*.bz2) local unzip_name=$(basename $1 .bz2) ;;
 	esac
 

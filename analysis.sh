@@ -7,10 +7,10 @@ if [ ! ${SOURCE_LOC[0]} = "/" ]; then
 	SOURCE_LOC="../$SOURCE_LOC"
 fi
 SOURCE=$(basename $SOURCE_LOC)
-REF_GENOME=$(basename $REF_GENOME_LOC .gz)
-REF_ANNOTATION=$(basename $REF_ANNOTATION_LOC .gz)
-REF_TRANSCRIPT=$(basename $REF_TRANSCRIPT_LOC .gz)
-hERV_TRANSCRIPT=$(basename $(basename $hERV_TRANSCRIPT_LOC .gz) .bz2)
+REF_GENOME=$(basename $REF_GENOME_LOC .gz)#for salmon decoy
+REF_ANNOTATION=$(basename $REF_ANNOTATION_LOC .gz)# for subread
+REF_TRANSCRIPT=$(basename $REF_TRANSCRIPT_LOC .gz)# for salmon quant, fasta file
+hERV_TRANSCRIPT=$(basename $(basename $hERV_TRANSCRIPT_LOC .gz) .bz2)# for salmon quant, fasta file
 id_types="ID"
 
 split_fastq(){ #splits pair ended fastq from bam into 2 files
