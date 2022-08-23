@@ -39,6 +39,14 @@ bam_to_fastq(){ #wrapper, function as the name suggests
 	fi
 }
 
+check_name(){
+	echo $1 | grep -iq "r1"
+	local is_r1=$?
+	local r2id="r2"
+	if echo $1 | grep -q "R1"; then r2id="R2"; fi
+	return $is_r1 && [ -e "$(echo $1 | sed 's/r1/$r2id/i')" ]
+}
+
 group_fastq(){ #group fastq files into pairs
 	timed_print "grouping fastq files in tmp/${SOURCE}/"
 	files=(tmp/${SOURCE}/*.fq.gz)
@@ -46,8 +54,9 @@ group_fastq(){ #group fastq files into pairs
 	for i in "${!files[@]}"; do #loop w/ index bcs easier
 		# local file_name=$(echo "${files[$i]}" | cut -f 1 -d '.') #get file name w/o extention
 		local file_name=${files[$i]%%.*}
+		local file_ext=${files[$i]##*.}
 		if ! grep -q "$(basename file_name)" $PAIR_FILE ; then #if the file does not have pair
-			if [[ ${file_name: -1} = "1" && -e "${file_name::-1}2.fq.gz" ]]; then #if formatted correctly
+			if check_name ${files[$i]}; then #if formatted correctly
 				echo -e "$(basename $file_name),$(basename ${file_name::-1})2" >> $PAIR_FILE
 			elif [[ ! ${file_name: -1} = "2" ]]; then #the choice is yours how to deal with single-ended files
 				timed_print "compliment to ${files[$i]} not found"
