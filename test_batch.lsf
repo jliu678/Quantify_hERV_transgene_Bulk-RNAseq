@@ -15,23 +15,9 @@ fi
 #BSUB -o logs/%J-outputs.out
 
 #BSUB -q normal
-#BSUB -n 1
-#BSUB -R 'rusage[mem=1000]'
+#BSUB -n 4
+#BSUB -R 'rusage[mem=8000]'
 cd ~/Documents/hERV_project
-
-# REF_ANNOTATION_LOC=${REF_ANNOTATION_LOC}
-# REF_GENOME_LOC=${REF_GENOME_LOC}
-# hERV_DIR=${hERV_DIR}
-# hERV_FILE=${hERV_FILE}
-# COMB_ANNOTATION=${COMB_ANNOTATION}
-# ANALYSIS_STEP=${ANALYSIS_STEP}
-# PLATFORM=${PLATFORM}
-# PAIR_FILE=${PAIR_FILE}
-# SOURCE_LOC=${SOURCE_LOC}
-# CLEAR_TMP=${CLEAR_TMP}
-# OVER_WRITE=${OVER_WRITE}
-# COUNT_METHOD=${COUNT_METHOD}
-# BATCH_NAME=${BATCH_NAME}
 
 
 bash ${main_loc}/analysis.sh
