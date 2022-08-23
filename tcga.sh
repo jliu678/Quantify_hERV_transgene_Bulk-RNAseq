@@ -25,6 +25,10 @@ download_TCGA(){ #input: location of post.txt
 	curl --remote-name --remote-header-name --request POST 'https://api.gdc.cancer.gov/data' --data @"${1}_post.txt" --create-dirs -O --output "TCGA/${1}"
 }
 
+change_TCGA_NAME(){
+	for i in 
+}
+
 main(){
 	mkdir "tcga" && cd tcga 
 	query_TCGA_seq $NUM_FILES

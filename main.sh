@@ -13,6 +13,13 @@
 # git remote set-url origin https://@github.com/<username>/<repositoryname>.gi
 #git config credential.helper cache
 
+clear_tmp() {
+	if [ $CLEAR_TMP = "true" ]; then 
+		rm -r tmp
+		rm $PAIR_FILE
+	fi
+}
+
 REF_ANNOTATION_LOC=\
 'https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_41/gencode.v41.chr_patch_hapl_scaff.annotation.gff3.gz'
 REF_GENOME_LOC='https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_41/GRCh38.p13.genome.fa.gz'
@@ -94,7 +101,7 @@ elif [ "$RUN_TYPE" = "-r" ]; then
 	if [ $CHILD = "false" ]; then
 		SEQ_TYPE=("RNA-Seq" "WXS")
 		. $main_loc/setup.sh 
-	conda env list
+		#	conda env list
 		. $main_loc/downloads.sh 
 		if [ $SOURCE_LOC = "tcga" ] && [ ! -d "tcga" ]; then 
 			. $main_loc/tcga.sh
@@ -103,11 +110,13 @@ elif [ "$RUN_TYPE" = "-r" ]; then
 			. $main_loc/batch.sh
 		else 
 			. $main_loc/analysis.sh
-		fi 
+		fi
 	elif [ $CHILD = "true" ]; then # remenant from job parallisation attempt
 			. $main_loc/analysis.sh
 	fi
+	clear_tmp
 fi
+
 # jq --arg rty "$RUN_TYPE" \
 # 	 --arg dty "$DEBUG_TYPE" \
 # 	 --arg plf "$PLATFORM" \
