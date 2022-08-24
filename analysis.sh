@@ -44,7 +44,7 @@ check_name(){
 	local is_r1=$?
 	local r2id="r2"
 	if echo $1 | grep -q "R1"; then r2id="R2"; fi
-	return $is_r1 && [ -e "$(echo $1 | sed 's/r1/$r2id/i')" ]
+	return $is_r1 && [ -e "$(echo $1 | sed "s/r1/$r2id/i")" ]
 }
 
 group_fastq(){ #group fastq files into pairs
