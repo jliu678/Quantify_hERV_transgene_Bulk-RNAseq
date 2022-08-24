@@ -22,11 +22,18 @@ get_TCGA_post() {
 }
 
 download_TCGA(){ #input: location of post.txt
-	curl --remote-name --remote-header-name --request POST 'https://api.gdc.cancer.gov/data' --data @"${1}_post.txt" --create-dirs -O --output "TCGA/${1}"
+	curl --remote-name --remote-header-name --request POST 'https://api.gdc.cancer.gov/data' --data @"${1}_post.txt" --create-dirs -O --output "${1}.tar.gz"
+	tar --strip-components=1 -zxf "${1}.tar.gz"
 }
 
 change_TCGA_NAME(){
-	for i in 
+	for i in tcga/*; do 
+		ext=${$(basename $i .gz)##*.}
+		if ! file $i | grep -q "compressed"; then 
+			gzip $i
+		fi
+		mv i "$(dirname $i)/$(sed "s/\./_/" $(basename $i .$ext.gz)).$ext.gz" 
+	done
 }
 
 main(){
