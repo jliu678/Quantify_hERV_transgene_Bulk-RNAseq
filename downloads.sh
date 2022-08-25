@@ -2,7 +2,10 @@
 #download the databases needed
 
 . $main_loc/timed.sh
-hERV_TRANSCRIPT=$(basename $hERV_TRANSCRIPT_LOC .gz)
+TRANSCRIPTS=()
+for i in ${TRANSCRIPT_LOC[@]}; do TRANSCRIPTS+=( $(basename $i .gz) ); done
+ANNOT_FILES=()
+for i in ${ANNOT_LOCS[@]}; do ANNOT_FILES+=( $(basename $i .gz) ); done
 
 check_gencode(){
 	timed_download "$REF_GENOME_LOC" 
@@ -15,47 +18,48 @@ check_gencode(){
 	
 }
 
-combine_hERV() { #combine into a sinlge file for ease of use 
-  cat "$hERV_DIR"/*.gff3 > "$hERV_FILE"
+combine_annotations() { #combine into a sinlge file for ease of use 
+	local annot_file_name="$(IFS=-; echo "${ANNOT_FILES[*]%.*}")"
+  cat "$ANNOT_DIR"/*.gff3 > "$annot_file_name"
 }
 
-download_hERV_subread() {
-	if [ ! -f $hERV_FILE ]; then
-		hERV_download_list=(
-			'https://herv.img.cas.cz/f/package-entities-erv.gff3.gz'
-		)
+download_annotations_subread() {
+	local annot_file_name="$(IFS=-; echo "${ANNOT_FILES[*]%.*}")"
+	if [ ! -f "$annot_file_name" ]; then
 	
-		mkdir $hERV_DIR && cd $hERV_DIR
+		mkdir $ANNOT_DIR && cd $ANNOT_DIR
 		timed_print "downloading hERVd..."
 	
-		for i in ${hERV_download_list[@]}; do
+		for i in ${ANNOT_LOCS[@]}; do
 			timed_download $i
 		done
 		cd ..
 	
-		combine_hERV
+		combine_annotations
 	fi
 }
 
-download_hERV_salmon() {
-	if [ ! -f $hERV_TRANSCRIPT ]; then
-		timed_download "$hERV_TRANSCRIPT_LOC" 
+download_transcripts_salmon() {
+	if [ ! -f $TRANSCRIPTS ]; then
+		for i in ${TRANSCRIPT_LOC[@]}; do
+			timed_download "$i" 
+		done
 	fi
 }
 
-download_mouse_ERV_salmon() {
-	if [ ! -f $hERV_TRANSCRIPT ]; then
-		timed_download "$hERV_TRANSCRIPT_LOC" 
-	fi
-	# gffread "$(basename $hERV_TRANSCRIPT_LOC .gz)" -g "$(basename $REF_GENOME_LOC .gz)" -w "$(basename $hERV_TRANSCRIPT_LOC .gtf .gff3 .gz).fa"
-}
+# download_mouse_ERV_salmon() {
+# 	if [ ! -f $hERV_TRANSCRIPT ]; then
+# 		timed_download "$hERV_TRANSCRIPT_LOC" 
+# 	fi
+# 	# gffread "$(basename $hERV_TRANSCRIPT_LOC .gz)" -g "$(basename $REF_GENOME_LOC .gz)" -w "$(basename $hERV_TRANSCRIPT_LOC .gtf .gff3 .gz).fa"
+# }
 
-check_hERV(){ 
+check_transcripts(){ 
 	# case "$ANIMAL_TYPE" in 
 	# 	human) 
 			case "$ALIGN_METHOD" in 
-				subread) download_hERV_subread ;;
-				salmon) download_hERV_salmon ;;
+				subread) download_annotation_subread ;;
+				salmon) download_transcripts_salmon ;;
 			esac 
 	# 	mouse)
 	# 		case "$ALIGN_METHOD" in 
@@ -64,13 +68,9 @@ check_hERV(){
 	# esac
 }
 
-combine_annotations(){
-	cat $REF_ANNOTATION $hERV_FILE > $COMB_ANNOTATION
-}
-
 main(){
 	check_gencode
-	check_hERV
+	check_transcripts
 }
 
 main
