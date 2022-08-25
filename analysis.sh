@@ -60,7 +60,7 @@ group_fastq(){ #group fastq files into pairs
 		# local file_name=$(echo "${files[$i]}" | cut -f 1 -d '.') #get file name w/o extention
 		local file_name=${files[$i]%%.*}
 		local file_ext=${files[$i]##*.}
-		if ! grep -q "$(basename file_name .fq.gz)" $PAIR_FILE ; then #if the file does not have pair
+		if ! grep -q "$(basename $file_name .fq.gz)" $PAIR_FILE ; then #if the file does not have pair
 			if check_name ${files[$i]}; then #if formatted correctly
 				echo -e "$(basename $file_name),$(get_r2name $(basename $file_name))" >> $PAIR_FILE
 			elif ! echo "${files[$i]}" | grep -iq "r2" ; then #the choice is yours how to deal with single-ended files
@@ -134,8 +134,7 @@ qc_all(){
 
 	timed_print "qc-ing with $QC_METHOD"
 	while IFS=, read -r r1 r2; do
-		echo "result/${ALIGN_METHOD}/$r1"
-		if [ ! -d "result/${ALIGN_METHOD}/$r1" ]; then
+		if [ ! -d "results/${ALIGN_METHOD}/$r1" ]; then
 			timed_print "qc-ing ${r1} and ${r2}"
 			case $QC_METHOD in 
 				fastp) fastp_qc $r1 $r2 ;;
