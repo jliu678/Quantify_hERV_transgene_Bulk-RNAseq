@@ -1,11 +1,11 @@
 #!/bin/bash
 
-branch_name="main"
+from_branch_name="main"
 commit_message="fix"
 
 while [ -n "$1" ]; do #setting variables for sub-processes
 	case "$1" in
-		-branch_name) branch_name="$2"; shift ;;
+		-from_branch_name) from_branch_name="$2"; shift ;;
 		-commit_message) commit_message="$2"; shift ;;
 #		-REF_TRANSCRIPT) REF_TRANSCRIPT_LOC="$2" ; shift ;;
 #		-hERV_TRANSCRIPT) hERV_TRANSCRIPT_LOC="$2" ; shift ;;
@@ -33,4 +33,4 @@ done
 
 
 git reset --hard
-git pull origin $branch_name
+git pull origin $from_branch_name
