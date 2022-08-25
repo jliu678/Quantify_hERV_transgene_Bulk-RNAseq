@@ -134,10 +134,12 @@ qc_all(){
 
 	timed_print "qc-ing with $QC_METHOD"
 	while IFS=, read -r r1 r2; do
-		timed_print "qc-ing ${r1} and ${r2}"
-		case $QC_METHOD in 
-			fastp) fastp_qc $r1 $r2 ;;
-		esac 
+		if [ ! -d "result/${ALIGN_METHOD}/$r1" ]; then
+			timed_print "qc-ing ${r1} and ${r2}"
+			case $QC_METHOD in 
+				fastp) fastp_qc $r1 $r2 ;;
+			esac 
+		fi
 	done < $PAIR_FILE
 }
 
