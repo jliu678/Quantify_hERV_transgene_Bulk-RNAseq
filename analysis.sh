@@ -39,12 +39,16 @@ bam_to_fastq(){ #wrapper, function as the name suggests
 	fi
 }
 
+get_r2name(){
+	local r2id="r2"
+	if echo $1 | grep -q "R1"; then r2id="R2"; fi
+	echo $1 | sed "s/r1/$r2id/i"
+}
+
 check_name(){
 	echo $1 | grep -iq "r1"
 	local is_r1=$?
-	local r2id="r2"
-	if echo $1 | grep -q "R1"; then r2id="R2"; fi
-	return $is_r1 && [ -e "$(echo $1 | sed "s/r1/$r2id/i")" ]
+	return $is_r1 && [ -e "$(get_r2name $1)" ]
 }
 
 group_fastq(){ #group fastq files into pairs
@@ -57,8 +61,8 @@ group_fastq(){ #group fastq files into pairs
 		local file_ext=${files[$i]##*.}
 		if ! grep -q "$(basename file_name)" $PAIR_FILE ; then #if the file does not have pair
 			if check_name ${files[$i]}; then #if formatted correctly
-				echo -e "$(basename $file_name),$(basename ${file_name::-1})2" >> $PAIR_FILE
-			elif echo "$(files[$i])" | grep -iq "r2" ; then #the choice is yours how to deal with single-ended files
+				echo -e "$(basename $file_name),$(get_r2name $(basename $file_name))" >> $PAIR_FILE
+			elif echo "${files[$i]}" | grep -iq "r2" ; then #the choice is yours how to deal with single-ended files
 				timed_print "compliment to ${files[$i]} not found"
 				((total+=1))
 				if [ $EXIT_ON_SINGLE = "false" ]; then 
