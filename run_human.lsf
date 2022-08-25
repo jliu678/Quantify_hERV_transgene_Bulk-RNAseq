@@ -28,8 +28,9 @@ cd ~/hERV/herv_project
 ### if raw_data folder has reletive dir as '../raw_data', input value as "raw_data"
 
 ### for subread, store in ../hERV_Work the annotation gtf/gff3 files of both transcriptom and ERV, genome fasta 
-### for salmon, store in ../hERV_Work the index folder named as "$hervname_index", by default it is "package-entities-erv_index"
-### and genome fasta and fasta files of transcripts and ervs to be quantified
+### for salmon, store in ../hERV_Work and genome fasta and fasta files of transcripts and ervs to be quantified
+###  the index folder named "$hervname_index", by default it is "package-entities-erv_index", need to be pub in ../hERV_Work/salmon
+
 
 ### the script will identify files as paired when there are two files named  
 ### file_name= basename theNameOfFastqFile .*
