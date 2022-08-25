@@ -58,7 +58,7 @@ group_fastq(){ #group fastq files into pairs
 		if ! grep -q "$(basename file_name)" $PAIR_FILE ; then #if the file does not have pair
 			if check_name ${files[$i]}; then #if formatted correctly
 				echo -e "$(basename $file_name),$(basename ${file_name::-1})2" >> $PAIR_FILE
-			elif [[ ! ${file_name: -1} = "2" ]]; then #the choice is yours how to deal with single-ended files
+			elif echo "$(files[$i])" | grep -iq "r2" ; then #the choice is yours how to deal with single-ended files
 				timed_print "compliment to ${files[$i]} not found"
 				((total+=1))
 				if [ $EXIT_ON_SINGLE = "false" ]; then 
