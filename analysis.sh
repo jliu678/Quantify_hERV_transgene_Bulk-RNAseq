@@ -7,10 +7,10 @@ if [ ! ${SOURCE_LOC[0]} = "/" ]; then
 	SOURCE_LOC="../$SOURCE_LOC"
 fi
 SOURCE=$(basename $SOURCE_LOC)
-REF_GENOME=$(basename $REF_GENOME_LOC .gz)#for salmon decoy
-REF_ANNOTATION=$(basename $REF_ANNOTATION_LOC .gz)# for subread
-REF_TRANSCRIPT=$(basename $REF_TRANSCRIPT_LOC .gz)# for salmon quant, fasta file
-hERV_TRANSCRIPT=$(basename $(basename $hERV_TRANSCRIPT_LOC .gz) .bz2)# for salmon quant, fasta file
+REF_GENOME=$(basename $REF_GENOME_LOC .gz) # for salmon decoy
+REF_ANNOTATION=$(basename $REF_ANNOTATION_LOC .gz) # for subread
+REF_TRANSCRIPT=$(basename $REF_TRANSCRIPT_LOC .gz) # for salmon quant, fasta file
+hERV_TRANSCRIPT=$(basename $(basename $hERV_TRANSCRIPT_LOC .gz) .bz2) # for salmon quant, fasta file
 id_types="ID"
 
 split_fastq(){ #splits pair ended fastq from bam into 2 files
@@ -62,7 +62,7 @@ group_fastq(){ #group fastq files into pairs
 		if ! grep -q "$(basename file_name)" $PAIR_FILE ; then #if the file does not have pair
 			if check_name ${files[$i]}; then #if formatted correctly
 				echo -e "$(basename $file_name),$(get_r2name $(basename $file_name))" >> $PAIR_FILE
-			elif echo "${files[$i]}" | grep -iq "r2" ; then #the choice is yours how to deal with single-ended files
+			elif ! echo "${files[$i]}" | grep -iq "r2" ; then #the choice is yours how to deal with single-ended files
 				timed_print "compliment to ${files[$i]} not found"
 				((total+=1))
 				if [ $EXIT_ON_SINGLE = "false" ]; then 
