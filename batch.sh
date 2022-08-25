@@ -34,7 +34,7 @@ run_batch() {
 main() {
 	local tmp_ast=$ANALYSIS_STEP
 	ANALYSIS_STEP="index,convert"
-	. $main_loc/analysis.sh 
+	. $main_loc/analysis.sh #source and run analysis.sh give ANALYSIS_STEP="index,convert"
 	ANALYSIS_STEP="$tmp_ast"
 	
 	batch_op
