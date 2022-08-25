@@ -10,7 +10,7 @@ batch_op() {
 }
 
 setup_lsf() {
-	if [ $RUN_MODE = "lsf" ]; then 
+	if [ "$RUN_MODE" = "lsf" ]; then 
 		for i in batches/*; do 
 			pairs="$PAIR_FILE" steps="$ANALYSIS_STEPS" envsubst <test_batch.lsf | echo > "batch_lsf/$(basename $i)"
 		done

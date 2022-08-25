@@ -22,7 +22,7 @@ fi
 #BSUB -n 16
 #BSUB -R 'rusage[mem=32000]'
 
-cd ~/Documents/herv_project
+cd ~/hERV/herv_project
 
 ### raw_data stores all fastq files named as 'fq' or better 'fq.gz' to be processed, it is suggested by siyi to store gzipped fastq files in the raw_data folder
 ### if raw_data folder has reletive dir as '../raw_data', input value as "raw_data"

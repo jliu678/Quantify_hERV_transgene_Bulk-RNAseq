@@ -47,6 +47,7 @@ QC_METHOD="fastp"
 RUN_TYPE="-r"
 CHILD="false"
 EXIT_ON_SINGLE="false"
+RUN_MODE="local"
 
 while [ -n "$1" ]; do #setting variables for sub-processes
 	case "$1" in
