@@ -1,62 +1,0 @@
-/PHShome/jn22/.lsbatch/1661307036.840424.shell: line 25: cd: /PHShome/jn22/Documents/herv_project: No such file or directory
-
-
-==> WARNING: A newer version of conda exists. <==
-  current version: 4.10.1
-  latest version: 4.14.0
-
-Please update conda by running
-
-    $ conda update -n base -c defaults conda
-
-
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   178  100   178    0     0    341      0 --:--:-- --:--:-- --:--:--   341100   178  100   178    0     0    341      0 --:--:-- --:--:-- --:--:--   340
-  0     0    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:02 --:--:--     0  0 10.4M    0 32498    0     0   9599      0  0:19:01  0:00:03  0:18:58 19071  0 10.4M    0 98034    0     0  22816      0  0:08:00  0:00:04  0:07:56 37489  1 10.4M    1  191k    0     0  36122      0  0:05:03  0:00:05  0:04:58 52301  3 10.4M    3  383k    0     0  61860      0  0:02:57  0:00:06  0:02:51 84124  8 10.4M    8  895k    0     0   119k      0  0:01:29  0:00:07  0:01:22  178k 13 10.4M   13 1407k    0     0   167k      0  0:01:03  0:00:08  0:00:55  274k 17 10.4M   17 1903k    0     0   204k      0  0:00:52  0:00:09  0:00:43  360k 23 10.4M   23 2543k    0     0   243k      0  0:00:43  0:00:10  0:00:33  468k 28 10.4M   28 3039k    0     0   267k      0  0:00:39  0:00:11  0:00:28  529k 33 10.4M   33 3583k    0     0   291k      0  0:00:36  0:00:12  0:00:24  561k 39 10.4M   39 4175k    0     0   311k      0  0:00:34  0:00:13  0:00:21  552k 43 10.4M   43 4687k    0     0   327k      0  0:00:32  0:00:14  0:00:18  555k 49 10.4M   49 5311k    0     0   343k      0  0:00:31  0:00:15  0:00:16  552k 54 10.4M   54 5823k    0     0   355k      0  0:00:30  0:00:16  0:00:14  555k 59 10.4M   59 6335k    0     0   366k      0  0:00:29  0:00:17  0:00:12  549k 65 10.4M   65 6975k    0     0   378k      0  0:00:28  0:00:18  0:00:10  558k 69 10.4M   69 7471k    0     0   386k      0  0:00:27  0:00:19  0:00:08  555k 75 10.4M   75 8111k    0     0   396k      0  0:00:27  0:00:20  0:00:07  558k 80 10.4M   80 8623k    0     0   403k      0  0:00:26  0:00:21  0:00:05  558k 85 10.4M   85 9135k    0     0   409k      0  0:00:26  0:00:22  0:00:04  558k 91 10.4M   91 9759k    0     0   416k      0  0:00:25  0:00:23  0:00:02  555k 96 10.4M   96 10.0M    0     0   421k      0  0:00:25  0:00:24  0:00:01  558k100 10.4M  100 10.4M    0     0   427k      0  0:00:25  0:00:25 --:--:--  567k
-
-
-==> WARNING: A newer version of conda exists. <==
-  current version: 4.10.1
-  latest version: 4.14.0
-
-Please update conda by running
-
-    $ conda update -n base -c defaults conda
-
-
-
-
-==> WARNING: A newer version of conda exists. <==
-  current version: 4.10.1
-  latest version: 4.14.0
-
-Please update conda by running
-
-    $ conda update -n base -c defaults conda
-
-
-
-
-==> WARNING: A newer version of conda exists. <==
-  current version: 4.10.1
-  latest version: 4.14.0
-
-Please update conda by running
-
-    $ conda update -n base -c defaults conda
-
-
-Version Info: This is the most recent version of salmon.
-/PHShome/jn22/hERV/herv_project/analysis.sh: line 11: for: command not found
-/PHShome/jn22/hERV/herv_project/analysis.sh: line 12: for: command not found
-/PHShome/jn22/hERV/herv_project/analysis.sh: line 13: for: command not found
-grep: : No such file or directory
-Version Info: This is the most recent version of salmon.
-index ["salmon/package-entities-erv_index"] did not previously exist  . . . creating it
-[2022-08-25 01:22:30.301] [jLog] [info] building index
-out : salmon/package-entities-erv_index
-[2022-08-25 01:22:30.304] [puff::index::jointLog] [info] Running fixFasta
-[2022-08-25 01:22:30.304] [puff::index::jointLog] [critical] The decoy file was empty.  If you have no decoys, then you should not pass the `--decoys` option while indexing.
-[2022-08-25 01:22:30.304] [puff::index::jointLog] [error] The fixFasta phase failed with exit code 1
-/PHShome/jn22/hERV/herv_project/batch.sh: line 13: [: =: unary operator expected
