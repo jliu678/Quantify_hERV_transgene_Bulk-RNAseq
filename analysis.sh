@@ -252,7 +252,7 @@ subread_count() {
 }
 
 salmon_quant() {
-	local index_name="salmon$(IFS=-; echo "${TRANSCRIPTS[*]%.*}")"
+	local index_name="salmon/$(IFS=-; echo "${TRANSCRIPTS[*]%.*}")"
 	if [ "$OVER_WRITE" = "true" ] || [ ! -d "results/salmon/$1" ]; then
 		mkdir results/salmon/$1
 		if [[ $# -eq 2 ]]; then
