@@ -10,7 +10,8 @@ SOURCE=$(basename $SOURCE_LOC)
 REF_GENOME=$(basename $REF_GENOME_LOC .gz) # for salmon decoy
 REF_ANNOTATION=$(basename $REF_ANNOTATION_LOC .gz) # for subread
 REF_TRANSCRIPT=$(basename $REF_TRANSCRIPT_LOC .gz) # for salmon quant, fasta file
-hERV_TRANSCRIPT=$(basename $(basename $hERV_TRANSCRIPT_LOC .gz) .bz2) # for salmon quant, fasta file
+TRANSCRIPTS=$(basename $(basename $TRANSCRIPT_LOCS .gz) .bz2) # for salmon quant, fasta file
+
 id_types="ID"
 
 split_fastq(){ #splits pair ended fastq from bam into 2 files
@@ -110,7 +111,7 @@ get_pairs_all() { #place all files into tmp, group them
 
 fastp_qc(){ #only works for pair ended as of now
 	if [ "$OVER_WRITE" = "true" ] || [ ! -f "tmp/${SOURCE}/qc/$1.qc.fq.gz" ]; then
-		echo "$PWD"
+		# echo "$PWD"
 		if [[ $# -eq 2 ]]; then 
 			./fastp -i "tmp/${SOURCE}/$1.fq.gz" -o "tmp/${SOURCE}/qc/$1.qc.fq.gz" \
 				-I "tmp/${SOURCE}/$2.fq.gz" -O "tmp/${SOURCE}/qc/$2.qc.fq.gz" \
@@ -150,21 +151,22 @@ subread_build_index(){
 }
 
 salmon_build_index(){
-	if [ "$OVER_WRITE" = "true" ] || [ ! -d "salmon/${hERV_TRANSCRIPT%.*}_index" ]; then 
-		timed_print "building salmon index @: salmon/${hERV_TRANSCRIPT%.*}_index"
+	local index_name="salmon/$(IFS=-; echo "${TRANSCRIPTS[*]%.*}")"
+	if [ "$OVER_WRITE" = "true" ] || [ ! -d "${index_name}_index" ]; then 
+		timed_print "building salmon index @: ${index_name}_index"
 
-		if [ "$OVER_WRITE" = "true" ] || [ ! -f "salmon/decoys.txt" ]; then
+		if [ "$OVER_WRITE" = "true" ] || [ ! -f "${index_name}_decoys.txt" ]; then
 			timed_print "building decoys..."
-			grep "^>" "${REF_GENOME}" | cut -d " " -f 1 > "salmon/decoys.txt"
-			sed -i.bak -e 's/>//g' "salmon/decoys.txt"
+			grep "^>" "${REF_GENOME}" | cut -d " " -f 1 > "${index_name}_decoys.txt"
+			sed -i.bak -e 's/>//g' "${index_name}_decoys.txt"
 		fi 
 
-		if [ "$OVER_WRITE" = "true" ] || [ ! -f "salmon/gentrome.fa" ]; then
+		if [ "$OVER_WRITE" = "true" ] || [ ! -f "${index_name}_gentrome.fa" ]; then
 			timed_print "building gentrome..."
-			cat ${hERV_TRANSCRIPT} ${REF_TRANSCRIPT} ${REF_GENOME} > "salmon/gentrome.fa"
+			cat "${TRANSCRIPTS[@]}" "${REF_TRANSCRIPT}" "${REF_GENOME}" > "${index_name}.fa"
 		fi
 
-		salmon index -t salmon/gentrome.fa -d "salmon/decoys.txt" -i "salmon/${hERV_TRANSCRIPT%.*}_index" --gencode
+		salmon index -t ${index_name}.fa -d "${index_name}_decoys.txt" -i "${index_name}_index" --gencode
 	fi
 }
 
@@ -248,12 +250,13 @@ subread_count() {
 }
 
 salmon_quant() {
+	local index_name="salmon$(IFS=-; echo "${TRANSCRIPTS[*]%.*}")"
 	if [ "$OVER_WRITE" = "true" ] || [ ! -d "results/salmon/$1" ]; then
 		mkdir results/salmon/$1
 		if [[ $# -eq 2 ]]; then
-			salmon quant -i "salmon/${hERV_TRANSCRIPT%.*}_index" -l A -1 "tmp/${SOURCE}/qc/$1.qc.fq.gz" -2 "tmp/${SOURCE}/qc/$2.qc.fq.gz" --validateMappings -o "results/salmon/$1"
+			salmon quant -i "${index_name}_index" -l A -1 "tmp/${SOURCE}/qc/$1.qc.fq.gz" -2 "tmp/${SOURCE}/qc/$2.qc.fq.gz" --validateMappings -o "results/salmon/$1"
 		elif [[ $# -eq 1 ]]; then 
-			salmon quant -i "salmon/${hERV_TRANSCRIPT%.*}_index" -l A -r "tmp/${SOURCE}/qc/$1.qc.fq.gz" --validateMappings -o "results/salmon/$1"
+			salmon quant -i "${index_name}_index" -l A -r "tmp/${SOURCE}/qc/$1.qc.fq.gz" --validateMappings -o "results/salmon/$1"
 		fi 
 	fi
 }
@@ -321,7 +324,7 @@ main(){
 	fi
 	# usage=$(awk '{u=$2+$4; t=$2+$4+$5; if (NR==1){u1=u; t1=t;} else print ($2+$4-u1) * 100 / (t-t1) "%"; }' <(grep 'cpu ' /proc/stat) <(sleep 0.5;grep 'cpu ' /proc/stat))
 	timed_print "exiting $$ with: "
-	top -b -n 1 -u sy1022 
+	top -b -n 1 -u $USER
 	/usr/local/bin/pan_quota $HOME
 }
 
