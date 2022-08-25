@@ -3,7 +3,8 @@
 
 . $main_loc/timed.sh
 TRANSCRIPTS=()
-for i in ${TRANSCRIPT_LOC[@]}; do TRANSCRIPTS+=( $(basename $i .gz) ); done
+for i in ${TRANSCRIPT_LOCS[@]}; do TRANSCRIPTS+=( $(basename $i .gz) ); done
+echo ${TRANSCRIPTS[@]}
 ANNOT_FILES=()
 for i in ${ANNOT_LOCS[@]}; do ANNOT_FILES+=( $(basename $i .gz) ); done
 
@@ -41,7 +42,7 @@ download_annotations_subread() {
 
 download_transcripts_salmon() {
 	if [ ! -f $TRANSCRIPTS ]; then
-		for i in ${TRANSCRIPT_LOC[@]}; do
+		for i in ${TRANSCRIPT_LOCS[@]}; do
 			timed_download "$i" 
 		done
 	fi
