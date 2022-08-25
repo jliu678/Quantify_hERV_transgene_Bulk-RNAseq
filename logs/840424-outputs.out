@@ -1,395 +1,0 @@
-/apps/lib/anaconda/2020.02/bin/conda
-Collecting package metadata (current_repodata.json): ...working... done
-Solving environment: ...working... done
-
-## Package Plan ##
-
-  environment location: /PHShome/jn22/.conda/envs/cluster-mgh
-
-
-
-Preparing transaction: ...working... done
-Verifying transaction: ...working... done
-Executing transaction: ...working... done
-#
-# To activate this environment, use
-#
-#     $ conda activate cluster-mgh
-#
-# To deactivate an active environment, use
-#
-#     $ conda deactivate
-
-08/25/22 01:18:35: downloading fastp...
-Collecting package metadata (current_repodata.json): ...working... done
-Solving environment: ...working... done
-
-## Package Plan ##
-
-  environment location: /PHShome/jn22/.conda/envs/cluster-mgh
-
-  added / updated specs:
-    - samtools=1.15.1
-
-
-The following packages will be downloaded:
-
-    package                    |            build
-    ---------------------------|-----------------
-    _openmp_mutex-4.5          |            2_gnu          23 KB  conda-forge
-    ca-certificates-2022.6.15  |       ha878542_0         149 KB  conda-forge
-    htslib-1.15.1              |       h9753748_0         2.1 MB  bioconda
-    krb5-1.19.3                |       h3790be6_0         1.4 MB  conda-forge
-    libcurl-7.83.1             |       h7bff187_0         342 KB  conda-forge
-    libgcc-ng-12.1.0           |      h8d9b700_16         940 KB  conda-forge
-    libgomp-12.1.0             |      h8d9b700_16         459 KB  conda-forge
-    libnghttp2-1.47.0          |       hdcd2b5c_1         808 KB  conda-forge
-    libssh2-1.10.0             |       haa6b8db_3         234 KB  conda-forge
-    libstdcxx-ng-12.1.0        |      ha89aaad_16         4.3 MB  conda-forge
-    libzlib-1.2.12             |       h166bdaf_2          63 KB  conda-forge
-    ncurses-6.3                |       h27087fc_1        1002 KB  conda-forge
-    openssl-1.1.1q             |       h166bdaf_0         2.1 MB  conda-forge
-    samtools-1.15.1            |       h1170115_0         393 KB  bioconda
-    xz-5.2.6                   |       h166bdaf_0         409 KB  conda-forge
-    zlib-1.2.12                |       h166bdaf_2          91 KB  conda-forge
-    ------------------------------------------------------------
-                                           Total:        14.7 MB
-
-The following NEW packages will be INSTALLED:
-
-  _libgcc_mutex      conda-forge/linux-64::_libgcc_mutex-0.1-conda_forge
-  _openmp_mutex      conda-forge/linux-64::_openmp_mutex-4.5-2_gnu
-  bzip2              conda-forge/linux-64::bzip2-1.0.8-h7f98852_4
-  c-ares             conda-forge/linux-64::c-ares-1.18.1-h7f98852_0
-  ca-certificates    conda-forge/linux-64::ca-certificates-2022.6.15-ha878542_0
-  htslib             bioconda/linux-64::htslib-1.15.1-h9753748_0
-  keyutils           conda-forge/linux-64::keyutils-1.6.1-h166bdaf_0
-  krb5               conda-forge/linux-64::krb5-1.19.3-h3790be6_0
-  libcurl            conda-forge/linux-64::libcurl-7.83.1-h7bff187_0
-  libdeflate         conda-forge/linux-64::libdeflate-1.10-h7f98852_0
-  libedit            conda-forge/linux-64::libedit-3.1.20191231-he28a2e2_2
-  libev              conda-forge/linux-64::libev-4.33-h516909a_1
-  libgcc-ng          conda-forge/linux-64::libgcc-ng-12.1.0-h8d9b700_16
-  libgomp            conda-forge/linux-64::libgomp-12.1.0-h8d9b700_16
-  libnghttp2         conda-forge/linux-64::libnghttp2-1.47.0-hdcd2b5c_1
-  libssh2            conda-forge/linux-64::libssh2-1.10.0-haa6b8db_3
-  libstdcxx-ng       conda-forge/linux-64::libstdcxx-ng-12.1.0-ha89aaad_16
-  libzlib            conda-forge/linux-64::libzlib-1.2.12-h166bdaf_2
-  ncurses            conda-forge/linux-64::ncurses-6.3-h27087fc_1
-  openssl            conda-forge/linux-64::openssl-1.1.1q-h166bdaf_0
-  samtools           bioconda/linux-64::samtools-1.15.1-h1170115_0
-  xz                 conda-forge/linux-64::xz-5.2.6-h166bdaf_0
-  zlib               conda-forge/linux-64::zlib-1.2.12-h166bdaf_2
-
-
-
-Downloading and Extracting Packages
-krb5-1.19.3          | 1.4 MB    |            |   0% krb5-1.19.3          | 1.4 MB    | #5         |  15% krb5-1.19.3          | 1.4 MB    | ########## | 100% krb5-1.19.3          | 1.4 MB    | ########## | 100% 
-_openmp_mutex-4.5    | 23 KB     |            |   0% _openmp_mutex-4.5    | 23 KB     | ########## | 100% _openmp_mutex-4.5    | 23 KB     | ########## | 100% 
-ncurses-6.3          | 1002 KB   |            |   0% ncurses-6.3          | 1002 KB   | ########## | 100% ncurses-6.3          | 1002 KB   | ########## | 100% 
-samtools-1.15.1      | 393 KB    |            |   0% samtools-1.15.1      | 393 KB    | ########1  |  82% samtools-1.15.1      | 393 KB    | ########## | 100% 
-libcurl-7.83.1       | 342 KB    |            |   0% libcurl-7.83.1       | 342 KB    | ########## | 100% libcurl-7.83.1       | 342 KB    | ########## | 100% 
-openssl-1.1.1q       | 2.1 MB    |            |   0% openssl-1.1.1q       | 2.1 MB    | ########## | 100% openssl-1.1.1q       | 2.1 MB    | ########## | 100% 
-ca-certificates-2022 | 149 KB    |            |   0% ca-certificates-2022 | 149 KB    | ########## | 100% ca-certificates-2022 | 149 KB    | ########## | 100% 
-libzlib-1.2.12       | 63 KB     |            |   0% libzlib-1.2.12       | 63 KB     | ########## | 100% libzlib-1.2.12       | 63 KB     | ########## | 100% 
-zlib-1.2.12          | 91 KB     |            |   0% zlib-1.2.12          | 91 KB     | ########## | 100% zlib-1.2.12          | 91 KB     | ########## | 100% 
-libgcc-ng-12.1.0     | 940 KB    |            |   0% libgcc-ng-12.1.0     | 940 KB    | ########## | 100% libgcc-ng-12.1.0     | 940 KB    | ########## | 100% 
-libnghttp2-1.47.0    | 808 KB    |            |   0% libnghttp2-1.47.0    | 808 KB    | ########## | 100% libnghttp2-1.47.0    | 808 KB    | ########## | 100% 
-libstdcxx-ng-12.1.0  | 4.3 MB    |            |   0% libstdcxx-ng-12.1.0  | 4.3 MB    | #########5 |  95% libstdcxx-ng-12.1.0  | 4.3 MB    | ########## | 100% 
-xz-5.2.6             | 409 KB    |            |   0% xz-5.2.6             | 409 KB    | ########## | 100% xz-5.2.6             | 409 KB    | ########## | 100% 
-libgomp-12.1.0       | 459 KB    |            |   0% libgomp-12.1.0       | 459 KB    | ########## | 100% libgomp-12.1.0       | 459 KB    | ########## | 100% 
-htslib-1.15.1        | 2.1 MB    |            |   0% htslib-1.15.1        | 2.1 MB    | ########## | 100% htslib-1.15.1        | 2.1 MB    | ########## | 100% 
-libssh2-1.10.0       | 234 KB    |            |   0% libssh2-1.10.0       | 234 KB    | ########## | 100% libssh2-1.10.0       | 234 KB    | ########## | 100% 
-Preparing transaction: ...working... done
-Verifying transaction: ...working... done
-Executing transaction: ...working... done
-Collecting package metadata (current_repodata.json): ...working... done
-Solving environment: ...working... done
-
-## Package Plan ##
-
-  environment location: /PHShome/jn22/.conda/envs/cluster-mgh
-
-  added / updated specs:
-    - subread=2.0.1
-
-
-The following packages will be downloaded:
-
-    package                    |            build
-    ---------------------------|-----------------
-    subread-2.0.1              |       h7132678_2        22.9 MB  bioconda
-    ------------------------------------------------------------
-                                           Total:        22.9 MB
-
-The following NEW packages will be INSTALLED:
-
-  subread            bioconda/linux-64::subread-2.0.1-h7132678_2
-
-
-
-Downloading and Extracting Packages
-subread-2.0.1        | 22.9 MB   |            |   0% subread-2.0.1        | 22.9 MB   | 1          |   2% subread-2.0.1        | 22.9 MB   | ##8        |  29% subread-2.0.1        | 22.9 MB   | #####4     |  55% subread-2.0.1        | 22.9 MB   | ########   |  81% subread-2.0.1        | 22.9 MB   | ########## | 100% subread-2.0.1        | 22.9 MB   | ########## | 100% 
-Preparing transaction: ...working... done
-Verifying transaction: ...working... done
-Executing transaction: ...working... done
-Collecting package metadata (current_repodata.json): ...working... done
-Solving environment: ...working... done
-
-## Package Plan ##
-
-  environment location: /PHShome/jn22/.conda/envs/cluster-mgh
-
-  added / updated specs:
-    - salmon=1.9.0
-
-
-The following packages will be downloaded:
-
-    package                    |            build
-    ---------------------------|-----------------
-    boost-cpp-1.74.0           |       h6cacc03_7        16.3 MB  conda-forge
-    libjemalloc-5.2.1          |       h9c3ff4c_6         1.6 MB  conda-forge
-    salmon-1.9.0               |       h7e5ed60_1         5.9 MB  bioconda
-    tbb-2021.5.0               |       h924138e_1         1.9 MB  conda-forge
-    zstd-1.5.2                 |       h6239696_4         448 KB  conda-forge
-    ------------------------------------------------------------
-                                           Total:        26.1 MB
-
-The following NEW packages will be INSTALLED:
-
-  boost-cpp          conda-forge/linux-64::boost-cpp-1.74.0-h6cacc03_7
-  icu                conda-forge/linux-64::icu-69.1-h9c3ff4c_0
-  libjemalloc        conda-forge/linux-64::libjemalloc-5.2.1-h9c3ff4c_6
-  salmon             bioconda/linux-64::salmon-1.9.0-h7e5ed60_1
-  tbb                conda-forge/linux-64::tbb-2021.5.0-h924138e_1
-  zstd               conda-forge/linux-64::zstd-1.5.2-h6239696_4
-
-
-
-Downloading and Extracting Packages
-boost-cpp-1.74.0     | 16.3 MB   |            |   0% boost-cpp-1.74.0     | 16.3 MB   | 5          |   5% boost-cpp-1.74.0     | 16.3 MB   | ###6       |  37% boost-cpp-1.74.0     | 16.3 MB   | ######8    |  69% boost-cpp-1.74.0     | 16.3 MB   | ########## | 100% boost-cpp-1.74.0     | 16.3 MB   | ########## | 100% 
-zstd-1.5.2           | 448 KB    |            |   0% zstd-1.5.2           | 448 KB    | ########## | 100% zstd-1.5.2           | 448 KB    | ########## | 100% 
-libjemalloc-5.2.1    | 1.6 MB    |            |   0% libjemalloc-5.2.1    | 1.6 MB    | ########## | 100% libjemalloc-5.2.1    | 1.6 MB    | ########## | 100% 
-salmon-1.9.0         | 5.9 MB    |            |   0% salmon-1.9.0         | 5.9 MB    | #####9     |  60% salmon-1.9.0         | 5.9 MB    | ########## | 100% salmon-1.9.0         | 5.9 MB    | ########## | 100% 
-tbb-2021.5.0         | 1.9 MB    |            |   0% tbb-2021.5.0         | 1.9 MB    | ########## | 100% tbb-2021.5.0         | 1.9 MB    | ########## | 100% 
-Preparing transaction: ...working... done
-Verifying transaction: ...working... done
-Executing transaction: ...working... done
-08/25/22 01:22:28: GRCh38.p13.genome.fa.gz already exists
-08/25/22 01:22:28: gencode.v41.transcripts.fa.gz already exists
-salmon v1.9.0
-
-Usage:  salmon -h|--help or 
-        salmon -v|--version or 
-        salmon -c|--cite or 
-        salmon [--no-version-check] <COMMAND> [-h | options]
-
-Commands:
-     index      : create a salmon index
-     quant      : quantify a sample
-     alevin     : single cell analysis
-     swim       : perform super-secret operation
-     quantmerge : merge multiple quantifications into a single file
-08/25/22 01:22:28: starting 21550
-08/25/22 01:22:28: analysing...
-08/25/22 01:22:28: index-ing...
-08/25/22 01:22:28: building salmon index @: salmon/package-entities-erv_index
-08/25/22 01:22:28: building decoys...
-08/25/22 01:22:28: building gentrome...
-08/25/22 01:22:30: finished index
-08/25/22 01:22:30: convert-ing...
-08/25/22 01:22:30: moving ../raw_data/B_1_1.fq.gz...
-08/25/22 01:22:30: moved ../raw_data/B_1_1.fq.gz
-08/25/22 01:22:30: moving ../raw_data/B_1_2.fq.gz...
-08/25/22 01:22:30: moved ../raw_data/B_1_2.fq.gz
-08/25/22 01:22:30: moving ../raw_data/B_2_1.fq.gz...
-08/25/22 01:22:30: moved ../raw_data/B_2_1.fq.gz
-08/25/22 01:22:30: moving ../raw_data/B_2_2.fq.gz...
-08/25/22 01:22:30: moved ../raw_data/B_2_2.fq.gz
-08/25/22 01:22:30: moving ../raw_data/B_3_1.fq.gz...
-08/25/22 01:22:30: moved ../raw_data/B_3_1.fq.gz
-08/25/22 01:22:30: moving ../raw_data/B_3_2.fq.gz...
-08/25/22 01:22:30: moved ../raw_data/B_3_2.fq.gz
-08/25/22 01:22:30: moving ../raw_data/B_CtL2_1_1.fq.gz...
-08/25/22 01:22:30: moved ../raw_data/B_CtL2_1_1.fq.gz
-08/25/22 01:22:30: moving ../raw_data/B_CtL2_1_2.fq.gz...
-08/25/22 01:22:30: moved ../raw_data/B_CtL2_1_2.fq.gz
-08/25/22 01:22:30: moving ../raw_data/B_CtL2_2_1.fq.gz...
-08/25/22 01:22:30: moved ../raw_data/B_CtL2_2_1.fq.gz
-08/25/22 01:22:30: moving ../raw_data/B_CtL2_2_2.fq.gz...
-08/25/22 01:22:30: moved ../raw_data/B_CtL2_2_2.fq.gz
-08/25/22 01:22:30: moving ../raw_data/B_CtL2_3_1.fq.gz...
-08/25/22 01:22:30: moved ../raw_data/B_CtL2_3_1.fq.gz
-08/25/22 01:22:30: moving ../raw_data/B_CtL2_3_2.fq.gz...
-08/25/22 01:22:30: moved ../raw_data/B_CtL2_3_2.fq.gz
-08/25/22 01:22:30: moving ../raw_data/BH_1_1.fq.gz...
-08/25/22 01:22:30: moved ../raw_data/BH_1_1.fq.gz
-08/25/22 01:22:30: moving ../raw_data/BH_1_2.fq.gz...
-08/25/22 01:22:30: moved ../raw_data/BH_1_2.fq.gz
-08/25/22 01:22:30: moving ../raw_data/BH_2_1.fq.gz...
-08/25/22 01:22:30: moved ../raw_data/BH_2_1.fq.gz
-08/25/22 01:22:30: moving ../raw_data/BH_2_2.fq.gz...
-08/25/22 01:22:30: moved ../raw_data/BH_2_2.fq.gz
-08/25/22 01:22:30: moving ../raw_data/BH_3_1.fq.gz...
-08/25/22 01:22:30: moved ../raw_data/BH_3_1.fq.gz
-08/25/22 01:22:30: moving ../raw_data/BH_3_2.fq.gz...
-08/25/22 01:22:30: moved ../raw_data/BH_3_2.fq.gz
-08/25/22 01:22:30: moving ../raw_data/BH_CtL2_1_1.fq.gz...
-08/25/22 01:22:30: moved ../raw_data/BH_CtL2_1_1.fq.gz
-08/25/22 01:22:30: moving ../raw_data/BH_CtL2_1_2.fq.gz...
-08/25/22 01:22:30: moved ../raw_data/BH_CtL2_1_2.fq.gz
-08/25/22 01:22:30: moving ../raw_data/BH_CtL2_2_1.fq.gz...
-08/25/22 01:22:30: moved ../raw_data/BH_CtL2_2_1.fq.gz
-08/25/22 01:22:30: moving ../raw_data/BH_CtL2_2_2.fq.gz...
-08/25/22 01:22:30: moved ../raw_data/BH_CtL2_2_2.fq.gz
-08/25/22 01:22:30: moving ../raw_data/BH_CtL2_3_1.fq.gz...
-08/25/22 01:22:30: moved ../raw_data/BH_CtL2_3_1.fq.gz
-08/25/22 01:22:30: moving ../raw_data/BH_CtL2_3_2.fq.gz...
-08/25/22 01:22:30: moved ../raw_data/BH_CtL2_3_2.fq.gz
-08/25/22 01:22:30: moving ../raw_data/H_CtL2_1_1.fq.gz...
-08/25/22 01:22:30: moved ../raw_data/H_CtL2_1_1.fq.gz
-08/25/22 01:22:30: moving ../raw_data/H_CtL2_1_2.fq.gz...
-08/25/22 01:22:30: moved ../raw_data/H_CtL2_1_2.fq.gz
-08/25/22 01:22:30: moving ../raw_data/H_CtL2_2_1.fq.gz...
-08/25/22 01:22:30: moved ../raw_data/H_CtL2_2_1.fq.gz
-08/25/22 01:22:30: moving ../raw_data/H_CtL2_2_2.fq.gz...
-08/25/22 01:22:30: moved ../raw_data/H_CtL2_2_2.fq.gz
-08/25/22 01:22:30: moving ../raw_data/H_CtL2_3_1.fq.gz...
-08/25/22 01:22:30: moved ../raw_data/H_CtL2_3_1.fq.gz
-08/25/22 01:22:30: moving ../raw_data/H_CtL2_3_2.fq.gz...
-08/25/22 01:22:30: moved ../raw_data/H_CtL2_3_2.fq.gz
-08/25/22 01:22:30: moving ../raw_data/MX_1_1.fq.gz...
-08/25/22 01:22:30: moved ../raw_data/MX_1_1.fq.gz
-08/25/22 01:22:30: moving ../raw_data/MX_1_2.fq.gz...
-08/25/22 01:22:30: moved ../raw_data/MX_1_2.fq.gz
-08/25/22 01:22:30: moving ../raw_data/MX_2_1.fq.gz...
-08/25/22 01:22:30: moved ../raw_data/MX_2_1.fq.gz
-08/25/22 01:22:30: moving ../raw_data/MX_2_2.fq.gz...
-08/25/22 01:22:30: moved ../raw_data/MX_2_2.fq.gz
-08/25/22 01:22:30: moving ../raw_data/MX_3_1.fq.gz...
-08/25/22 01:22:30: moved ../raw_data/MX_3_1.fq.gz
-08/25/22 01:22:30: moving ../raw_data/MX_3_2.fq.gz...
-08/25/22 01:22:30: moved ../raw_data/MX_3_2.fq.gz
-08/25/22 01:22:30: moving ../raw_data/MX_CtL2_1_1.fq.gz...
-08/25/22 01:22:30: moved ../raw_data/MX_CtL2_1_1.fq.gz
-08/25/22 01:22:31: moving ../raw_data/MX_CtL2_1_2.fq.gz...
-08/25/22 01:22:31: moved ../raw_data/MX_CtL2_1_2.fq.gz
-08/25/22 01:22:31: moving ../raw_data/MX_CtL2_2_1.fq.gz...
-08/25/22 01:22:31: moved ../raw_data/MX_CtL2_2_1.fq.gz
-08/25/22 01:22:31: moving ../raw_data/MX_CtL2_2_2.fq.gz...
-08/25/22 01:22:31: moved ../raw_data/MX_CtL2_2_2.fq.gz
-08/25/22 01:22:31: moving ../raw_data/MX_CtL2_3_1.fq.gz...
-08/25/22 01:22:31: moved ../raw_data/MX_CtL2_3_1.fq.gz
-08/25/22 01:22:31: moving ../raw_data/MX_CtL2_3_2.fq.gz...
-08/25/22 01:22:31: moved ../raw_data/MX_CtL2_3_2.fq.gz
-08/25/22 01:22:31: moving ../raw_data/P53_CtL2_1_1.fq.gz...
-08/25/22 01:22:31: moved ../raw_data/P53_CtL2_1_1.fq.gz
-08/25/22 01:22:31: moving ../raw_data/P53_CtL2_1_2.fq.gz...
-08/25/22 01:22:31: moved ../raw_data/P53_CtL2_1_2.fq.gz
-08/25/22 01:22:31: moving ../raw_data/P53_CtL2_2_1.fq.gz...
-08/25/22 01:22:31: moved ../raw_data/P53_CtL2_2_1.fq.gz
-08/25/22 01:22:31: moving ../raw_data/P53_CtL2_2_2.fq.gz...
-08/25/22 01:22:31: moved ../raw_data/P53_CtL2_2_2.fq.gz
-08/25/22 01:22:31: moving ../raw_data/P53_CtL2_3_1.fq.gz...
-08/25/22 01:22:31: moved ../raw_data/P53_CtL2_3_1.fq.gz
-08/25/22 01:22:31: moving ../raw_data/P53_CtL2_3_2.fq.gz...
-08/25/22 01:22:31: moved ../raw_data/P53_CtL2_3_2.fq.gz
-08/25/22 01:22:31: moving ../raw_data/YBH_1_1.fq.gz...
-08/25/22 01:22:31: moved ../raw_data/YBH_1_1.fq.gz
-08/25/22 01:22:31: moving ../raw_data/YBH_1_2.fq.gz...
-08/25/22 01:22:31: moved ../raw_data/YBH_1_2.fq.gz
-08/25/22 01:22:31: moving ../raw_data/YBH_2_1.fq.gz...
-08/25/22 01:22:31: moved ../raw_data/YBH_2_1.fq.gz
-08/25/22 01:22:31: moving ../raw_data/YBH_2_2.fq.gz...
-08/25/22 01:22:31: moved ../raw_data/YBH_2_2.fq.gz
-08/25/22 01:22:31: moving ../raw_data/YBH_3_1.fq.gz...
-08/25/22 01:22:31: moved ../raw_data/YBH_3_1.fq.gz
-08/25/22 01:22:31: moving ../raw_data/YBH_3_2.fq.gz...
-08/25/22 01:22:31: moved ../raw_data/YBH_3_2.fq.gz
-08/25/22 01:22:31: moving ../raw_data/YBH_CtL2_1_1.fq.gz...
-08/25/22 01:22:31: moved ../raw_data/YBH_CtL2_1_1.fq.gz
-08/25/22 01:22:31: moving ../raw_data/YBH_CtL2_1_2.fq.gz...
-08/25/22 01:22:31: moved ../raw_data/YBH_CtL2_1_2.fq.gz
-08/25/22 01:22:31: moving ../raw_data/YBH_CtL2_2_1.fq.gz...
-08/25/22 01:22:31: moved ../raw_data/YBH_CtL2_2_1.fq.gz
-08/25/22 01:22:31: moving ../raw_data/YBH_CtL2_2_2.fq.gz...
-08/25/22 01:22:31: moved ../raw_data/YBH_CtL2_2_2.fq.gz
-08/25/22 01:22:31: moving ../raw_data/YBH_CtL2_3_1.fq.gz...
-08/25/22 01:22:31: moved ../raw_data/YBH_CtL2_3_1.fq.gz
-08/25/22 01:22:31: moving ../raw_data/YBH_CtL2_3_2.fq.gz...
-08/25/22 01:22:31: moved ../raw_data/YBH_CtL2_3_2.fq.gz
-08/25/22 01:22:31: moving ../raw_data/Y_CtL2_1_1.fq.gz...
-08/25/22 01:22:31: moved ../raw_data/Y_CtL2_1_1.fq.gz
-08/25/22 01:22:31: moving ../raw_data/Y_CtL2_1_2.fq.gz...
-08/25/22 01:22:31: moved ../raw_data/Y_CtL2_1_2.fq.gz
-08/25/22 01:22:31: moving ../raw_data/Y_CtL2_2_1.fq.gz...
-08/25/22 01:22:31: moved ../raw_data/Y_CtL2_2_1.fq.gz
-08/25/22 01:22:31: moving ../raw_data/Y_CtL2_2_2.fq.gz...
-08/25/22 01:22:31: moved ../raw_data/Y_CtL2_2_2.fq.gz
-08/25/22 01:22:31: moving ../raw_data/Y_CtL2_3_1.fq.gz...
-08/25/22 01:22:31: moved ../raw_data/Y_CtL2_3_1.fq.gz
-08/25/22 01:22:31: moving ../raw_data/Y_CtL2_3_2.fq.gz...
-08/25/22 01:22:31: moved ../raw_data/Y_CtL2_3_2.fq.gz
-08/25/22 01:22:31: moving ../raw_data/YH_CtL2_1_1.fq.gz...
-08/25/22 01:22:31: moved ../raw_data/YH_CtL2_1_1.fq.gz
-08/25/22 01:22:31: moving ../raw_data/YH_CtL2_1_2.fq.gz...
-08/25/22 01:22:31: moved ../raw_data/YH_CtL2_1_2.fq.gz
-08/25/22 01:22:31: moving ../raw_data/YH_CtL2_2_1.fq.gz...
-08/25/22 01:22:31: moved ../raw_data/YH_CtL2_2_1.fq.gz
-08/25/22 01:22:31: moving ../raw_data/YH_CtL2_2_2.fq.gz...
-08/25/22 01:22:31: moved ../raw_data/YH_CtL2_2_2.fq.gz
-08/25/22 01:22:31: moving ../raw_data/YH_CtL2_3_1.fq.gz...
-08/25/22 01:22:31: moved ../raw_data/YH_CtL2_3_1.fq.gz
-08/25/22 01:22:31: moving ../raw_data/YH_CtL2_3_2.fq.gz...
-08/25/22 01:22:31: moved ../raw_data/YH_CtL2_3_2.fq.gz
-08/25/22 01:22:31: grouping fastq files in tmp/raw_data/
-08/25/22 01:22:31: compliment to tmp/raw_data/B_1_1.fq.gz not found
-08/25/22 01:22:31: compliment to tmp/raw_data/B_2_1.fq.gz not found
-08/25/22 01:22:31: compliment to tmp/raw_data/B_3_1.fq.gz not found
-08/25/22 01:22:31: compliment to tmp/raw_data/B_CtL2_1_1.fq.gz not found
-08/25/22 01:22:31: compliment to tmp/raw_data/B_CtL2_2_1.fq.gz not found
-08/25/22 01:22:31: compliment to tmp/raw_data/B_CtL2_3_1.fq.gz not found
-08/25/22 01:22:31: compliment to tmp/raw_data/BH_1_1.fq.gz not found
-08/25/22 01:22:31: compliment to tmp/raw_data/BH_2_1.fq.gz not found
-08/25/22 01:22:31: compliment to tmp/raw_data/BH_3_1.fq.gz not found
-08/25/22 01:22:31: compliment to tmp/raw_data/BH_CtL2_1_1.fq.gz not found
-08/25/22 01:22:32: compliment to tmp/raw_data/BH_CtL2_2_1.fq.gz not found
-08/25/22 01:22:32: compliment to tmp/raw_data/BH_CtL2_3_1.fq.gz not found
-08/25/22 01:22:32: compliment to tmp/raw_data/H_CtL2_1_1.fq.gz not found
-08/25/22 01:22:32: compliment to tmp/raw_data/H_CtL2_2_1.fq.gz not found
-08/25/22 01:22:32: compliment to tmp/raw_data/H_CtL2_3_1.fq.gz not found
-08/25/22 01:22:32: compliment to tmp/raw_data/MX_1_1.fq.gz not found
-08/25/22 01:22:32: compliment to tmp/raw_data/MX_2_1.fq.gz not found
-08/25/22 01:22:32: compliment to tmp/raw_data/MX_3_1.fq.gz not found
-08/25/22 01:22:32: compliment to tmp/raw_data/MX_CtL2_1_1.fq.gz not found
-08/25/22 01:22:32: compliment to tmp/raw_data/MX_CtL2_2_1.fq.gz not found
-08/25/22 01:22:32: compliment to tmp/raw_data/MX_CtL2_3_1.fq.gz not found
-08/25/22 01:22:32: compliment to tmp/raw_data/P53_CtL2_1_1.fq.gz not found
-08/25/22 01:22:32: compliment to tmp/raw_data/P53_CtL2_2_1.fq.gz not found
-08/25/22 01:22:32: compliment to tmp/raw_data/P53_CtL2_3_1.fq.gz not found
-08/25/22 01:22:32: compliment to tmp/raw_data/YBH_1_1.fq.gz not found
-08/25/22 01:22:32: compliment to tmp/raw_data/YBH_2_1.fq.gz not found
-08/25/22 01:22:32: compliment to tmp/raw_data/YBH_3_1.fq.gz not found
-08/25/22 01:22:32: compliment to tmp/raw_data/YBH_CtL2_1_1.fq.gz not found
-08/25/22 01:22:32: compliment to tmp/raw_data/YBH_CtL2_2_1.fq.gz not found
-08/25/22 01:22:32: compliment to tmp/raw_data/YBH_CtL2_3_1.fq.gz not found
-08/25/22 01:22:32: compliment to tmp/raw_data/Y_CtL2_1_1.fq.gz not found
-08/25/22 01:22:32: compliment to tmp/raw_data/Y_CtL2_2_1.fq.gz not found
-08/25/22 01:22:32: compliment to tmp/raw_data/Y_CtL2_3_1.fq.gz not found
-08/25/22 01:22:32: compliment to tmp/raw_data/YH_CtL2_1_1.fq.gz not found
-08/25/22 01:22:32: compliment to tmp/raw_data/YH_CtL2_2_1.fq.gz not found
-08/25/22 01:22:32: compliment to tmp/raw_data/YH_CtL2_3_1.fq.gz not found
-08/25/22 01:22:32: grouped fastq files, found total 36 files without compliment
-08/25/22 01:22:32: finished 71
-08/25/22 01:22:32: exiting 21550 with: 
-top - 01:22:33 up 540 days, 13:54,  0 users,  load average: 13.57, 14.04, 15.70
-Tasks: 724 total,  10 running, 714 sleeping,   0 stopped,   0 zombie
-%Cpu(s): 18.8 us,  2.3 sy,  0.0 ni, 78.8 id,  0.0 wa,  0.0 hi,  0.1 si,  0.0 st
-KiB Mem : 26363100+total, 18752880 free, 26280676 used, 21859745+buff/cache
-KiB Swap:  4194300 total,   666316 free,  3527984 used. 22056163+avail Mem 
-
-  PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND
-
-    <GB> <soft> <hard> : <files>   <soft>   <hard> : <path to volume> <pan_identity(name)>
-  262.45 200.00 600.00 :  367395 10000000 15000000 : /PHShome/jn22 uid:4540243(jn22)
