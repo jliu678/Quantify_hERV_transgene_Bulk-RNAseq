@@ -92,7 +92,7 @@ check_core_dump() {
 loop_until_finished() {
 	my_jobs=()
 	while check_core_dump; do
-		timed_print "there were core dumped :("
+		echo "there were core dumped :("
 	done
 }
 
