@@ -29,28 +29,38 @@ run_batch() {
 }
 
 check_quant_sf() {
+	rtn=1
 	for i in /results/salmon/*; do 
 		if [ ! -f $i/quant.sf ]; then 
 			rm -r $i
 			need_to_restart+=($i)
+			rtn=0
 		fi 
 	done
+	return $rtn 
 }
 
 check_core_dump() {
 	if compgen -G "core.*" > /dev/null; then
-		timed_print "core dumped :("
 		for i in core.*; do 
 			rm $i
 		fi
 
 		need_to_restart=()
 		check_quant_sf
+		rtn=$?
 		for i in $need_to_restart; do 
 			pair_file=$(grep "$i" batches/*)
 			run_batch "$pair_file"
 		done
 	fi 
+	return $rtn
+}
+
+loop_until_finished() {
+	while check_core_dump; do
+		timed_print "there were core dumped :("
+	done
 }
 
 # if [ ! -d "logs" ]; then
@@ -75,6 +85,7 @@ main() {
 	for i in batches/*; do
 		while [[ ${#my_jobs[@]} -ge $MAX_PARALLEL ]]; do
 			timed_print ${my_jobs[@]}
+			check_core_dump
 			sleep 10
 			for j in ${!my_jobs[@]}; do 
 				output=$(ps -p "${my_jobs[$j]}")
@@ -91,6 +102,9 @@ main() {
 		# (trap "kill 0" SIGINT ; . $main_loc/analysis.sh) &
 		# (. $main_loc/analysis.sh) &
 	done
+
+	loop_until_finished
+
 	CHILD="false"
 	PAIR_FILE="$tmp_PAIR_FILE"
 	wait ${my_jobs[@]}
