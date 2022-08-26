@@ -23,8 +23,34 @@ run_batch() {
 		local) 
 			PAIR_FILE=$i; CHILD="true"
 			(trap "kill 0" SIGINT ; . $main_loc/analysis.sh) & 
+			my_jobs+=( $! )
 		;;
 	esac
+}
+
+check_quant_sf() {
+	for i in /results/salmon/*; do 
+		if [ ! -f $i/quant.sf ]; then 
+			rm -r $i
+			need_to_restart+=($i)
+		fi 
+	done
+}
+
+check_core_dump() {
+	if compgen -G "core.*" > /dev/null; then
+		timed_print "core dumped :("
+		for i in core.*; do 
+			rm $i
+		fi
+
+		need_to_restart=()
+		check_quant_sf
+		for i in $need_to_restart; do 
+			pair_file=$(grep "$i" batches/*)
+			run_batch "$pair_file"
+		done
+	fi 
 }
 
 # if [ ! -d "logs" ]; then
@@ -64,7 +90,6 @@ main() {
 
 		# (trap "kill 0" SIGINT ; . $main_loc/analysis.sh) &
 		# (. $main_loc/analysis.sh) &
-		my_jobs+=( $! )
 	done
 	CHILD="false"
 	PAIR_FILE="$tmp_PAIR_FILE"
