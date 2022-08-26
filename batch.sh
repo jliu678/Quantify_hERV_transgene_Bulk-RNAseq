@@ -28,7 +28,7 @@ run_batch() {
 	esac
 }
 
-wait_batch() {
+wait_batches() {
 	while [[ ${#my_jobs[@]} -ge $MAX_PARALLEL ]]; do
 		timed_print ${my_jobs[@]}
 		sleep 60
@@ -51,7 +51,7 @@ launch_batches() {
 	# trap "kill -SIGINT -- -$group_id" SIGINT
 
 	for i in batches/*; do
-		wait_batch
+		wait_batches
 
 		run_batch $i
 		# (trap "kill 0" SIGINT ; . $main_loc/analysis.sh) &
