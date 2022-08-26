@@ -1,4 +1,5 @@
 #!/bin/bash
+. $main_loc/timed.sh
 
 batch_op() {
 	if [ ! -d batches ]; then
@@ -33,8 +34,7 @@ wait_batches() {
 		timed_print ${my_jobs[@]}
 		sleep 60
 		for j in ${!my_jobs[@]}; do 
-			output=$(ps -p "${my_jobs[$j]}")
-			if [ ! $? -eq 0 ] ; then
+			if ! ps -p "${my_jobs[$j]}" ; then # if pid does not exist
 				echo ${my_jobs[$j]} is not running
 				unset my_jobs[$j] # remove it
 			fi
@@ -85,6 +85,7 @@ check_core_dump() {
 				pair_file=$(grep "$i" batches/*)
 				run_batch "$pair_file"
 			done
+			wait ${my_jobs[@]}
 			return 0
 		fi
 	fi 
@@ -94,7 +95,7 @@ check_core_dump() {
 loop_until_finished() {
 	my_jobs=()
 	while check_core_dump; do
-		echo "there were core dumped :("
+		timed_print "there were core dumped :("
 	done
 }
 
