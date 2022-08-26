@@ -3,7 +3,7 @@
 ### the script succeeds from test_single.lsf
 
 #BSUB -L /bin/bash
-#BSUB -J test_single
+#BSUB -J bigMeme
 
 #BSUB -u jliu78@mgh.harvard.edu
 ### -- send notification at start -- 
@@ -18,9 +18,9 @@ fi
 #BSUB -e logs/%J-errors.err
 #BSUB -o logs/%J-outputs.out
 
-#BSUB -q normal
+#BSUB -q bigmem
 #BSUB -n 16
-#BSUB -R 'rusage[mem=32000]'
+#BSUB -R 'rusage[mem=126000]'
 
 cd ~/hERV/herv_project
 
@@ -93,4 +93,6 @@ bash main.sh -PLATFORM "cluster-mgh" -ANALYSIS_STEP "all" -SOURCE "raw_data" -BA
 
 ################## OUTPUT FILE ######################################
 ### all output files will be stored in ../hervwork/results
+
+
 
