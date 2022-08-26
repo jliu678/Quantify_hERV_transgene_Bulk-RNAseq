@@ -1,4 +1,5 @@
 # herv_project
+
 cd ~/hERV/herv_project
 
 ########### NOTE #############################################
@@ -65,8 +66,8 @@ cd ~/hERV/herv_project
 
 bash main.sh -PLATFORM "cluster-mgh" -ANALYSIS_STEP "all" -SOURCE "raw_data" -BATCH_SIZE 1 -CLEAR_TMP -MAX_PARALLEL 1 
 
-### for local desktop like the imagedeskto
-### bash main.sh -PLATFORM "cluster-mgh"
+### for local desktop like the imagedeskto, either not supply '-PLATFORM' parameter or supply anything else, for example
+### bash main.sh -PLATFORM "anything_different_with_cluster-mgh"
 
 ################## OUTPUT FILE ######################################
 ### all output files will be stored in ../hervwork/results
