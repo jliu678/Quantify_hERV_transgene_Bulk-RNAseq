@@ -3,8 +3,8 @@
 cd ~/hERV/herv_project
 
 ########### NOTE #############################################
-### this lsf is for human data, for mouse data please submit test_single_mouse.lsf, siyi said the scripts will require the name he left in test_single_mouse.lsf
-###  but the annotation here can be helpful
+### this lsf should be good for both human data and mouse data, test_single_mouse.lsf can be reference to show only differences
+###  are parameters "-REF_GENOME", "-REF_TRANSCRIPT" and "TRANSCRIPTS" of "bash main.sh"
 
 ########### FILE INPUT ########################################
 ### raw_data stores all fastq files named as 'fq' or better 'fq.gz' to be processed, it is suggested by siyi to store gzipped fastq files in the raw_data folder
