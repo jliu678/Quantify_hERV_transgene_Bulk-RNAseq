@@ -25,9 +25,9 @@ REF_ANNOTATION_LOC=\
 REF_GENOME_LOC='https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_41/GRCh38.p13.genome.fa.gz'
 REF_TRANSCRIPT_LOC='https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_41/gencode.v41.transcripts.fa.gz'
 
-TRANSCRIPT_LOCS='https://herv.img.cas.cz/f/package-entities-erv.fa.gz'
+TRANSCRIPT_LOCS=('https://herv.img.cas.cz/f/package-entities-erv.fa.gz')
 ANNOT_DIR="hERV_misc"
-ANNOT_LOCS=("")
+ANNOT_LOCS=("https://herv.img.cas.cz/f/package-entities-erv.gff3.gz")
 
 ANALYSIS_STEP="all"
 PLATFORM="replit" #cluster-mgh 
@@ -52,7 +52,7 @@ while [ -n "$1" ]; do #setting variables for sub-processes
 		-REF_ANNOTATION) REF_ANNOTATION_LOC="$2"; shift ;;
 		-REF_GENOME) REF_GENOME_LOC="$2"; shift ;;
 		-REF_TRANSCRIPT) REF_TRANSCRIPT_LOC="$2" ; shift ;;
-		-TRANSCRIPTS) TRANSCRIPT_LOCS="$2" ; shift ;;
+		-TRANSCRIPTS) TRANSCRIPT_LOCS+=("$2") ; shift ;;
 		-ANNOT_DIR) ANNOT_DIR="$2"; shift ;;
 		-ANNOT_LOCS) ANNOT_LOCS="$2"; shift ;;
 		-COMB_ANNOTATION) COMB_ANNOTATION="$2"; shift ;;
@@ -72,8 +72,9 @@ while [ -n "$1" ]; do #setting variables for sub-processes
 	shift
 done
 
-TRANSCRIPT_LOCS=(${TRANSCRIPT_LOCS//;;/ })
-ANNOT_LOCS=(${ANNOT_LOCS//;;/ })
+# TRANSCRIPT_LOCS=(${TRANSCRIPT_LOCS//;;/ })
+# ANNOT_LOCS=(${ANNOT_LOCS//;;/ })
+
 # printf -v "$CONFIG_OPTION" "%s" "$CONFIG_VALUE"
 
 main_loc="$PWD"
