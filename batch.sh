@@ -79,7 +79,7 @@ check_core_dump() {
 		fi
 
 		need_to_restart=()
-		if check_quant_sf; do
+		if check_quant_sf; then
 			for i in $need_to_restart; do 
 				wait_batches
 				pair_file=$(grep "$i" batches/*)
