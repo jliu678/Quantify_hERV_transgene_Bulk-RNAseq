@@ -85,7 +85,7 @@ check_core_dump() {
 				pair_file=$(grep "$i" batches/*)
 				run_batch "$pair_file"
 			done
-			return $rtn
+			return 0
 		fi
 	fi 
 	return 1 
