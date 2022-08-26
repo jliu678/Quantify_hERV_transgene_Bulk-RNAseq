@@ -79,15 +79,16 @@ check_core_dump() {
 		fi
 
 		need_to_restart=()
-		check_quant_sf
-		rtn=$?
-		for i in $need_to_restart; do 
-			wait_batches
-			pair_file=$(grep "$i" batches/*)
-			run_batch "$pair_file"
-		done
+		if check_quant_sf; do
+			for i in $need_to_restart; do 
+				wait_batches
+				pair_file=$(grep "$i" batches/*)
+				run_batch "$pair_file"
+			done
+			return $rtn
+		fi
 	fi 
-	return $rtn
+	return 1 
 }
 
 loop_until_finished() {
