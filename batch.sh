@@ -147,3 +147,4 @@ main() {
 # 		fi
 # 	done
 # wait ${my_jobs[@]}
+ bash main.sh -PLATFORM "cluster-mgh" -ANALYSIS_STEP "all" -SOURCE "raw_data"

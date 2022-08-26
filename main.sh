@@ -72,8 +72,8 @@ while [ -n "$1" ]; do #setting variables for sub-processes
 	shift
 done
 
-TRANSCRIPT_LOCS=(${TRANSCRIPT_LOCS//,/ })
-ANNOT_LOCS=(${ANNOT_LOCS//,/ })
+TRANSCRIPT_LOCS=(${TRANSCRIPT_LOCS//;;/ })
+ANNOT_LOCS=(${ANNOT_LOCS//;;/ })
 # printf -v "$CONFIG_OPTION" "%s" "$CONFIG_VALUE"
 
 main_loc="$PWD"
