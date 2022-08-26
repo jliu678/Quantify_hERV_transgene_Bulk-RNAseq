@@ -82,6 +82,7 @@ check_core_dump() {
 		check_quant_sf
 		rtn=$?
 		for i in $need_to_restart; do 
+			wait_batches
 			pair_file=$(grep "$i" batches/*)
 			run_batch "$pair_file"
 		done
