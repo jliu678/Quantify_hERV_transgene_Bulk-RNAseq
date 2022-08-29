@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# !!!UNTESTED!!! most of this is file is tested, but the critical parts are not... 
+# please test before using!
+
 json_2_query() {
   echo "$*" | jq -sRr @uri
 }
@@ -10,7 +13,8 @@ query_TCGA_seq() { # inputs: # of queries
   curl 'https://api.gdc.cancer.gov/files?filters='"${TCGA_query}"'&fields=file_id,data_type,experimental_strategy,cases.case_id&pretty=true&size='"$1" > query_output.json
 }
 
-get_seq_IDs(){ # no inputs
+get_seq_IDs(){ 
+	# jq magic... extract the IDs into a seperate file, each class has an array of IDs
 	jq '[.data.hits[] | {"exp": .experimental_strategy, "id": {"file_id": .id, "case_id": .cases[0].case_id}}] | reduce .[] as $d (null; .[$d.exp] += [$d.id])' query_output.json > query_ids.json
 }
 
