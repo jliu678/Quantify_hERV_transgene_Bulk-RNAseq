@@ -313,7 +313,7 @@ main(){
 		if [[ ! -d "$i" ]]; then 
 			mkdir $i
 		fi
-	}
+	done
 
 	if [ "$ANALYSIS_STEP" = "all" ]; then 
 		ANALYSIS_STEP="index,convert,qc,align,count"
