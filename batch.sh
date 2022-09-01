@@ -76,7 +76,7 @@ check_core_dump() { # remove core dumps and start over
 	if compgen -G "core.*" > /dev/null; then # if files begining with "core." (core dumps) exists
 		for i in core.*; do 
 			rm $i
-		fi
+		done
 
 		need_to_restart=() # array of .fq files that doesn't have quant.sf files
 		if check_quant_sf; then
