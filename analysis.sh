@@ -280,8 +280,10 @@ salmon_quant() {
 		mkdir results/salmon/$1
 		if [[ $# -eq 2 ]]; then # if pair ended
 			salmon quant -i "${index_name}_index" -l A -1 "tmp/${SOURCE}/qc/$1.qc.fq.gz" -2 "tmp/${SOURCE}/qc/$2.qc.fq.gz" --validateMappings -o "results/salmon/$1"
+      sleep 1
 		elif [[ $# -eq 1 ]]; then # if single ended
 			salmon quant -i "${index_name}_index" -l A -r "tmp/${SOURCE}/qc/$1.qc.fq.gz" --validateMappings -o "results/salmon/$1"
+      sleep 1
 		fi 
 	fi
 }
