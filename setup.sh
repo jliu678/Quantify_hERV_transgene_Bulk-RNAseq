@@ -43,17 +43,24 @@ setup_tools(){
 	)
 	
 	for i in ${conda_tools[@]}; do
-		# I gave up on trying to get it to load modules via module load, but you could damn well try! \('^')/
-		# if [ "$PLATFORM" = "cluster-mgh" ]; then
-		# 	local mgh_name=$("$i" | tr = /)
-		# 	if [[ $(module avail $mgh_name) = *"$mgh_name"* ]]; then
-		# 		module load $i
-		# 	fi 
-		# fi 
-
-		cmd_name=$(echo $i | cut -d'=' -f1) # get the name w/o the version control stuff 
-		if ! conda list "$cmd_name" | grep "$cmd_name" >/dev/null 2>&1 ; then 
-			conda install -c conda-forge -c bioconda -y $i
+		 cmd_name=$(echo $i | cut -d'=' -f1) # get the name w/o the version control stuff
+     echo "dealing with $cmd_name"
+    
+		 if [ "$PLATFORM" = "cluster-mgh" ]; then
+		 	local mgh_name=$(echo "$i" | tr = /)
+      echo $mgh_name
+      if module load "$mgh_name"; then 
+        echo "module is avail: $mgh_name"
+        module list  
+		 	elif ! conda list "$cmd_name" | grep "$cmd_name" >/dev/null 2>&1; then 
+          echo "cluster-mgh conda has no $i" 
+          conda install -c conda-forge -c bioconda -y $i
+          echo "cluster-mgh conda installed/passed $cmd_name"   
+       fi 
+		 elif ! conda list "$cmd_name" | grep "$cmd_name" >/dev/null 2>&1 ; then
+			    echo "conda has no $cmd_name in $PLATFORM"  
+			    conda install -c conda-forge -c bioconda -y $i
+          echo "conda installed/passed $cmd_name in $PLATFORM" 
 		fi
 	done
 }
