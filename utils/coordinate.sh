@@ -18,12 +18,15 @@ while true; do
 		echo "someone starts running"
 		if bjobs | grep "bigmem" | grep -q "RUN"; then 
 			bkill "$(bjobs | grep "normal" | cut -d' ' -f1)"
-			echo "bigmem is running, normal is killed"
-		else 
+      bkill "$(bjobs | grep "interactiv" | cut -d' ' -f1)"
+			echo "bigmem is running, others are killed"
+      exit 0
+		elif bjobs | grep "normal" | grep -q "RUN"; then 
 			bkill "$(bjobs | grep "bigmem" | cut -d' ' -f1)"
-			echo "normal is running, bigmem is killed"
+      bkill "$(bjobs | grep "interactiv" | cut -d' ' -f1)"
+			echo "normal is running, pthers are killed"
+      exit 0
 		fi
-		exit 0
 	fi 
 done
 
