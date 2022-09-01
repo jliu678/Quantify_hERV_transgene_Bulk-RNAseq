@@ -43,7 +43,7 @@ THREAD_SIZE="4" # parameter for salmon and subread
 ALIGN_METHOD="salmon"
 QC_METHOD="fastp"
 RUN_TYPE="-r"
-CHILD="false"
+CHILD="false" # meant for multuple bsub, not used
 EXIT_ON_SINGLE="false"
 RUN_MODE="local"
 
