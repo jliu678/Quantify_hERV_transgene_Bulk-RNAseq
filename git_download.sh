@@ -15,5 +15,5 @@ done
 
 
 
-git reset --hard
+# git reset --hard
 git pull origin $from_branch_name
