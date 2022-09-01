@@ -4,13 +4,12 @@
 . $main_loc/timed.sh
 TRANSCRIPTS=()
 for i in ${TRANSCRIPT_LOCS[@]}; do TRANSCRIPTS+=( $(basename $i .gz) ); done
-echo ${TRANSCRIPTS[@]}
 ANNOT_FILES=()
 for i in ${ANNOT_LOCS[@]}; do ANNOT_FILES+=( $(basename $i .gz) ); done
 
 check_gencode(){
 	timed_download "$REF_GENOME_LOC" 
-	case "$ALIGN_METHOD" in 
+	case "$ALIGN_METHOD" in # salmon only needs .fa, subread needs .gff3/gtf
 		salmon)
 			timed_download "$REF_TRANSCRIPT_LOC" ;;
 		subread) 
@@ -40,12 +39,10 @@ download_annotations_subread() {
 	fi
 }
 
-download_transcripts_salmon() {
-	if [ ! -f $TRANSCRIPTS ]; then
-		for i in ${TRANSCRIPT_LOCS[@]}; do
-			timed_download "$i" 
-		done
-	fi
+download_transcripts_salmon() { 
+	for i in ${TRANSCRIPT_LOCS[@]}; do
+		timed_download "$i" # this func will not download with files if they already exist
+	done
 }
 
 # download_mouse_ERV_salmon() {
@@ -55,13 +52,14 @@ download_transcripts_salmon() {
 # 	# gffread "$(basename $hERV_TRANSCRIPT_LOC .gz)" -g "$(basename $REF_GENOME_LOC .gz)" -w "$(basename $hERV_TRANSCRIPT_LOC .gtf .gff3 .gz).fa"
 # }
 
-check_transcripts(){ 
+check_transcripts(){ # in the future could enable different animals? 
 	# case "$ANIMAL_TYPE" in 
 	# 	human) 
-			case "$ALIGN_METHOD" in 
-				subread) download_annotation_subread ;;
-				salmon) download_transcripts_salmon ;;
-			esac 
+	case "$ALIGN_METHOD" in 
+		subread) download_annotation_subread ;;
+		salmon) download_transcripts_salmon ;;
+	esac 
+	#		;;
 	# 	mouse)
 	# 		case "$ALIGN_METHOD" in 
 	# 			salmon) download_mouse_ERV_salmon ;;

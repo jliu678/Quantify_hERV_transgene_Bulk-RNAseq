@@ -10,7 +10,7 @@ batch_op() {
 	fi 
 }
 
-setup_lsf() {
+setup_lsf() { # !!!UNTESTED!!! support for submitting each "batch" as its own job
 	if [ "$RUN_MODE" = "lsf" ]; then 
 		for i in batches/*; do 
 			pairs="$PAIR_FILE" steps="$ANALYSIS_STEPS" envsubst <test_batch.lsf | echo > "batch_lsf/$(basename $i)"
@@ -18,28 +18,28 @@ setup_lsf() {
 	fi
 }
 
-run_batch() {
+run_batch() { 
 	case $RUN_MODE in
 		lsf) bsub < "batch_lsf/$(basename $1)" ;;
-		local) 
+		local) # changes the PAIR_FILE for the forked/child process, add trap to kill when parent is
 			PAIR_FILE=$i; CHILD="true"
 			(trap "kill 0" SIGINT ; . $main_loc/analysis.sh) & 
-			my_jobs+=( $! )
+			my_jobs+=( $! ) # array, used to keep track of how many jobs being run
 		;;
 	esac
 }
 
-wait_batches() {
+wait_batches() { # wait for existing batches (limited by MAX_PARALLEL) to exit before spawning new ones
 	while [[ ${#my_jobs[@]} -ge $MAX_PARALLEL ]]; do
 		timed_print ${my_jobs[@]}
 		sleep 60
 		for j in ${!my_jobs[@]}; do 
 			if ! ps -p "${my_jobs[$j]}" ; then # if pid does not exist
 				echo ${my_jobs[$j]} is not running
-				unset my_jobs[$j] # remove it
+				unset my_jobs[$j] # change the PID to empty string
 			fi
 		done
-		my_jobs=("${my_jobs[@]}")
+		my_jobs=("${my_jobs[@]}") # convert array with empty elements to new consequtive
 	done
 }
 
@@ -47,12 +47,12 @@ launch_batches() {
 	my_jobs=()
 	local tmp_PAIR_FILE="$PAIR_FILE"
 
+	# adds trap signal for the entire group, haven't used it ('~')
 	# group_id=$(ps ax -O pgid | grep main.sh)
 	# trap "kill -SIGINT -- -$group_id" SIGINT
 
 	for i in batches/*; do
 		wait_batches
-
 		run_batch $i
 		# (trap "kill 0" SIGINT ; . $main_loc/analysis.sh) &
 		# (. $main_loc/analysis.sh) &
@@ -65,25 +65,25 @@ check_quant_sf() {
 	for i in /results/salmon/*; do 
 		if [ ! -f $i/quant.sf ]; then 
 			rm -r $i
-			need_to_restart+=($i)
+			need_to_restart+=($i) # init and used in "check_core_dump()"
 			rtn=0
 		fi 
 	done
 	return $rtn 
 }
 
-check_core_dump() {
-	if compgen -G "core.*" > /dev/null; then
+check_core_dump() { # remove core dumps and start over
+	if compgen -G "core.*" > /dev/null; then # if files begining with "core." (core dumps) exists
 		for i in core.*; do 
 			rm $i
 		fi
 
-		need_to_restart=()
+		need_to_restart=() # array of .fq files that doesn't have quant.sf files
 		if check_quant_sf; then
-			for i in $need_to_restart; do 
+			for i in $need_to_restart; do # run them again... )'-'(
 				wait_batches
-				pair_file=$(grep "$i" batches/*)
-				run_batch "$pair_file"
+				pair_file=$(grep "$i" batches/* | cut -d":" -f1) # get the proper pair file from the 
+				run_batch "$pair_file" 
 			done
 			wait ${my_jobs[@]}
 			return 0
@@ -94,14 +94,10 @@ check_core_dump() {
 
 loop_until_finished() {
 	my_jobs=()
-	while check_core_dump; do
-		timed_print "there were core dumped :("
+	while check_core_dump; do # run the check_core_dump function until there are no more core dumps
+		timed_print "there were core dumps :("
 	done
 }
-
-# if [ ! -d "logs" ]; then
-# 	mkdir logs
-# fi 
 
 main() {
 	local tmp_ast=$ANALYSIS_STEP
@@ -147,4 +143,4 @@ main() {
 # 		fi
 # 	done
 # wait ${my_jobs[@]}
- bash main.sh -PLATFORM "cluster-mgh" -ANALYSIS_STEP "all" -SOURCE "raw_data"
+# bash main.sh -PLATFORM "cluster-mgh" -ANALYSIS_STEP "all" -SOURCE "raw_data"

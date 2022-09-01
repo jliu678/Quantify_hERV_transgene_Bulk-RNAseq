@@ -104,7 +104,7 @@ if [ "$RUN_TYPE" = "-d" ]; then # have to keep spaces between square brackets an
 	fi
 elif [ "$RUN_TYPE" = "-r" ]; then
 	if [ $CHILD = "false" ]; then
-		SEQ_TYPE=("RNA-Seq" "WXS")
+#		SEQ_TYPE=("RNA-Seq" "WXS") #used for TCGA
 		. $main_loc/setup.sh 
 		#	conda env list
 		. $main_loc/downloads.sh 
