@@ -1,4 +1,19 @@
 #!/bin/bash
+test_module_load() {
+echo $1
+local cmd_name=$(echo $1 | cut -d'/' -f1)
+echo $cmd_name
+if ! conda list "$cmd_name" | grep "$cmd_name" >/dev/null 2>&1; then 
+              echo "conda has no $cmd_name in cluster-mgh" 
+              elif conda list "$cmd_name" | grep "$cmd_name" >/dev/null 2>&1; then
+              echo "conda has $cmd_name h" 
+              fi
+              
+}
+
+test_module_load $1
+
+
 check_core_dump() {
 echo ========= $1 $2 ==============
 	if [[ $1 -eq 0 ]]; then
@@ -28,14 +43,14 @@ check_quant_sf=$2
 
 #if there is core dump, $1 = 0; if theres folder wihtout .sf, $2 =0 
 
-check_core_dump 0 0 && echo 0
-echo $?
-
-check_core_dump 0 1 && echo 0
-echo $?
-
-check_core_dump 1 0 && echo 0
-echo $?
-
-check_core_dump 1 1 && echo 0
+#check_core_dump 0 0 && echo 0
+#echo $?
+#
+#check_core_dump 0 1 && echo 0
+#echo $?
+#
+#check_core_dump 1 0 && echo 0
+#echo $?
+#
+#check_core_dump 1 1 && echo 0
 echo $?
