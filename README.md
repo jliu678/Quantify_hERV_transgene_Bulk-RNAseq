@@ -1,4 +1,14 @@
 # herv_project
+if [ ! -d "logs" ]; then
+	mkdir logs
+fi 
+
+#BSUB -e logs/%J-errors.err
+#BSUB -o logs/%J-outputs.out
+
+#BSUB -q normal
+#BSUB -n 16
+#BSUB -R 'rusage[mem=32000]'
 
 cd ~/hERV/herv_project
 
@@ -58,9 +68,7 @@ cd ~/hERV/herv_project
 ###   there is file2 whose name is one of sub(name of file1, pattern="r1", replacement="r2") and sub(name of file1, pattern="R1", replacement="R2")
 ### see group_fastq() and check_name() in analysis.sh for detail
 
-### The script will identify files as paired when there are two files named in the way that
-###   there is file2 whose name is one of sub(name of file1, pattern="r1", replacement="r2") and sub(name of file1, pattern="R1", replacement="R2")
-### see group_fastq() and check_name() in analysis.sh for detail
+### parameter 'EXIT_ON_SINGLE' of main.sh has default value of 'false', thus single-end sequenced fq files can be analysis using the same bash command
 
 ### for mgh cluster, keep -BATCH_SIZE 1 -CLEAR_TMP -MAX_PARALLEL 1
 
@@ -71,3 +79,4 @@ bash main.sh -PLATFORM "cluster-mgh" -ANALYSIS_STEP "all" -SOURCE "raw_data" -BA
 
 ################## OUTPUT FILE ######################################
 ### all output files will be stored in ../hervwork/results
+
