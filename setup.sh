@@ -49,7 +49,7 @@ setup_tools(){
 		 if [ "$PLATFORM" = "cluster-mgh" ]; then
 		 	local mgh_name=$(echo "$i" | tr = /)
       echo $mgh_name
-      if module load "$mgh_name"; then 
+      if module load "$mgh_name" >/dev/null 2>&1; then 
         echo "module is avail: $mgh_name"
         module list  
 		 	elif ! conda list "$cmd_name" | grep "$cmd_name" >/dev/null 2>&1; then 

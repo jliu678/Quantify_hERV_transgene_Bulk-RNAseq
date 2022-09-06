@@ -9,6 +9,11 @@ if ! conda list "$cmd_name" | grep "$cmd_name" >/dev/null 2>&1; then
               echo "conda has $cmd_name h" 
               fi
               
+if module load $1 >/dev/null 2>&1; then 
+        echo "module is avail: $1"
+        module list
+        fi
+              
 }
 
 test_module_load $1
