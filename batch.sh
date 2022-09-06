@@ -45,7 +45,7 @@ wait_batches() { # wait for existing batches (limited by MAX_PARALLEL) to exit b
 
 launch_batches() {
 	my_jobs=()
-	local tmp_PAIR_FILE="$PAIR_FILE"
+	tmp_PAIR_FILE="$PAIR_FILE"
 
 	# adds trap signal for the entire group, haven't used it ('~')
 	# group_id=$(ps ax -O pgid | grep main.sh)
