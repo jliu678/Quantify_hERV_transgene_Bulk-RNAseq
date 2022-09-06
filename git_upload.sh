@@ -19,5 +19,6 @@ done
 
 
 git add --all
-git commit -m "fix"
+echo $commit_message
+git commit -m "$commit_message"
 git push origin $from_branch_name:$to_branch_name
