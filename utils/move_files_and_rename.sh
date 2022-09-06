@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #find . -type f -name "*.fastq.gz" -exec cp {} allFastq \;
 #find ./allFastq -type f -name "*.fastq.gz" -exec sh -c "mv -v $1 ${1%.fastq.gz}.fq.gz" _ {} \;
 #
@@ -9,10 +8,10 @@
 #	fi 
 #done
 
-#the below dosen't work
+#the below dosen't work, please double quotes vs single quote
 find ../raw_data -type f -name "*1.fq.gz" -exec sh -c "mv -v $1 ${1%1.fq.gz}R1.fq.gz" _ {} \;
 
-#but the below work
+#but the below work, please double quotes vs single quote
 find ../raw_data -type f -name "*1.fq.gz" -exec sh -c 'mv -v $1 ${1%1.fq.gz}R1.fq.gz' _ {} \;
 find ../raw_data -type f -name "*2.fq.gz" -exec sh -c 'mv -v $1 ${1%2.fq.gz}R2.fq.gz' _ {} \;
 
@@ -25,7 +24,7 @@ for i in ${a[@]}; do echo ${i#*.}; done
 for i in ${a[@]}; do echo ${i##*.}; done
 
 
-=======
+#=======
 find . -type f -name "*.fastq.gz" -exec cp {} allFastq \;
 find ./allFastq -type f -name "*.fastq.gz" -exec sh -c "mv -v $1 ${1%.fastq.gz}.fq.gz" _ {} \;
 
