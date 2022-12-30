@@ -62,7 +62,7 @@ check_name(){
   timed_print "===!!! is_r1 is $is_r1==="
   [ -e "$(get_r2name $1)" ]
   timed_print "===!!! $(get_r2name $1) is $?==="
-  [ $is_r1 ]&& [ -e "$(get_r2name $1)" ]
+  [ $is_r1 ] && [ -e "$(get_r2name $1)" ]
   local t_e=$?
   timed_print "===!!! return is $t_e==="
   
