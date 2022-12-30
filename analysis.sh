@@ -57,16 +57,28 @@ get_r2name(){
 }
 
 check_name(){
-	echo $1 | grep -iq "r1"
-	local is_r1=$?
+	#echo $1 | grep -iq "r1"
+	#local is_r1=$?
+  if [ echo $1 | grep -iq "r1" ]
+  then
+    local is_r1=true
+  else
+    local is_r1=false
+  fi
   timed_print "===!!! is_r1 is $is_r1==="
-  [ -e "$(get_r2name $1)" ]
-  timed_print "===!!! $(get_r2name $1) is $?==="
-  [ $is_r1 ] && [ -e "$(get_r2name $1)" ]
-  local t_e=$?
-  timed_print "===!!! return is $t_e==="
   
-	return $t_e
+  if [ -e "$(get_r2name $1)" ]
+  then
+    local r2_exist=true
+  else
+    local r2_exist=false
+  fi
+  timed_print "===!!! $(get_r2name $1) is $r2_exist==="
+
+  local returned=$is_r1 && $r2_exist
+  timed_print "===!!! return is $returned==="
+  
+	return $returned
 }
 
 group_fastq(){ #group fastq files into pairs
