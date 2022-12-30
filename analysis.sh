@@ -59,6 +59,13 @@ get_r2name(){
 check_name(){
 	echo $1 | grep -iq "r1"
 	local is_r1=$?
+  timed_print "===!!! is_r1 is $is_r1==="
+  [ -e "$(get_r2name $1)" ]
+  local t_e=$?
+  timed_print "===!!! $(get_r2name $1) is $t_e==="
+  $is_r1 && [ -e "$(get_r2name $1)" ]
+  timed_print "===!!! return is $?==="
+  
 	return $is_r1 && [ -e "$(get_r2name $1)" ]
 }
 
