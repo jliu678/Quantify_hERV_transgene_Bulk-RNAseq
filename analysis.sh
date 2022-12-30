@@ -61,12 +61,12 @@ check_name(){
 	local is_r1=$?
   timed_print "===!!! is_r1 is $is_r1==="
   [ -e "$(get_r2name $1)" ]
-  local t_e=$?
-  timed_print "===!!! $(get_r2name $1) is $t_e==="
+  timed_print "===!!! $(get_r2name $1) is $?==="
   [ $is_r1 ]&& [ -e "$(get_r2name $1)" ]
-  timed_print "===!!! return is $?==="
+  local t_e=$?
+  timed_print "===!!! return is t_e==="
   
-	return [ $is_r1 ] && [ -e "$(get_r2name $1)" ]
+	return t_e
 }
 
 group_fastq(){ #group fastq files into pairs
