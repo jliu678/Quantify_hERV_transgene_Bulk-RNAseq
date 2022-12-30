@@ -66,7 +66,7 @@ check_name(){
   [ $is_r1 ]&& [ -e "$(get_r2name $1)" ]
   timed_print "===!!! return is $?==="
   
-	return $is_r1 && [ -e "$(get_r2name $1)" ]
+	return [ $is_r1 ] && [ -e "$(get_r2name $1)" ]
 }
 
 group_fastq(){ #group fastq files into pairs
