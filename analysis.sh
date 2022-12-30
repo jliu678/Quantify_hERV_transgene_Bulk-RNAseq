@@ -59,7 +59,7 @@ get_r2name(){
 check_name(){
 	#echo $1 | grep -iq "r1"
 	#local is_r1=$?
-  if [ echo $1 | grep -iq "r1" ]
+  if echo $1 | grep -iq "r1"
   then
     local is_r1=true
   else
