@@ -78,7 +78,12 @@ check_name(){
   local returned=$is_r1 && $r2_exist
   timed_print "===!!! return is $returned==="
   
-	return $returned
+  if $returned
+  then 
+    return 0
+  else
+    return 1
+  fi
 }
 
 group_fastq(){ #group fastq files into pairs
