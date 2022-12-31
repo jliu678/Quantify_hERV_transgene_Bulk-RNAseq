@@ -80,7 +80,7 @@ check_name(){
     timed_print "===!!! return is 0===" 
     return 0
   else
-    timed_print "===!!! return is 0===" 
+    timed_print "===!!! return is 1===" 
     return 1
   fi
 }
