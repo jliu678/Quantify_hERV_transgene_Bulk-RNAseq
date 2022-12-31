@@ -75,13 +75,12 @@ check_name(){
   fi
   timed_print "===!!! $(get_r2name $1) is $r2_exist==="
 
-  local returned=$is_r1 && $r2_exist
-  timed_print "===!!! return is $returned==="
-  
-  if $returned
-  then 
+  if $is_r1 && $r2_exist
+  then
+    timed_print "===!!! return is 0===" 
     return 0
   else
+    timed_print "===!!! return is 0===" 
     return 1
   fi
 }
