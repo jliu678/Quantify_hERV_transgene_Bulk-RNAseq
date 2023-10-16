@@ -1,0 +1,16 @@
+10/16/23 17:26:02: parsing arguments:  -PLATFORM
+10/16/23 17:26:02: parsing arguments:  -ANALYSIS_STEP
+10/16/23 17:26:02: parsing arguments:  -SOURCE
+10/16/23 17:26:02: parsing arguments:  -BATCH_SIZE
+10/16/23 17:26:02: parsing arguments:  -CLEAR_TMP
+10/16/23 17:26:02: parsing arguments:  -MAX_PARALLEL
+10/16/23 17:26:02: parsing arguments:  -REF_GENOME
+10/16/23 17:26:02: parsing arguments:  -TRANSCRIPTS
+10/16/23 17:26:02: parsing arguments:  -TRANSCRIPTS
+10/16/23 17:26:02: REF_TRANSCRIPT_LOC is  https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_41/gencode.v41.transcripts.fa.gz
+10/16/23 17:26:02: REF_GENOME_LOC is  https://a/GRCm39.primary_assembly.genome.fa
+/PHShome/jn22/mambaforge/bin/conda
+dealing with samtools
+samtools/1.15.1
+dealing with subread
+subread/2.0.1
