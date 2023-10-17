@@ -7,12 +7,12 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=36
 #SBATCH --mem=72G
-#SBATCH --output=./logs/caki_slurm.log
-#SBATCH --error=./logs/caki_slurm.err
+#SBATCH --output=~/scratch/erv/herv_project/logs/caki_slurm.log
+#SBATCH --error=~/scratch/erv/herv_project/logs/caki_slurm.err
 #SBATCH --mail-type=BEGIN,END
 #SBATCH --mail-user=jliu78@mgh.harvard.edu
 
-cd ~/hERV/herv_project
+cd ~/scratch/erv/herv_project
 if [ ! -d "logs" ]; then
 	mkdir logs
 fi
@@ -23,7 +23,12 @@ fi
 ###  are parameters "-REF_GENOME", "-REF_TRANSCRIPT" and "TRANSCRIPTS" of "bash main.sh"
 
 ########### FILE INPUT ########################################
-### raw_data stores all fastq files named as 'fq' or better 'fq.gz' to be processed, it is suggested by siyi to store gzipped fastq files in the raw_data folder
+### raw_data stores all fastq files named as 'fq' or better 'fq.gz' to be processed, it is suggested by siyi to store gzipped fastq files in the raw_data folder. Please note $name=random_name.fq.gz; ${name#*.} is used to get the postfix of the raw fastq file names, so DO NOT USE random_name.r1.fq.gz as raw fastq file name, but instead use random_name_r1.fq.gz. See below example
+### (base)$ name=random_name.fq.gz; echo ${name#*.}
+###   fq.gz
+### (base)$ name=random_nam.e.fq.gz; echo ${name#*.}
+###   e.fq.gz
+
 ### if raw_data folder has reletive dir as '../raw_data', input value as "raw_data" to the parameter '-SOURCE' of main.sh
 
 ### for subread, store in ../hERV_Work the annotation gtf/gff3 files of both transcriptom and ERV, genome fasta 
