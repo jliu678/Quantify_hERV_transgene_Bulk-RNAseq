@@ -16,7 +16,9 @@
 clear_tmp() {
 	if [ $CLEAR_TMP = "true" ]; then 
 		rm -r tmp
+        echo "tmp in $PWD folder removed"
 		rm $PAIR_FILE
+        echo " $PAIR_FILE in $PWD folder removed"
 	fi
 }
 

@@ -1,0 +1,25 @@
+#!/bin/bash
+#BSUB -L /bin/bash
+#BSUB -J test_single
+
+#BSUB -u syang39@mgh.harvard.edu
+### -- send notification at start -- 
+#BSUB -B 
+### -- send notification at completion -- 
+#BSUB -N
+
+if [ ! -d "logs" ]; then
+	mkdir logs
+fi 
+
+#BSUB -e logs/%J-errors.err
+#BSUB -o logs/%J-outputs.out
+
+#BSUB -q normal
+#BSUB -n 12
+#BSUB -R 'rusage[mem=32000]'
+
+cd ~/Documents/herv_project
+
+bash main.sh -PLATFORM "cluster-mgh" -ANALYSIS_STEP "all" -SOURCE "raw_data_mus" -REF_GENOME 'https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_mouse/release_M30/GRCm39.genome.fa.gz' \
+             -TRANSCRIPTS 'http://geve.med.u-tokai.ac.jp/download_data/nt_fasta/Mmus38.geve.nt_v1.fa.bz2'

@@ -1,0 +1,275 @@
+10/17/23 11:14:27: parsing arguments:  -PLATFORM
+10/17/23 11:14:27: parsing arguments:  -ANALYSIS_STEP
+10/17/23 11:14:27: parsing arguments:  -SOURCE
+10/17/23 11:14:27: parsing arguments:  -BATCH_SIZE
+10/17/23 11:14:27: parsing arguments:  -CLEAR_TMP
+10/17/23 11:14:27: parsing arguments:  -MAX_PARALLEL
+10/17/23 11:14:27: parsing arguments:  -REF_GENOME
+10/17/23 11:14:27: parsing arguments:  -TRANSCRIPTS
+10/17/23 11:14:27: parsing arguments:  -REF_TRANSCRIPT
+10/17/23 11:14:27: REF_TRANSCRIPT_LOC is  https://a/mouse_gencode.vM33.transcripts.fa.gz
+10/17/23 11:14:27: TRANSCRIPT_LOCS is  https://a/mouse_erv_combined_repeatMasker_on_m39.fa
+10/17/23 11:14:27: REF_GENOME_LOC is  https://a/GRCm39.primary_assembly.genome.fa
+/PHShome/jn22/mambaforge/bin/conda
+dealing with samtools
+samtools/1.15.1
+dealing with subread
+subread/2.0.1
+dealing with salmon
+salmon/1.9.0
+module is avail: salmon/1.9.0
+
+Currently Loaded Modules:
+  1) salmon/1.9.0
+
+ 
+
+10/17/23 11:14:33: mouse_gencode.vM33.transcripts.fa.gz already exists
+10/17/23 11:14:33: starting 189720
+10/17/23 11:14:33: analysing...
+ tmp folder has been created
+10/17/23 11:14:33: index-ing...
+10/17/23 11:14:33: finished index
+10/17/23 11:14:33: convert-ing...
+tmp/raw_data
+10/17/23 11:14:33: moving ../raw_data/caki127_1-k25-both.R1.fq.gz...
+10/17/23 11:14:33: name is caki127_1-k25-both.R1.fq.gz***
+10/17/23 11:14:33: only_name is caki127_1-k25-both.R1.fq***
+10/17/23 11:14:33: start the case statement for R1.fq.gz***
+10/17/23 11:14:33: moved ../raw_data/caki127_1-k25-both.R1.fq.gz
+10/17/23 11:14:33: moving ../raw_data/caki127_1-k25-both.R2.fq.gz...
+10/17/23 11:14:33: name is caki127_1-k25-both.R2.fq.gz***
+10/17/23 11:14:33: only_name is caki127_1-k25-both.R2.fq***
+10/17/23 11:14:33: start the case statement for R2.fq.gz***
+10/17/23 11:14:33: moved ../raw_data/caki127_1-k25-both.R2.fq.gz
+10/17/23 11:14:33: moving ../raw_data/caki127_1-k25-host.R1.fq.gz...
+10/17/23 11:14:33: name is caki127_1-k25-host.R1.fq.gz***
+10/17/23 11:14:33: only_name is caki127_1-k25-host.R1.fq***
+10/17/23 11:14:33: start the case statement for R1.fq.gz***
+10/17/23 11:14:33: moved ../raw_data/caki127_1-k25-host.R1.fq.gz
+10/17/23 11:14:33: moving ../raw_data/caki127_1-k25-host.R2.fq.gz...
+10/17/23 11:14:33: name is caki127_1-k25-host.R2.fq.gz***
+10/17/23 11:14:33: only_name is caki127_1-k25-host.R2.fq***
+10/17/23 11:14:33: start the case statement for R2.fq.gz***
+10/17/23 11:14:33: moved ../raw_data/caki127_1-k25-host.R2.fq.gz
+10/17/23 11:14:33: moving ../raw_data/caki127_2-k25-both.R1.fq.gz...
+10/17/23 11:14:33: name is caki127_2-k25-both.R1.fq.gz***
+10/17/23 11:14:33: only_name is caki127_2-k25-both.R1.fq***
+10/17/23 11:14:33: start the case statement for R1.fq.gz***
+10/17/23 11:14:33: moved ../raw_data/caki127_2-k25-both.R1.fq.gz
+10/17/23 11:14:33: moving ../raw_data/caki127_2-k25-both.R2.fq.gz...
+10/17/23 11:14:33: name is caki127_2-k25-both.R2.fq.gz***
+10/17/23 11:14:33: only_name is caki127_2-k25-both.R2.fq***
+10/17/23 11:14:33: start the case statement for R2.fq.gz***
+10/17/23 11:14:33: moved ../raw_data/caki127_2-k25-both.R2.fq.gz
+10/17/23 11:14:33: moving ../raw_data/caki127_2-k25-host.R1.fq.gz...
+10/17/23 11:14:33: name is caki127_2-k25-host.R1.fq.gz***
+10/17/23 11:14:33: only_name is caki127_2-k25-host.R1.fq***
+10/17/23 11:14:33: start the case statement for R1.fq.gz***
+10/17/23 11:14:33: moved ../raw_data/caki127_2-k25-host.R1.fq.gz
+10/17/23 11:14:33: moving ../raw_data/caki127_2-k25-host.R2.fq.gz...
+10/17/23 11:14:33: name is caki127_2-k25-host.R2.fq.gz***
+10/17/23 11:14:33: only_name is caki127_2-k25-host.R2.fq***
+10/17/23 11:14:33: start the case statement for R2.fq.gz***
+10/17/23 11:14:33: moved ../raw_data/caki127_2-k25-host.R2.fq.gz
+10/17/23 11:14:33: moving ../raw_data/caki127_3-k25-both.R1.fq.gz...
+10/17/23 11:14:33: name is caki127_3-k25-both.R1.fq.gz***
+10/17/23 11:14:33: only_name is caki127_3-k25-both.R1.fq***
+10/17/23 11:14:33: start the case statement for R1.fq.gz***
+10/17/23 11:14:33: moved ../raw_data/caki127_3-k25-both.R1.fq.gz
+10/17/23 11:14:33: moving ../raw_data/caki127_3-k25-both.R2.fq.gz...
+10/17/23 11:14:33: name is caki127_3-k25-both.R2.fq.gz***
+10/17/23 11:14:33: only_name is caki127_3-k25-both.R2.fq***
+10/17/23 11:14:33: start the case statement for R2.fq.gz***
+10/17/23 11:14:33: moved ../raw_data/caki127_3-k25-both.R2.fq.gz
+10/17/23 11:14:33: moving ../raw_data/caki127_3-k25-host.R1.fq.gz...
+10/17/23 11:14:33: name is caki127_3-k25-host.R1.fq.gz***
+10/17/23 11:14:33: only_name is caki127_3-k25-host.R1.fq***
+10/17/23 11:14:33: start the case statement for R1.fq.gz***
+10/17/23 11:14:33: moved ../raw_data/caki127_3-k25-host.R1.fq.gz
+10/17/23 11:14:33: moving ../raw_data/caki127_3-k25-host.R2.fq.gz...
+10/17/23 11:14:33: name is caki127_3-k25-host.R2.fq.gz***
+10/17/23 11:14:33: only_name is caki127_3-k25-host.R2.fq***
+10/17/23 11:14:33: start the case statement for R2.fq.gz***
+10/17/23 11:14:33: moved ../raw_data/caki127_3-k25-host.R2.fq.gz
+10/17/23 11:14:33: moving ../raw_data/cakiMx1-k25-both.R1.fq.gz...
+10/17/23 11:14:33: name is cakiMx1-k25-both.R1.fq.gz***
+10/17/23 11:14:33: only_name is cakiMx1-k25-both.R1.fq***
+10/17/23 11:14:33: start the case statement for R1.fq.gz***
+10/17/23 11:14:33: moved ../raw_data/cakiMx1-k25-both.R1.fq.gz
+10/17/23 11:14:33: moving ../raw_data/cakiMx1-k25-both.R2.fq.gz...
+10/17/23 11:14:33: name is cakiMx1-k25-both.R2.fq.gz***
+10/17/23 11:14:33: only_name is cakiMx1-k25-both.R2.fq***
+10/17/23 11:14:33: start the case statement for R2.fq.gz***
+10/17/23 11:14:33: moved ../raw_data/cakiMx1-k25-both.R2.fq.gz
+10/17/23 11:14:33: moving ../raw_data/cakiMx1-k25-host.R1.fq.gz...
+10/17/23 11:14:33: name is cakiMx1-k25-host.R1.fq.gz***
+10/17/23 11:14:33: only_name is cakiMx1-k25-host.R1.fq***
+10/17/23 11:14:33: start the case statement for R1.fq.gz***
+10/17/23 11:14:33: moved ../raw_data/cakiMx1-k25-host.R1.fq.gz
+10/17/23 11:14:33: moving ../raw_data/cakiMx1-k25-host.R2.fq.gz...
+10/17/23 11:14:33: name is cakiMx1-k25-host.R2.fq.gz***
+10/17/23 11:14:33: only_name is cakiMx1-k25-host.R2.fq***
+10/17/23 11:14:33: start the case statement for R2.fq.gz***
+10/17/23 11:14:33: moved ../raw_data/cakiMx1-k25-host.R2.fq.gz
+10/17/23 11:14:33: moving ../raw_data/cakiMx2-k25-both.R1.fq.gz...
+10/17/23 11:14:33: name is cakiMx2-k25-both.R1.fq.gz***
+10/17/23 11:14:33: only_name is cakiMx2-k25-both.R1.fq***
+10/17/23 11:14:33: start the case statement for R1.fq.gz***
+10/17/23 11:14:33: moved ../raw_data/cakiMx2-k25-both.R1.fq.gz
+10/17/23 11:14:33: moving ../raw_data/cakiMx2-k25-both.R2.fq.gz...
+10/17/23 11:14:33: name is cakiMx2-k25-both.R2.fq.gz***
+10/17/23 11:14:33: only_name is cakiMx2-k25-both.R2.fq***
+10/17/23 11:14:33: start the case statement for R2.fq.gz***
+10/17/23 11:14:33: moved ../raw_data/cakiMx2-k25-both.R2.fq.gz
+10/17/23 11:14:33: moving ../raw_data/cakiMx2-k25-host.R1.fq.gz...
+10/17/23 11:14:33: name is cakiMx2-k25-host.R1.fq.gz***
+10/17/23 11:14:33: only_name is cakiMx2-k25-host.R1.fq***
+10/17/23 11:14:33: start the case statement for R1.fq.gz***
+10/17/23 11:14:33: moved ../raw_data/cakiMx2-k25-host.R1.fq.gz
+10/17/23 11:14:33: moving ../raw_data/cakiMx2-k25-host.R2.fq.gz...
+10/17/23 11:14:33: name is cakiMx2-k25-host.R2.fq.gz***
+10/17/23 11:14:33: only_name is cakiMx2-k25-host.R2.fq***
+10/17/23 11:14:33: start the case statement for R2.fq.gz***
+10/17/23 11:14:33: moved ../raw_data/cakiMx2-k25-host.R2.fq.gz
+10/17/23 11:14:33: moving ../raw_data/cakiMx3-k25-both.R1.fq.gz...
+10/17/23 11:14:33: name is cakiMx3-k25-both.R1.fq.gz***
+10/17/23 11:14:33: only_name is cakiMx3-k25-both.R1.fq***
+10/17/23 11:14:33: start the case statement for R1.fq.gz***
+10/17/23 11:14:33: moved ../raw_data/cakiMx3-k25-both.R1.fq.gz
+10/17/23 11:14:33: moving ../raw_data/cakiMx3-k25-both.R2.fq.gz...
+10/17/23 11:14:33: name is cakiMx3-k25-both.R2.fq.gz***
+10/17/23 11:14:33: only_name is cakiMx3-k25-both.R2.fq***
+10/17/23 11:14:33: start the case statement for R2.fq.gz***
+10/17/23 11:14:33: moved ../raw_data/cakiMx3-k25-both.R2.fq.gz
+10/17/23 11:14:33: moving ../raw_data/cakiMx3-k25-host.R1.fq.gz...
+10/17/23 11:14:33: name is cakiMx3-k25-host.R1.fq.gz***
+10/17/23 11:14:33: only_name is cakiMx3-k25-host.R1.fq***
+10/17/23 11:14:33: start the case statement for R1.fq.gz***
+10/17/23 11:14:33: moved ../raw_data/cakiMx3-k25-host.R1.fq.gz
+10/17/23 11:14:33: moving ../raw_data/cakiMx3-k25-host.R2.fq.gz...
+10/17/23 11:14:33: name is cakiMx3-k25-host.R2.fq.gz***
+10/17/23 11:14:33: only_name is cakiMx3-k25-host.R2.fq***
+10/17/23 11:14:33: start the case statement for R2.fq.gz***
+10/17/23 11:14:33: moved ../raw_data/cakiMx3-k25-host.R2.fq.gz
+10/17/23 11:14:33: moving ../raw_data/cakiYap2-k25-both.R1.fq.gz...
+10/17/23 11:14:33: name is cakiYap2-k25-both.R1.fq.gz***
+10/17/23 11:14:33: only_name is cakiYap2-k25-both.R1.fq***
+10/17/23 11:14:33: start the case statement for R1.fq.gz***
+10/17/23 11:14:34: moved ../raw_data/cakiYap2-k25-both.R1.fq.gz
+10/17/23 11:14:34: moving ../raw_data/cakiYap2-k25-both.R2.fq.gz...
+10/17/23 11:14:34: name is cakiYap2-k25-both.R2.fq.gz***
+10/17/23 11:14:34: only_name is cakiYap2-k25-both.R2.fq***
+10/17/23 11:14:34: start the case statement for R2.fq.gz***
+10/17/23 11:14:34: moved ../raw_data/cakiYap2-k25-both.R2.fq.gz
+10/17/23 11:14:34: moving ../raw_data/cakiYap2-k25-host.R1.fq.gz...
+10/17/23 11:14:34: name is cakiYap2-k25-host.R1.fq.gz***
+10/17/23 11:14:34: only_name is cakiYap2-k25-host.R1.fq***
+10/17/23 11:14:34: start the case statement for R1.fq.gz***
+10/17/23 11:14:34: moved ../raw_data/cakiYap2-k25-host.R1.fq.gz
+10/17/23 11:14:34: moving ../raw_data/cakiYap2-k25-host.R2.fq.gz...
+10/17/23 11:14:34: name is cakiYap2-k25-host.R2.fq.gz***
+10/17/23 11:14:34: only_name is cakiYap2-k25-host.R2.fq***
+10/17/23 11:14:34: start the case statement for R2.fq.gz***
+10/17/23 11:14:34: moved ../raw_data/cakiYap2-k25-host.R2.fq.gz
+10/17/23 11:14:34: moving ../raw_data/cakiYap3-k25-both.R1.fq.gz...
+10/17/23 11:14:34: name is cakiYap3-k25-both.R1.fq.gz***
+10/17/23 11:14:34: only_name is cakiYap3-k25-both.R1.fq***
+10/17/23 11:14:34: start the case statement for R1.fq.gz***
+10/17/23 11:14:34: moved ../raw_data/cakiYap3-k25-both.R1.fq.gz
+10/17/23 11:14:34: moving ../raw_data/cakiYap3-k25-both.R2.fq.gz...
+10/17/23 11:14:34: name is cakiYap3-k25-both.R2.fq.gz***
+10/17/23 11:14:34: only_name is cakiYap3-k25-both.R2.fq***
+10/17/23 11:14:34: start the case statement for R2.fq.gz***
+10/17/23 11:14:34: moved ../raw_data/cakiYap3-k25-both.R2.fq.gz
+10/17/23 11:14:34: moving ../raw_data/cakiYap3-k25-host.R1.fq.gz...
+10/17/23 11:14:34: name is cakiYap3-k25-host.R1.fq.gz***
+10/17/23 11:14:34: only_name is cakiYap3-k25-host.R1.fq***
+10/17/23 11:14:34: start the case statement for R1.fq.gz***
+10/17/23 11:14:34: moved ../raw_data/cakiYap3-k25-host.R1.fq.gz
+10/17/23 11:14:34: moving ../raw_data/cakiYap3-k25-host.R2.fq.gz...
+10/17/23 11:14:34: name is cakiYap3-k25-host.R2.fq.gz***
+10/17/23 11:14:34: only_name is cakiYap3-k25-host.R2.fq***
+10/17/23 11:14:34: start the case statement for R2.fq.gz***
+10/17/23 11:14:34: moved ../raw_data/cakiYap3-k25-host.R2.fq.gz
+10/17/23 11:14:34: moving ../raw_data/cakiYap4-k25-both.R1.fq.gz...
+10/17/23 11:14:34: name is cakiYap4-k25-both.R1.fq.gz***
+10/17/23 11:14:34: only_name is cakiYap4-k25-both.R1.fq***
+10/17/23 11:14:34: start the case statement for R1.fq.gz***
+10/17/23 11:14:34: moved ../raw_data/cakiYap4-k25-both.R1.fq.gz
+10/17/23 11:14:34: moving ../raw_data/cakiYap4-k25-both.R2.fq.gz...
+10/17/23 11:14:34: name is cakiYap4-k25-both.R2.fq.gz***
+10/17/23 11:14:34: only_name is cakiYap4-k25-both.R2.fq***
+10/17/23 11:14:34: start the case statement for R2.fq.gz***
+10/17/23 11:14:34: moved ../raw_data/cakiYap4-k25-both.R2.fq.gz
+10/17/23 11:14:34: moving ../raw_data/cakiYap4-k25-host.R1.fq.gz...
+10/17/23 11:14:34: name is cakiYap4-k25-host.R1.fq.gz***
+10/17/23 11:14:34: only_name is cakiYap4-k25-host.R1.fq***
+10/17/23 11:14:34: start the case statement for R1.fq.gz***
+10/17/23 11:14:34: moved ../raw_data/cakiYap4-k25-host.R1.fq.gz
+10/17/23 11:14:34: moving ../raw_data/cakiYap4-k25-host.R2.fq.gz...
+10/17/23 11:14:34: name is cakiYap4-k25-host.R2.fq.gz***
+10/17/23 11:14:34: only_name is cakiYap4-k25-host.R2.fq***
+10/17/23 11:14:34: start the case statement for R2.fq.gz***
+10/17/23 11:14:34: moved ../raw_data/cakiYap4-k25-host.R2.fq.gz
+10/17/23 11:14:34: grouping fastq files in tmp/raw_data/
+tmp/raw_data/*.fq.gz
+10/17/23 11:14:34: ===!!! is_r1 is false===
+10/17/23 11:14:34: ===!!! tmp/raw_data/*.fq.gz is false===
+10/17/23 11:14:34: ===!!! return is 1===
+10/17/23 11:14:34: compliment to tmp/raw_data/*.fq.gz not found
+10/17/23 11:14:34: grouped fastq files, found total 1 files without compliment
+10/17/23 11:14:34: finished 0
+10/17/23 11:14:34: exiting 189720 with: 
+top - 11:14:34 up 399 days, 9 min,  0 users,  load average: 0.27, 0.15, 0.23
+Tasks: 817 total,   1 running, 814 sleeping,   2 stopped,   0 zombie
+%Cpu(s):  0.1 us,  0.2 sy,  0.1 ni, 99.6 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st
+KiB Mem : 39462217+total, 28506179+free, 65287916 used, 44272472 buff/cache
+KiB Swap:  4194300 total,       64 free,  4194236 used. 32571190+avail Mem 
+
+   PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND
+190335 jn22      30  10  173492   2904   1572 R  10.2  0.0   0:00.11 top
+187285 jn22      30  10   20656   2788   1540 S   0.0  0.0   0:02.99 res
+187290 jn22      30  10  113292   1448   1208 S   0.0  0.0   0:00.00 169755524+
+187292 jn22      30  10  115824   2352   1656 S   0.0  0.0   0:00.06 bash
+189720 jn22      30  10  113684   1988   1388 S   0.0  0.0   0:00.16 bash
+
+    <GB> <soft> <hard> : <files>   <soft>   <hard> : <path to volume> <pan_identity(name)>
+  328.70 200.00 600.00 :  888581 10000000 15000000 : /PHShome/jn22 uid:4540243(jn22)
+10/17/23 11:14:35: starting 189720
+10/17/23 11:14:35: analysing...
+10/17/23 11:14:35: index-ing...
+10/17/23 11:14:35: finished index
+10/17/23 11:14:35: convert-ing...
+10/17/23 11:14:35: finished convert
+10/17/23 11:14:35: qc-ing...
+10/17/23 11:14:35: qc-ing with fastp
+10/17/23 11:14:35: qc-ing * and 
+10/17/23 11:14:35: finished qc
+10/17/23 11:14:35: align-ing...
+10/17/23 11:14:35: finished align
+10/17/23 11:14:35: count-ing...
+10/17/23 11:14:35: finished count
+rm: cannot remove ‘tmp/raw_data/*.fq.gz’: No such file or directory
+rm: cannot remove ‘tmp/raw_data/qc/*.qc.fq.gz’: No such file or directory
+rm: cannot remove ‘tmp/raw_data/.fq.gz’: No such file or directory
+rm: cannot remove ‘tmp/raw_data/qc/.qc.fq.gz’: No such file or directory
+10/17/23 11:14:35: exiting 189720 with: 
+top - 11:14:35 up 399 days, 9 min,  0 users,  load average: 0.27, 0.15, 0.23
+Tasks: 818 total,   2 running, 814 sleeping,   2 stopped,   0 zombie
+%Cpu(s):  0.1 us,  1.5 sy,  0.2 ni, 98.3 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st
+KiB Mem : 39462217+total, 28506012+free, 65289564 used, 44272480 buff/cache
+KiB Swap:  4194300 total,       64 free,  4194236 used. 32571024+avail Mem 
+
+   PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND
+190390 jn22      30  10  173492   2904   1572 R  20.0  0.0   0:00.08 top
+187285 jn22      30  10   20656   2788   1540 S   0.0  0.0   0:02.99 res
+187290 jn22      30  10  113292   1448   1208 S   0.0  0.0   0:00.00 169755524+
+187292 jn22      30  10  115824   2352   1656 S   0.0  0.0   0:00.06 bash
+189720 jn22      30  10  113684   1996   1392 S   0.0  0.0   0:00.17 bash
+190341 jn22      30  10  113684   1496    820 S   0.0  0.0   0:00.02 bash
+
+    <GB> <soft> <hard> : <files>   <soft>   <hard> : <path to volume> <pan_identity(name)>
+  328.70 200.00 600.00 :  888581 10000000 15000000 : /PHShome/jn22 uid:4540243(jn22)
+tmp in /PHShome/jn22/scratch/erv/hERV_Work folder removed
+ fq_pairs.csv in /PHShome/jn22/scratch/erv/hERV_Work folder removed
