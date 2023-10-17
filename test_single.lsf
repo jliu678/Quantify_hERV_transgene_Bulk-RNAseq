@@ -21,6 +21,8 @@ fi
 
 cd ~/Documents/herv_project
 
+################### see other newer lsf or slurm files for complete instruction****
+
 ### raw_data stores all fastq files named as 'fq' or better 'fq.gz' to be processed, it is suggested by siyi to store gzipped fastq files in the raw_data folder
 ### if raw_data folder has reletive dir as '../raw_data', input value as "raw_data"
 
@@ -32,6 +34,9 @@ cd ~/Documents/herv_project
 ### file_name= basename theNameOfFastqFile .*
 ### if [[ ${file_name: -1} = "1" && -e "${file_name::-1}2.fq.gz" ]]; then #if formatted correctly
 ### 				echo -e "$(basename $file_name),$(basename ${file_name::-1})2" >> $PAIR_FILE
+
+################### see other newer lsf or slurm files for complete instruction****
+
 
 bash main.sh -PLATFORM "cluster-mgh" -ANALYSIS_STEP "all" -SOURCE "raw_data" -BATCH_SIZE 1 -CLEAR_TMP -MAX_PARALLEL 1 
 
