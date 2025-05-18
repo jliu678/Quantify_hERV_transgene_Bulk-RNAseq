@@ -1,4 +1,5 @@
-# herv_project
+# Quantify hERV and transgenes from Bulk-RNAseq
+Please find in my blog for the project introduction, and 
 if [ ! -d "logs" ]; then
 	mkdir logs
 fi 
