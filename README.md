@@ -1,5 +1,18 @@
 # Quantify hERV and transgenes from Bulk-RNAseq
-Please find in [my blog](myhugoblod) for the project introduction, and 
+Please find in [my blog](myhugoblod) for an introduction to the project, along with the detail mathematical and biological reasoning behind the code in this repository.
+
+Briefly, we use `Salmon` to quantify the hERV and transgenes from bulk-RNAseq because of the (Bayesian) EM algorithm implenmented in `Salmon`. EM algorithm is advantageous in dealing with  multimaping, which is commonly seen for hERV and transgene quantification, because:
+- mathematically, EM is well suitable for estimating parameters in Gaussian Mixture Models, which is similar to the model describing multimapping
+- biologically, EM reasonably takes into consideration the mapping bias
+
+The source codes here can be deploied in Cloud Cluster Computational platform and local desktops, and allows for: 
+- batch computaion with tunable batch size
+- automatic environment setting up
+- file preprocessing
+- QC
+- index buidling, alignment and feature counting by either `subread` or `salmon`
+
+
 if [ ! -d "logs" ]; then
 	mkdir logs
 fi 
