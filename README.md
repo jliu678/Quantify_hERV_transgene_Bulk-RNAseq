@@ -15,13 +15,16 @@ The source codes here can be deploied in Cloud Cluster Computational platform an
 
 The github repo also contains [usage examples using `SLURM` or `LSF` job scheduler](https://github.com/jliu678/herv_project_siyi/tree/main/example_usage) and [handy utility tools](https://github.com/jliu678/herv_project_siyi/tree/main/utils).
 
----
 ## example usage
 
+### LSF scheduler on High-performance Cluster
+
+First configure LSF parameters and working directory
+
+```bash
 if [ ! -d "logs" ]; then
 	mkdir logs
 fi 
-
 #BSUB -e logs/%J-errors.err
 #BSUB -o logs/%J-outputs.out
 
@@ -30,10 +33,7 @@ fi
 #BSUB -R 'rusage[mem=32000]'
 
 cd ~/hERV/herv_project
-
-########### NOTE #############################################
-### this lsf should be good for both human data and mouse data, test_single_mouse.lsf can be reference to show only differences
-###  are parameters "-REF_GENOME", "-REF_TRANSCRIPT" and "TRANSCRIPTS" of "bash main.sh"
+```
 
 ########### FILE INPUT ########################################
 ### raw_data stores all fastq files named as 'fq' or better 'fq.gz' to be processed, it is suggested by siyi to store gzipped fastq files in the raw_data folder. Please note $name=random_name.fq.gz; ${name#*.} is used to get the postfix of the raw fastq file names, so DO NOT USE random_name.r1.fq.gz as raw fastq file name, but instead use random_name_r1.fq.gz. See below example
@@ -104,3 +104,4 @@ bash main.sh -PLATFORM "cluster-mgh" -ANALYSIS_STEP "all" -SOURCE "raw_data" -BA
 ################## OUTPUT FILE ######################################
 ### all output files will be stored in ../hervwork/results
 
+### 
