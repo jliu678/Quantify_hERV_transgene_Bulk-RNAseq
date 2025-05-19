@@ -1,4 +1,15 @@
 # 🧬Quantify hERV and transgenes from Bulk-RNAseq
+
+## 📑 Table of Contents
+- [📘 Introduction & Reasoning](#-introduction--reasoning-complete-version-is-here)
+- [💡 Usage Example](#-usage-example)
+  - [💻 LSF Scheduler on High-performance Cluster](#-lsf-scheduler-on-high-performance-cluster)
+    - [1. Configure LSF Parameters and Working Directory](#1-configure-lsf-parameters-and-working-directory)
+    - [2. Wrangle File Input](#2-wrangle-file-input)
+    - [3. Other Parameters](#3-other-parameters)
+    - [4. Output File](#4-output-file)
+  - [🧾 Other Usage Examples](#-other-usage-examples)
+
 ## 📘Introduction & Reasoning (complete version is [here](myhugoblod))
 
 > 💡 **Tip: [Please find more in **👉 MY BLOG** for an introduction to the project, along with the detailed mathematical and biological reasoning behind the code in this repository.](https://myhugoblog)**
