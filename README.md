@@ -1,6 +1,10 @@
 # 🧬Quantify hERV and transgenes from Bulk-RNAseq
-## Introduction
-**Please find in [my blog](myhugoblod) for an introduction to the project, along with the detail mathematical and biological reasoning behind the code in this repository.**
+## 📘Introduction & Reasoning (complete version is [here](myhugoblod))
+
+<div style="background-color:#d1ecf1; color:#0c5460; padding:8px 12px; border-radius:5px; text-indent:-1.7em; padding-left:2em; margin-bottom:16px;">
+💡 <strong>Tip: Please find more in <a href="https://myhugoblog" style="color:#0c5460; text-decoration:underline;">my blog</a> for an introduction to the project, along with the detailed mathematical and biological reasoning behind the code in this repository.</strong>
+</div>
+
 
 Briefly, we use `Salmon` to quantify the hERV and transgenes from bulk-RNAseq because of the (Bayesian) EM algorithm implenmented in `Salmon`. EM algorithm is advantageous in dealing with  multimaping, which is commonly seen for hERV and transgene quantification, because:
 - mathematically, EM is well suitable for estimating parameters in Gaussian Mixture Models, which is similar to the model describing multimapping
@@ -15,11 +19,11 @@ The source codes here can be deploied in Cloud Cluster Computational platform an
 
 The github repo also contains [usage examples using `SLURM` or `LSF` job scheduler](https://github.com/jliu678/herv_project_siyi/tree/main/example_usage) and [handy utility tools](https://github.com/jliu678/herv_project_siyi/tree/main/utils).
 
-## example usage
+## 💡usage example
 
-### LSF scheduler on High-performance Cluster
+### 💻 LSF scheduler on High-performance Cluster
 
-First configure LSF parameters and working directory
+#### 1. configure LSF parameters and working directory
 
 ```bash
 if [ ! -d "logs" ]; then
@@ -35,73 +39,90 @@ fi
 cd ~/hERV/herv_project
 ```
 
-########### FILE INPUT ########################################
-### raw_data stores all fastq files named as 'fq' or better 'fq.gz' to be processed, it is suggested by siyi to store gzipped fastq files in the raw_data folder. Please note $name=random_name.fq.gz; ${name#*.} is used to get the postfix of the raw fastq file names, so DO NOT USE random_name.r1.fq.gz as raw fastq file name, but instead use random_name_r1.fq.gz. See below example
-### (base)$ name=random_name.fq.gz; echo ${name#*.}
-###   fq.gz
-### (base)$ name=random_nam.e.fq.gz; echo ${name#*.}
-###   e.fq.gz
+#### 2. Wrangle file input
 
-### if raw_data folder has reletive dir as '../raw_data', input value as "raw_data" to the parameter '-SOURCE' of main.sh
+- Stores in `../raw_data` all fastq files named as 'fq' or better 'fq.gz', and accordingly specify `-SOURCE raw_data` of main.sh
 
-### for subread, store in ../hERV_Work the annotation gtf/gff3 files of both transcriptom and ERV, genome fasta 
+- DO NOT use `random_name.r1.fq.gz` as raw fastq file name, but instead use `random_name_r1.fq.gz`, because he postfix of the raw fastq file names `$name` is obtained by `${name#*.}`. Please see below cases:
 
-### for salmon, if you have index already, store in ../hERV_Work/salmon the index folder named as "$hervname_index", by default it is "package-entities-erv_index"
-###             if you need generate index, 
-###                         first option is to supply parameter "-REF_GENOME", "-REF_TRANSCRIPT" and "TRANSCRIPTS" of "bash main.sh" with customized link, for example:
-###                                            bash main.sh -PLATFORM "cluster-mgh" -SOURCE "raw_data" -BATCH_SIZE 1 -CLEAR_TMP -MAX_PARALLEL 1 \
-###                                                         -REF_GENOME "https://.*/weird.genome.fa.gz" \
-###                                                         -REF_TRANSCRIPT "https://.*/transcripts_of_widely_Used_Normal_OR_Commen_Genes.fa.gz" \
-###                                                         -TRANSCRIPTS "https://.*/transcripts_of_erv_or_other_special_features.fa.gz" \
-###                                                         -TRANSCRIPTS "https://.*/if_you_have_another_special_features.fa.gz"
+   ```bash
+   (base)$ name=random_name.fq.gz; echo ${name#*.}
+     fq.gz
+   (base)$ name=random_nam.e.fq.gz; echo ${name#*.}
+     e.fq.gz
+   ```
+- For subread, store in `../hERV_Work` all the annotation gtf/gff3 files and fasta files 
 
-###                         2nd option is to store the already downloaded "fa.gz" or "fa" files in ../hERV_Work/ to avoid downloading, their file names need follow the below: 
-###                          1. genome fasta can be named as 'GRCh38.p13.genome.fa' which matchs with
-###                              " REF_GENOME_LOC='https://.*/GRCh38.p13.genome.fa.gz' " in main.sh;
-###                              or named as something else but make sure you change the value of the "REF_GENOME_LOC" variable in main.sh
-###                                                              by supplying parameter "-REF_GENOME" of "bash main.sh" with corresponding value, for example:
-###                                            bash main.sh -PLATFORM "cluster-mgh" -SOURCE "raw_data" -BATCH_SIZE 1 -CLEAR_TMP -MAX_PARALLEL 1 \
-###                                                         -REF_GENOME "https://.*/weird.genome.fa.gz"
-###                                            to match you genemo fa file you name as "weird.genome.fa"
-###                                            !!!siyi got the fasta name by remove everything before the last "/" and the last "/" itself and remove .gz$
+- For salmon, if you have index already, store in `../hERV_Work/salmon` the index folder named as `package-entities-erv_index`
 
-###                          2. similarly, transcriptom fasta can be named as 'gencode.v41.transcripts.fa.gz' which matchs with "REF_TRANSCRIPT_LOC='https://.*/gencode.v41.transcripts.fa.gz'" in main.sh;
-###                              or named as something else but make sure you change the value of the "REF_TRANSCRIPT_LOC" variable in main.sh
-###                                                              by supplying parameter "-REF_TRANSCRIPT" of "bash main.sh" with corresponding value, for example:
-###                                            bash main.sh -PLATFORM "cluster-mgh" -SOURCE "raw_data" -BATCH_SIZE 1 -CLEAR_TMP -MAX_PARALLEL 1 \
-###                                                         -REF_TRANSCRIPT "/weird.transcripts.fa.gz"
-###                                            to match you transcriptom fq file you name as "weird.transcripts.fa"
+- For salmon if you need generate index, first option is to supply parameter `-REF_GENOME`, `-REF_TRANSCRIPT` and `TRANSCRIPTS` of "main.sh" with specific link, for example:
+   ```bash
+   bash main.sh -PLATFORM "cluster-mgh" -SOURCE "raw_data" -BATCH_SIZE 1 -CLEAR_TMP -MAX_PARALLEL 1 \
+   -REF_GENOME "https://.*/weird.genome.fa.gz" \
+   -REF_TRANSCRIPT "https://.*/transcripts_of_widely_Used_Normal_OR_Commen_Genes.fa.gz" \
+   -TRANSCRIPTS "https://.*/transcripts_of_erv_or_other_special_features.fa.gz" \
+   -TRANSCRIPTS "https://.*/if_you_have_another_special_features.fa.gz"
+  ```
 
-###                          3. similarly, special fasta can be named as 'package-entities-erv.fa.gz' which matchs with "TRANSCRIPT_LOCS='https://.*/package-entities-erv.fa.gz'" in main.sh;
-###                              or named as something else but make sure you change the value of the "TRANSCRIPT_LOCS" variable in main.sh
-###                                                              by supplying parameter "-TRANSCRIPTS" of "bash main.sh" with corresponding value, for example:
-###                                            bash main.sh -PLATFORM "cluster-mgh" -SOURCE "raw_data" -BATCH_SIZE 1 -CLEAR_TMP -MAX_PARALLEL 1 \
-###                                                         -TRANSCRIPTS "https://.*/weird.transcripts.fa.gz"
-###                                            to match you special fq.gz file you name as "weird.transcripts.fa.gz"
+- For salmon if you need generate index, 2nd option is to store the already downloaded "fa.gz" or "fa" files in .`./hERV_Work/` to avoid downloading, their file names need follow below convention: 
+ 
+   (A) genome fasta can be named as 'GRCh38.p13.genome.fa' which matchs with `REF_GENOME_LOC='https://.*/GRCh38.p13.genome.fa.gz'` in main.sh;
 
-###                          3a. if you input multiple special fasta, you have to supply multiple times of parameter "-TRANSCRIPTS" to "bash main.sh", for example:
-###                                            bash main.sh -PLATFORM "cluster-mgh" -SOURCE "raw_data" -BATCH_SIZE 1 -CLEAR_TMP -MAX_PARALLEL 1 \
-###                                                         -TRANSCRIPTS "https://.*/weird.transcripts.fa.gz"
-###                                                         -TRANSCRIPTS "https://.*/2nd.transcripts.fa.gz"
-###                                                         -TRANSCRIPTS "https://.*/3rd.fa.gz"
-###                                            and you can store already downloaded "weird.transcripts.fa", 2nd.transcripts.fa.gz and 3rd.fa.gz in ../hERV_Work
-###                                            the codes with first check if there are files corresponding to file names obtained from the value of TRANSCRIPT_LOCS,
-###                                            if yes, use them, if no download using the link
+   (B) genome fasta can be named as something else but make sure you change the `REF_GENOME_LOC` variable in main.sh by supplying parameter `-REF_GENOME` of "bash main.sh" with corresponding value, for example to match fasta file you name as `weird.genome.fa`:
 
-### The script will identify files as paired when there are two files named in the way that
-###   there is file2 whose name is one of sub(name of file1, pattern="r1", replacement="r2") and sub(name of file1, pattern="R1", replacement="R2")
-### see group_fastq() and check_name() in analysis.sh for detail
+   ```bash
+   bash main.sh -PLATFORM "cluster-mgh" -SOURCE "raw_data" -BATCH_SIZE 1 -CLEAR_TMP -MAX_PARALLEL 1 \
+   -REF_GENOME "https://.*/weird.genome.fa.gz"
+   
+   #internal functions called here will get a string by removing everything before the last "/" and the last "/" itself and remove .gz$, and if there is no file titled same as the string, it will download from the http. 
+   ```                                     
 
-### parameter 'EXIT_ON_SINGLE' of main.sh has default value of 'false', thus single-end sequenced fq files can be analysis using the same bash command
 
-### for mgh cluster, keep -BATCH_SIZE 1 -CLEAR_TMP -MAX_PARALLEL 1
+   (C) similarly, reference genome fasta can be named as 'gencode.v41.transcripts.fa.gz' which matchs with `REF_TRANSCRIPT_LOC='https://.*/gencode.v41.transcripts.fa.gz'` in main.sh;  or name something else but make sure you change the value of the `REF_TRANSCRIPT_LOC` variable in main.sh by supplying parameter `-REF_TRANSCRIPT` of "bash main.sh" with corresponding value, for example to match you fasta file you name as `weird.transcripts.fa`:
 
-bash main.sh -PLATFORM "cluster-mgh" -ANALYSIS_STEP "all" -SOURCE "raw_data" -BATCH_SIZE 1 -CLEAR_TMP -MAX_PARALLEL 1 
+   ```bash
+   bash main.sh -PLATFORM "cluster-mgh" -SOURCE "raw_data" -BATCH_SIZE 1 -CLEAR_TMP -MAX_PARALLEL 1 \
+   -REF_TRANSCRIPT "/weird.transcripts.fa.gz"
 
-### for local desktop like the imagedeskto, either not supply '-PLATFORM' parameter or supply anything else, for example
-### bash main.sh -PLATFORM "anything_different_with_cluster-mgh"
+   #internal functions called here will get a string by removing everything before the last "/" and the last "/" itself and remove .gz$, and if there is no file titled same as the string, it will download from the http. 
+   ```
+   (D) likewise, other fasta can be named as `package-entities-erv.fa.gz` which matchs with `TRANSCRIPT_LOCS='https://.*/package-entities-erv.fa.gz'` in main.sh;or named as something else but make sure you change the value of the `TRANSCRIPT_LOCS` variable in main.sh by supplying parameter `-TRANSCRIPTS` of "bash main.sh" with corresponding value, for example to match you special fq.gz file you name as `ugly.transcripts.fa.gz`:
+   
+   ```bash
+   bash main.sh -PLATFORM "cluster-mgh" -SOURCE "raw_data" -BATCH_SIZE 1 -CLEAR_TMP -MAX_PARALLEL 1 \
+   -TRANSCRIPTS "https://.*/ugly.transcripts.fa.gz"
 
-################## OUTPUT FILE ######################################
-### all output files will be stored in ../hervwork/results
+   #internal functions called here will get a string by removing everything before the last "/" and the last "/" itself and remove .gz$, and if there is no file titled same as the string, it will download from the http. 
+   ```
+                                          
 
-### 
+- if you want to input multiple fasta that are not reference genome, you have to supply multiple times of parameter `-TRANSCRIPTS` to "bash main.sh", for example you can store already downloaded `weird.transcripts.fa`, `2nd.transcripts.fa.gz` and `3rd.fa.gz` in `../hERV_Work` and speficy:
+
+   ``` bash 
+   bash main.sh -PLATFORM "cluster-mgh" -SOURCE "raw_data" -BATCH_SIZE 1 -CLEAR_TMP -MAX_PARALLEL 1 \
+   -TRANSCRIPTS "https://.*/weird.transcripts.fa.gz"
+   -TRANSCRIPTS "https://.*/2nd.transcripts.fa.gz"
+   -TRANSCRIPTS "https://.*/3rd.fa.gz"
+   ```
+
+- The script will identify files as paired when there are two files named in the way that there is file2 whose name is either `sub(name_of_file1, pattern="r1", replacement="r2")` or `sub(name_of_file1, pattern="R1", replacement="R2")`. [`sub` here is base R function](https://stat.ethz.ch/R-manual/R-devel/library/base/html/grep.html). See `group_fastq()` and `check_name()` in "analysis.sh" for detail.
+
+
+#### 3. other parameters
+- parameter `EXIT_ON_SINGLE` of main.sh has default value of `false`, thus single-end sequenced fq files can be analysis using the same bash command
+
+- for mgh cluster, please keep `-BATCH_SIZE 1 -CLEAR_TMP -MAX_PARALLEL 1`, for example:
+
+   ```bash
+   bash main.sh -PLATFORM "cluster-mgh" -ANALYSIS_STEP "all" -SOURCE "raw_data" -BATCH_SIZE 1 -CLEAR_TMP -MAX_PARALLEL 1 
+   ```
+- for local desktop like the imagedeskto, either not supply `-PLATFORM` parameter or supply anything else, for example
+
+   ```bash
+   bash main.sh -PLATFORM "anything_different_with_cluster-mgh"
+   ```
+#### 4.  output file
+ - all output files will be stored in ../hervwork/results
+
+### 🧾 other usage examples
+Please see [usage examples using `SLURM` or `LSF` job scheduler](https://github.com/jliu678/herv_project_siyi/tree/main/example_usage)
