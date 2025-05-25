@@ -1,6 +1,6 @@
 # 🧬Quantify hERV and transgenes from Bulk-RNAseq
 
-> 💡 **Tip: [Please find more in **👉 MY BLOG** for an introduction to the project, along with the detailed mathematical and biological reasoning behind the code in this repository.](https://myhugoblog)**
+> 💡 **Tip: [Please find **👉 MY BLOG** for an introduction to the project, along with the detailed mathematical and biological reasoning behind the code in this repository.](https://myhugoblog)**
 
 
 ## 📑 Table of Contents
