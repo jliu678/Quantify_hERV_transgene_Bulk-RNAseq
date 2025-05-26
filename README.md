@@ -17,7 +17,7 @@
 
 Briefly, we use `Salmon` to quantify the hERV and transgenes from bulk-RNAseq because of the (Bayesian) EM algorithm implenmented in `Salmon`. EM algorithm is advantageous in dealing with  multimaping, which is commonly seen for hERV and transgene quantification, because:
 - mathematically, EM is well suitable for estimating parameters in Gaussian Mixture Models, which is similar to the model describing multimapping
-- biologically, EM reasonably takes into consideration the mapping bias
+- biologically, EM reasonably takes into consideration the mapping probability and mapping bias
 
 The source codes here can be deploied in Cloud Cluster Computational platform and local desktops, and allows for: 
 - batch computaion with tunable batch size
