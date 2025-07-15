@@ -1,7 +1,0 @@
-10/16/23 17:22:32: REF_TRANSCRIPT_LOC is \nhttps://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_41/gencode.v41.transcripts.fa.gz
-10/16/23 17:22:32: REF_GENOME_LOC is \nhttps://a/GRCm39.primary_assembly.genome.fa
-/PHShome/jn22/mambaforge/bin/conda
-dealing with samtools
-samtools/1.15.1
-dealing with subread
-subread/2.0.1
