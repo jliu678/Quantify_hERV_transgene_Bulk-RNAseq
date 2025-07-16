@@ -62,9 +62,12 @@ cd ~/hERV/herv_project
    ```
 - For subread, store in `../hERV_Work` all the annotation gtf/gff3 files and fasta files 
 
-- For salmon, if you have index already, store in `../hERV_Work/salmon` the index folder named as `package-entities-erv_index`
+- For salmon, if you need generate index, please specify below parameters:
 
-- For salmon if you need generate index, first option is to supply parameter `-REF_GENOME`, `-REF_TRANSCRIPT` and `TRANSCRIPTS` of "main.sh" with specific link, for example:
+    - `-REF_GENOME`: to specify the genome fasta used to generate decoys
+    - `-REF_TRANSCRIPT` and `TRANSCRIPTS` are transcripts to count, which are needed for indexing and counting
+    
+- For salmon, if you need generate index, first option is to supply parameter `-REF_GENOME`, `-REF_TRANSCRIPT` and `TRANSCRIPTS` of "main.sh" with specific link, for example:
    ```bash
    bash main.sh -PLATFORM "cluster-mgh" -SOURCE "raw_data" -BATCH_SIZE 1 -CLEAR_TMP -MAX_PARALLEL 1 \
    -REF_GENOME "https://.*/weird.genome.fa.gz" \
@@ -73,39 +76,57 @@ cd ~/hERV/herv_project
    -TRANSCRIPTS "https://.*/if_you_have_another_special_features.fa.gz"
   ```
 
-- For salmon if you need generate index, 2nd option is to store the already downloaded "fa.gz" or "fa" files in .`./hERV_Work/` to avoid downloading, their file names need follow below convention: 
+- For salmon, if you need generate index, 2nd option is to store the already downloaded "fa.gz" or "fa" files in .`./hERV_Work/` to avoid downloading, their file names need follow below convention: 
  
-   (A) genome fasta can be named as 'GRCh38.p13.genome.fa' which matchs with `REF_GENOME_LOC='https://.*/GRCh38.p13.genome.fa.gz'` in main.sh;
+   (A) genome fasta can be named as 'GRCh38.p13.genome.fa' which matchs with `REF_GENOME_LOC='https://.*/GRCh38.p13.genome.fa.gz'` in main.sh. Internal functions called will get a string by removing everything before the last "/" and the last "/" itself and remove ".gz", and if there is no file titled same as the string, it will download from the http. 
 
-   (B) genome fasta can be named as something else but make sure you change the `REF_GENOME_LOC` variable in main.sh by supplying parameter `-REF_GENOME` of "bash main.sh" with corresponding value, for example to match fasta file you name as `weird.genome.fa`:
+   (B) genome fasta can be named as something else but make sure you specify parameter `-REF_GENOME` of "bash main.sh" with corresponding valuechange (the argument is passed to the `REF_GENOME_LOC` variable in main.sh), for example if the fasta file is `weird.genome.fa`:
 
    ```bash
    bash main.sh -PLATFORM "cluster-mgh" -SOURCE "raw_data" -BATCH_SIZE 1 -CLEAR_TMP -MAX_PARALLEL 1 \
-   -REF_GENOME "https://.*/weird.genome.fa.gz"
-   
-   #internal functions called here will get a string by removing everything before the last "/" and the last "/" itself and remove .gz$, and if there is no file titled same as the string, it will download from the http. 
+   -REF_GENOME "weird.genome.fa"
    ```                                     
-
 
    (C) similarly, reference genome fasta can be named as 'gencode.v41.transcripts.fa.gz' which matchs with `REF_TRANSCRIPT_LOC='https://.*/gencode.v41.transcripts.fa.gz'` in main.sh;  or name something else but make sure you change the value of the `REF_TRANSCRIPT_LOC` variable in main.sh by supplying parameter `-REF_TRANSCRIPT` of "bash main.sh" with corresponding value, for example to match you fasta file you name as `weird.transcripts.fa`:
 
    ```bash
    bash main.sh -PLATFORM "cluster-mgh" -SOURCE "raw_data" -BATCH_SIZE 1 -CLEAR_TMP -MAX_PARALLEL 1 \
    -REF_TRANSCRIPT "/weird.transcripts.fa.gz"
-
-   #internal functions called here will get a string by removing everything before the last "/" and the last "/" itself and remove .gz$, and if there is no file titled same as the string, it will download from the http. 
    ```
-   (D) likewise, other fasta can be named as `package-entities-erv.fa.gz` which matchs with `TRANSCRIPT_LOCS='https://.*/package-entities-erv.fa.gz'` in main.sh;or named as something else but make sure you change the value of the `TRANSCRIPT_LOCS` variable in main.sh by supplying parameter `-TRANSCRIPTS` of "bash main.sh" with corresponding value, for example to match you special fq.gz file you name as `ugly.transcripts.fa.gz`:
+   (D) likewise, other fasta can be named as `package-entities-erv.fa` which matchs with `TRANSCRIPT_LOCS='https://.*/package-entities-erv.fa.gz'` in main.sh; or named as something else but make sure you change the value of the `TRANSCRIPT_LOCS` variable in main.sh by supplying parameter `-TRANSCRIPTS` of "bash main.sh" with corresponding value, for example to match you special fq.gz file you name as `ugly.transcripts.fa.gz`:
    
    ```bash
    bash main.sh -PLATFORM "cluster-mgh" -SOURCE "raw_data" -BATCH_SIZE 1 -CLEAR_TMP -MAX_PARALLEL 1 \
-   -TRANSCRIPTS "https://.*/ugly.transcripts.fa.gz"
-
-   #internal functions called here will get a string by removing everything before the last "/" and the last "/" itself and remove .gz$, and if there is no file titled same as the string, it will download from the http. 
+   -TRANSCRIPTS "https://.*/ugly.transcripts.fa.gz" 
    ```
-                                          
+- For salmon, if you have index already, you can bypass re-generating index by storing the index folder in `../hERV_Work/salmon/`, and rename the index folder as the output of below scripts:
 
-- if you want to input multiple fasta that are not reference genome, you have to supply multiple times of parameter `-TRANSCRIPTS` to "bash main.sh", for example you can store already downloaded `weird.transcripts.fa`, `2nd.transcripts.fa.gz` and `3rd.fa.gz` in `../hERV_Work` and speficy:
+    ```bash
+    
+    #-TRANSCRIPTS) TRANSCRIPT_LOCS+=("$2")
+    
+    TRANSCRIPTS=$(basename $(basename $TRANSCRIPT_LOCS .gz) .bz2)
+    
+    echo $(IFS=-; echo "${TRANSCRIPTS[*]%.*}")
+    
+    ```  
+    where `TRANSCRIPT_LOCS` is an array to contain all the values you will assign to parameter `-TRANSCRIPTS`. For example, 
+    ```bash
+    TRANSCRIPTS=(
+    "https://.*/weird.transcripts.fa.gz"
+    "https://.*/2nd.transcripts.fa.gz"
+    "https://.*/3rd.fa.gz"
+    )
+    ```
+    for 
+    ```bash
+    bash main.sh -PLATFORM "cluster-mgh" -SOURCE "raw_data" -BATCH_SIZE 1 -CLEAR_TMP -MAX_PARALLEL 1 \
+   -TRANSCRIPTS "https://.*/weird.transcripts.fa.gz"
+   -TRANSCRIPTS "https://.*/2nd.transcripts.fa.gz"
+   -TRANSCRIPTS "https://.*/3rd.fa.gz"
+    ```
+
+- If you want to input multiple fasta that are not reference genome, you have to supply multiple times of parameter `-TRANSCRIPTS` to "bash main.sh", for example you can store already downloaded `weird.transcripts.fa`, `2nd.transcripts.fa.gz` and `3rd.fa.gz` in `../hERV_Work` and speficy:
 
    ``` bash 
    bash main.sh -PLATFORM "cluster-mgh" -SOURCE "raw_data" -BATCH_SIZE 1 -CLEAR_TMP -MAX_PARALLEL 1 \

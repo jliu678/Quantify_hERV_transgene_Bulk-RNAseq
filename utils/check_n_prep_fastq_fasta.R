@@ -49,8 +49,8 @@ safe_copy(fasta_files, to_dir = '/PHShome/jn22/hERV/hERV_Work/', dry_run = dry_r
 # ==== 3. Rename .1. and .2. in .gz Files ====
 
 gz_files <- list.files('./', pattern = '\\.gz$')
-renamed1 <- sub('\\.1\\.', '.R1.', gz_files)
-renamed1 <- sub('\\.2\\.', '.R2.', renamed1)
+renamed1 <- sub('_1\\.', '_R1.', gz_files)
+renamed1 <- sub('_2\\.', '_R2.', renamed1)
 safe_rename(gz_files, renamed1, dry_run = dry_run)
 
 # ==== 4. Copy First Mouse Fasta File ====
@@ -64,11 +64,10 @@ if (length(mouse_fa) >= 1) {
 
 # ==== 5. View First 100 Rows of RepeatMasker Files ====
 
-setwd("/PHShome/jn22/siyi_summer2023/erv/00repeatmasker")
 if (!dry_run) {
   try({
-    cb <- fread(nrows = 100, file = '/PHShome/jn22/hERV/hERV_Work/mouse_erv_combined_repeatMasker_on_m39.fa')
-    chr10 <- fread(nrows = 100, file = 'gtfs_for_fasta_needed_by_salmon/chr10.fa')
+    cb <- fread(nrows = 100, file = '/data/wanglab_mgberis/siyi2022summer_fastq2counts/hERV_Work/mouse_erv_combined_repeatMasker_on_m39.fa')
+    # chr10 <- fread(nrows = 100, file = 'gtfs_for_fasta_needed_by_salmon/chr10.fa')
   }, silent = TRUE)
 } else {
   cat("DRY RUN: Would read first 100 rows of RepeatMasker fasta files.\n\n")
