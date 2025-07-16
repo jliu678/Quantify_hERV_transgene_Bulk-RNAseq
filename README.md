@@ -126,7 +126,7 @@ cd ~/hERV/herv_project
    -TRANSCRIPTS "https://.*/3rd.fa.gz"
     ```
 
-- If you want to input multiple fasta that are not reference genome, you have to supply multiple times of parameter `-TRANSCRIPTS` to "bash main.sh", for example you can store already downloaded `weird.transcripts.fa`, `2nd.transcripts.fa.gz` and `3rd.fa.gz` in `../hERV_Work` and speficy:
+- If you want to input multiple fasta that are not reference genome like above, you have to supply multiple times of parameter `-TRANSCRIPTS` to "bash main.sh", for example you can store already downloaded `weird.transcripts.fa`, `2nd.transcripts.fa.gz` and `3rd.fa.gz` in `../hERV_Work` and speficy:
 
    ``` bash 
    bash main.sh -PLATFORM "cluster-mgh" -SOURCE "raw_data" -BATCH_SIZE 1 -CLEAR_TMP -MAX_PARALLEL 1 \
